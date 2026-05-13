@@ -8,8 +8,8 @@ Website and content management system for the Biela Noc (White Night) contempora
 
 - [x] Phase 1: Foundation (Next.js 15 + Payload CMS 3 + PostgreSQL + Tailwind)
 - [x] Phase 2: Data Model (11 collections, 7 globals)
-- [ ] Phase 3: Public Pages (frontend)
-- [ ] Phase 4: Integrations (push notifications, SEO, analytics)
+- [x] Phase 3: Public Pages (frontend)
+- [x] Phase 4: Integrations (push notifications, SEO, analytics)
 - [ ] Phase 5: Polish & Launch
 
 See [docs/](./docs/) for full specification.

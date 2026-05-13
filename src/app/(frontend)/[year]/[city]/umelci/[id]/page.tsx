@@ -9,9 +9,20 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { id } = await params
   const payload = await getPayloadClient()
-  const artist = await payload.findByID({ collection: 'artists', id }).catch(() => null)
+  const artist = await payload.findByID({ collection: 'artists', id, depth: 0 }).catch(() => null)
   if (!artist) return { title: 'Umelec' }
-  return { title: artist.name }
+
+  const image = artist.image && typeof artist.image === 'object' ? artist.image : null
+
+  return {
+    title: artist.name,
+    description: artist.work || `${artist.name} — Biela Noc`,
+    openGraph: {
+      title: artist.name,
+      description: artist.work || `${artist.name} — Biela Noc`,
+      ...(image?.url && { images: [{ url: image.url }] }),
+    },
+  }
 }
 
 export default async function ArtistDetailPage({ params }: Props) {

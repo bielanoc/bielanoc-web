@@ -50,6 +50,7 @@ export function SideMenu({ open, onClose, yearCity }: Props) {
           <MenuLink href="/podporte-nas" onClick={onClose}>Podporte nás</MenuLink>
           <MenuLink href="/press" onClick={onClose}>Pre médiá</MenuLink>
           <MenuLink href="/archive" onClick={onClose}>Archív</MenuLink>
+          <MenuLink href="/app" onClick={onClose}>Aplikácia</MenuLink>
 
           <div className="border-t border-white/10 my-4" />
 

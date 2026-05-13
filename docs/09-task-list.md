@@ -35,36 +35,37 @@ Implementation tasks ordered by dependency and priority.
 | 2.15 | About Page global | ✅ Done | Localized rich text (replaced App Settings) |
 | 2.16 | Festival Settings global | ✅ Done | Current year, date info, social links |
 
-## Phase 3: Public Pages (Frontend)
+## Phase 3: Public Pages (Frontend) ✅
 
-| # | Task | Description | Depends On |
-|---|------|-------------|------------|
-| 3.1 | Layout (nav, footer, side menu) | Responsive shell, language toggle, city/year context | 1.6 |
-| 3.2 | Homepage | City selection, festival branding | 3.1 |
-| 3.3 | Artist list page | Masonry grid, filters, pagination | 3.1, 2.1, 2.2 |
-| 3.4 | Artist detail page | Full info, audio player, dates, location | 3.3, 2.4, 2.5 |
-| 3.5 | Map page | Interactive map with artist locations | 3.1, 2.1 |
-| 3.6 | Partners page | Logo grid by category | 3.1, 2.6 |
-| 3.7 | Tickets page | Sale status, external links | 3.1, 2.10 |
-| 3.8 | Practical Info page | Accordion panels | 3.1, 2.11 |
-| 3.9 | Volunteers page | Markdown content | 3.1, 2.12 |
-| 3.10 | Contact page | Team grid | 3.1, 2.7 |
-| 3.11 | About page | Rich text content | 3.1 |
-| 3.12 | Support Us page | Markdown content | 3.1, 2.13 |
-| 3.13 | Press page | Zip download | 3.1, 2.14 |
-| 3.14 | Archive page | Links to past editions | 3.1 |
-| 3.15 | Article detail page | Rich text article | 3.1, 2.8 |
-| 3.16 | Mobile App page | App store links | 3.1 |
-| 3.17 | Scroll to top button | FAB component | 3.1 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 3.1 | Layout (nav, footer, side menu) | ✅ Done | Responsive shell, city/year context nav |
+| 3.2 | Homepage | ✅ Done | City selection, festival branding |
+| 3.3 | Artist list page | ✅ Done | Masonry grid, filter chips with colored dots |
+| 3.4 | Artist detail page | ✅ Done | Image, info, dates, audio player |
+| 3.5 | Map page | ✅ Done | Leaflet with dark tiles (Carto), artist markers |
+| 3.6 | Partners page | ✅ Done | Logo grid grouped by category |
+| 3.7 | Tickets page | ✅ Done | Sale toggle, external buy links |
+| 3.8 | Practical Info page | ✅ Done | Accordion panels with `<details>` |
+| 3.9 | Volunteers page | ✅ Done | Rich text per city |
+| 3.10 | Contact page | ✅ Done | Team grid with photos |
+| 3.11 | About page | ✅ Done | Rich text from global |
+| 3.12 | Support Us page | ✅ Done | Rich text from global |
+| 3.13 | Press page | ✅ Done | Zip download |
+| 3.14 | Archive page | ✅ Done | Links to past editions |
+| 3.15 | Article detail page | ✅ Done | Rich text article |
+| 3.16 | Mobile App page | ✅ Done | App Store + Google Play links |
+| 3.17 | Scroll to top button | ✅ Done | FAB component, appears after 300px scroll |
 
-## Phase 4: Integrations
+## Phase 4: Integrations ✅
 
-| # | Task | Description | Depends On |
-|---|------|-------------|------------|
-| 4.1 | Firebase push notifications | Send on notification publish | 2.9 |
-| 4.2 | Sitemap generation | Dynamic sitemap for SEO | Phase 3 |
-| 4.3 | Open Graph meta tags | Social sharing previews | Phase 3 |
-| 4.4 | Analytics | Google Analytics or Plausible | Phase 3 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 4.1 | Firebase push notifications | ✅ Done | afterChange hook on Notifications, topics per city |
+| 4.2 | Sitemap generation | ✅ Done | Dynamic `/sitemap.xml` with all pages + artists + articles |
+| 4.3 | Open Graph meta tags | ✅ Done | Global OG + per-artist image/description |
+| 4.4 | Analytics | ✅ Done | Google Analytics via `NEXT_PUBLIC_GA_ID` env var |
+| 4.5 | robots.txt | ✅ Done | Allows public, disallows /admin/ and /api/ |
 
 ## Phase 5: Polish & Launch
 
