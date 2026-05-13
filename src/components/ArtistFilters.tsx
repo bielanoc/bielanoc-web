@@ -96,6 +96,8 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
                 <img
                   src={artist.image.url}
                   alt={artist.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full aspect-[3/4] object-cover"
                 />
               ) : (

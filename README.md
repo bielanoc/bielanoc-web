@@ -4,13 +4,13 @@ Website and content management system for the Biela Noc (White Night) contempora
 
 ## Status
 
-🚧 **Rewrite in progress**
+✅ **Ready for launch**
 
 - [x] Phase 1: Foundation (Next.js 15 + Payload CMS 3 + PostgreSQL + Tailwind)
 - [x] Phase 2: Data Model (11 collections, 7 globals)
 - [x] Phase 3: Public Pages (frontend)
 - [x] Phase 4: Integrations (push notifications, SEO, analytics)
-- [ ] Phase 5: Polish & Launch
+- [x] Phase 5: Polish & Launch (performance, a11y, migration, deployment)
 
 See [docs/](./docs/) for full specification.
 
@@ -85,6 +85,8 @@ Then open:
 | [07 - Admin Features](docs/07-admin-features.md) | What organizers do in the CMS |
 | [08 - Infrastructure](docs/08-infrastructure.md) | Hosting, CI/CD, deployment |
 | [09 - Task List](docs/09-task-list.md) | Implementation plan |
+| [10 - Admin Guide](docs/10-admin-guide.md) | CMS guide for content editors |
+| [11 - Deployment](docs/11-deployment.md) | Production deployment instructions |
 
 ## License
 

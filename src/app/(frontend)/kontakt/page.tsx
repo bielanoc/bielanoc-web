@@ -26,6 +26,8 @@ export default async function ContactPage() {
                 <img
                   src={contact.photo.url}
                   alt={contact.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-20 h-20 rounded-full object-cover mx-auto"
                 />
               ) : (

@@ -1,5 +1,6 @@
 import { getPayloadClient } from '@/lib/payload'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 
 type Props = {
@@ -57,11 +58,16 @@ export default async function ArtistDetailPage({ params }: Props) {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           {artist.image && typeof artist.image === 'object' && artist.image.url ? (
-            <img
-              src={artist.image.url}
-              alt={artist.name}
-              className="w-full aspect-[3/4] object-cover border border-white/10"
-            />
+            <div className="relative w-full aspect-[3/4] border border-white/10 overflow-hidden">
+              <Image
+                src={artist.image.url}
+                alt={artist.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+            </div>
           ) : (
             <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 flex items-center justify-center">
               <span className="text-white/20 text-6xl">{artist.name.charAt(0)}</span>

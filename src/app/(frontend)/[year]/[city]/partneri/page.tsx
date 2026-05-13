@@ -52,7 +52,7 @@ export default async function PartnersPage({ params }: Props) {
                   const content = (
                     <div className="flex items-center justify-center p-4 bg-white/5 border border-white/10 rounded hover:border-white/30 transition-colors aspect-[3/2]">
                       {logo?.url ? (
-                        <img src={logo.url} alt={partner.name} className="max-h-16 max-w-full object-contain" />
+                        <img src={logo.url} alt={partner.name} loading="lazy" decoding="async" className="max-h-16 max-w-full object-contain" />
                       ) : (
                         <span className="text-xs text-white/40 text-center">{partner.name}</span>
                       )}

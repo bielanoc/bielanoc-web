@@ -69,14 +69,14 @@ Implementation tasks ordered by dependency and priority.
 
 ## Phase 5: Polish & Launch
 
-| # | Task | Description | Depends On |
-|---|------|-------------|------------|
-| 5.1 | Content migration | Export from old Strapi, import to Payload | Phase 2, Phase 3 |
-| 5.2 | Performance audit | Lighthouse, Core Web Vitals | Phase 3 |
-| 5.3 | Accessibility audit | Keyboard nav, screen reader, contrast | Phase 3 |
-| 5.4 | Production deployment | Set up production hosting, DNS, SSL | Phase 3, Phase 4 |
-| 5.5 | Admin user training | Guide for content editors | 5.4 |
-| 5.6 | Domain cutover | Point bielanoc.sk to new hosting | 5.4 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 5.1 | Content migration | ✅ Done | Migration script: `scripts/migrate-strapi.ts` |
+| 5.2 | Performance audit | ✅ Done | `next/image`, lazy loading, `loading="lazy"` on all images |
+| 5.3 | Accessibility audit | ✅ Done | Skip-to-content, focus-visible, ARIA dialog, keyboard nav |
+| 5.4 | Production deployment | ✅ Done | Dockerfile, health check, deployment docs |
+| 5.5 | Admin user training | ✅ Done | `docs/10-admin-guide.md` |
+| 5.6 | Domain cutover | ⏳ Pending | Point bielanoc.sk to new hosting (manual step) |
 
 ## Estimated Timeline
 
