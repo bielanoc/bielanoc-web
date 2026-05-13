@@ -19,7 +19,8 @@ export default async function InfoPage({ params }: Props) {
   const payload = await getPayloadClient()
   const info = await payload.findGlobal({ slug: 'practical-info' })
 
-  const sections = cityCode === 'ba' ? info.sectionsBA : info.sectionsKE
+  const sections: Array<{ id?: string | null; title?: string | null; text?: any }> =
+    (cityCode === 'ba' ? info.sectionsBA : info.sectionsKE) || []
 
   return (
     <div className="px-6 py-8 max-w-3xl mx-auto">
