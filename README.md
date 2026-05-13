@@ -14,6 +14,16 @@ Website and content management system for the Biela Noc (White Night) contempora
 
 See [docs/](./docs/) for full specification.
 
+## Hosting
+
+All free tier — $0/month:
+
+| Service | Role | Free Tier Limits |
+|---------|------|-----------------|
+| **Vercel** | App hosting + CDN | 100GB bandwidth/mo, serverless |
+| **Neon** | PostgreSQL 17 database | 0.5GB storage, autoscaling |
+| **Cloudflare R2** | Media storage (images, audio) | 10GB storage, 10M reads/mo |
+
 ## Stack
 
 - **Next.js 15** — React framework with SSR
@@ -71,6 +81,41 @@ pnpm dev
 Then open:
 - `http://localhost:3000` — Public website
 - `http://localhost:3000/admin` — Admin panel (create first user on initial visit)
+
+## Content Migration
+
+Migration script (`scripts/migrate-strapi.ts`) imports data from the old Strapi PostgreSQL dump.
+
+**Migrated automatically (text data):**
+
+| Collection | Records | Notes |
+|------------|---------|-------|
+| Artists | 415 | All editions (2020–2025), both cities |
+| Filters | 3 | Colored category chips |
+| Partners | 101 | All categories and years |
+| Contacts | 14 | Team members |
+| Date Entries | 79 | Event schedules |
+| MP3 Records | 17 | Audio metadata |
+| Routes | 1 | Walking route |
+| Notifications | 236 | Push notification history |
+
+**Not migrated (requires manual upload):**
+
+| Data | Reason | Action |
+|------|--------|--------|
+| Artist images | Binary files not in SQL dump | Upload via admin panel or R2 bucket |
+| Partner logos | Binary files not in SQL dump | Upload via admin panel or R2 bucket |
+| Contact photos | Binary files not in SQL dump | Upload via admin panel |
+| MP3 audio files | Binary files not in SQL dump | Upload via admin panel |
+| Practical Info | Was stored as Strapi components (complex structure) | Re-enter in admin |
+| Volunteers text | City-specific rich text | Re-enter in admin |
+| Ticket settings | Dynamic config, not historical data | Configure in admin |
+| About / Support Us | Rich text globals | Re-enter in admin |
+
+Run migration:
+```bash
+node --env-file=.env.local --import tsx scripts/migrate-strapi.ts path/to/dump.sql
+```
 
 ## Documentation
 
