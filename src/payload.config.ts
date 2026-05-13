@@ -5,8 +5,26 @@ import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Artists } from './collections/Artists'
+import { Filters } from './collections/Filters'
+import { Routes } from './collections/Routes'
+import { DateEntries } from './collections/DateEntries'
+import { MP3Records } from './collections/MP3Records'
+import { Partners } from './collections/Partners'
+import { Contacts } from './collections/Contacts'
+import { Articles } from './collections/Articles'
+import { Notifications } from './collections/Notifications'
+
+import { TicketSettings } from './globals/TicketSettings'
+import { PracticalInfo } from './globals/PracticalInfo'
+import { Volunteers } from './globals/Volunteers'
+import { SupportUs } from './globals/SupportUs'
+import { PressKit } from './globals/PressKit'
+import { AboutPage } from './globals/AboutPage'
+import { FestivalSettings } from './globals/FestivalSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -19,9 +37,29 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Media],
+  collections: [
+    Users,
+    Media,
+    Artists,
+    Filters,
+    Routes,
+    DateEntries,
+    MP3Records,
+    Partners,
+    Contacts,
+    Articles,
+    Notifications,
+  ],
 
-  globals: [],
+  globals: [
+    FestivalSettings,
+    TicketSettings,
+    PracticalInfo,
+    Volunteers,
+    SupportUs,
+    PressKit,
+    AboutPage,
+  ],
 
   localization: {
     locales: [
