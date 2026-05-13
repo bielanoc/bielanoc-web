@@ -2,37 +2,38 @@
 
 Implementation tasks ordered by dependency and priority.
 
-## Phase 1: Foundation
+## Phase 1: Foundation ✅
 
-| # | Task | Description | Depends On |
-|---|------|-------------|------------|
-| 1.1 | Project scaffolding | Initialize Next.js 15 + Payload CMS 3 + TypeScript + pnpm | — |
-| 1.2 | Database setup | Connect to Neon PostgreSQL, configure Payload DB adapter | 1.1 |
-| 1.3 | Storage setup | Configure Cloudflare R2 as S3-compatible media storage | 1.1 |
-| 1.4 | Vercel deployment | Connect GitHub repo to Vercel, verify deploy works | 1.1, 1.2 |
-| 1.5 | Environment config | `.env.example`, environment variable documentation | 1.1 |
-| 1.6 | Tailwind + dark theme | Base styling, custom font (HW Clin), dark theme setup | 1.1 |
-| 1.7 | Internationalization | Configure Payload locales (sk, en), language toggle | 1.1 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 1.1 | Project scaffolding | ✅ Done | Next.js 15.5 + Payload 3.84 + TypeScript + pnpm |
+| 1.2 | Database setup | ✅ Done | Neon PostgreSQL 17 (us-east-1) |
+| 1.3 | Storage setup | ⏳ Pending | Cloudflare R2 — not yet configured, using local for now |
+| 1.4 | Vercel deployment | ⏳ Pending | GitHub repo ready, needs Vercel connection |
+| 1.5 | Environment config | ✅ Done | `.env.example` with all vars documented |
+| 1.6 | Tailwind + dark theme | ✅ Done | Tailwind CSS 4 + PostCSS configured |
+| 1.7 | Internationalization | ✅ Done | Payload locales: sk (default), en |
 
-## Phase 2: Data Model (Payload Collections)
+## Phase 2: Data Model (Payload Collections) ✅
 
-| # | Task | Description | Depends On |
-|---|------|-------------|------------|
-| 2.1 | Artist collection | Fields, localization, relations, admin UI | 1.2, 1.7 |
-| 2.2 | Filter collection | Slug, title, color, icon, artist relation | 1.2 |
-| 2.3 | Route collection | Title, city, artist relation | 1.2 |
-| 2.4 | Date Entry collection | DateTime fields, artist relation | 1.2 |
-| 2.5 | MP3 Record collection | Title, file upload, artist relation | 1.2, 1.3 |
-| 2.6 | Partner collection | Logo, category enum, year, city flags | 1.2, 1.3 |
-| 2.7 | Contact collection | Name, role, email, photo, ordering | 1.2, 1.3 |
-| 2.8 | Article collection | Rich text, localized, draft/publish | 1.2, 1.7 |
-| 2.9 | Notification collection | Title, body, city, publish hook | 1.2 |
-| 2.10 | Ticket global | Sale toggle, links per city | 1.2 |
-| 2.11 | Practical Info global | Repeatable sections per city, localized | 1.2, 1.7 |
-| 2.12 | Volunteers global | Per-city rich text | 1.2, 1.7 |
-| 2.13 | Support Us global | Localized rich text | 1.2, 1.7 |
-| 2.14 | Press Kit global | Zip file upload | 1.2, 1.3 |
-| 2.15 | App Settings global | Promo image | 1.2, 1.3 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 2.1 | Artist collection | ✅ Done | Localized fields, relations to filters/routes/dates/records |
+| 2.2 | Filter collection | ✅ Done | Slug, title (localized), color, icon |
+| 2.3 | Route collection | ✅ Done | Title (localized), city |
+| 2.4 | Date Entry collection | ✅ Done | dateText, start/end datetime, display toggle |
+| 2.5 | MP3 Record collection | ✅ Done | Title, description, file upload |
+| 2.6 | Partner collection | ✅ Done | 11 categories, year, BA/KE flags |
+| 2.7 | Contact collection | ✅ Done | Name, role (localized), email, photo, orderRank |
+| 2.8 | Article collection | ✅ Done | Localized title/content, draft/publish |
+| 2.9 | Notification collection | ✅ Done | Title, description, city |
+| 2.10 | Ticket global | ✅ Done | Sale toggle, links + text per city |
+| 2.11 | Practical Info global | ✅ Done | Repeatable sections per city, localized |
+| 2.12 | Volunteers global | ✅ Done | Rich text per city, localized |
+| 2.13 | Support Us global | ✅ Done | Localized rich text |
+| 2.14 | Press Kit global | ✅ Done | Zip file upload |
+| 2.15 | About Page global | ✅ Done | Localized rich text (replaced App Settings) |
+| 2.16 | Festival Settings global | ✅ Done | Current year, date info, social links |
 
 ## Phase 3: Public Pages (Frontend)
 

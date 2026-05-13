@@ -1,6 +1,8 @@
 # Data Model
 
-All content types from the current system. Field names marked with `(localized)` should support Slovak + English in the new system.
+Implemented in Payload CMS 3. Localized fields support Slovak (default) + English via Payload's built-in localization. All collections and globals are defined in `src/collections/` and `src/globals/`.
+
+**Status: ✅ Fully implemented** (Phase 2 complete)
 
 ## Collection Types (multiple entries)
 
