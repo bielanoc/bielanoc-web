@@ -108,27 +108,39 @@ Migration from the old Strapi CMS has been completed.
 |------|-------|--------|
 | All media (images, logos, audio) | 3,300 | ✅ Uploaded to R2 |
 
+**Media linked (via `scripts/migrate-media.ts`):**
+
+| Type | Count | Status |
+|------|-------|--------|
+| Media documents | 759 | ✅ Created in Payload, pointing to R2 |
+| Artist images | 414 | ✅ Linked to artist records |
+| Partner logos | 99 | ✅ Partners created with logos |
+| Contact photos | 14 | ✅ Linked to contact records |
+| MP3 audio files | 17 | ✅ Linked to MP3 records |
+
 **Still needs manual setup in admin:**
 
 | Data | Action |
 |------|--------|
-| Partners (101) | Add via admin — require logo upload (link to R2 files) |
 | Practical Info | Re-enter per city in admin (was Strapi components) |
 | Volunteers text | Re-enter per city in admin |
 | Ticket settings | Configure in admin |
 | About / Support Us | Re-enter rich text in admin |
-| Media → Artist linking | Link uploaded R2 images to artist records |
 
-**Run migration (if needed again on fresh DB):**
+**Run full migration (if needed again on fresh DB):**
+
 ```bash
+# 1. Import text data (artists, filters, contacts, dates, notifications)
 node --env-file=.env.local --import tsx scripts/migrate-strapi.ts path/to/dump.sql
-```
 
-**Upload media to R2:**
-```bash
-aws s3 sync ./media/ s3://bielanoc-media/ \
+# 2. Upload media files to R2
+unzip bielanoc.zip -d /tmp/bielanoc-media
+aws s3 sync /tmp/bielanoc-media/bielanoc/ s3://bielanoc-media/ \
   --endpoint-url https://2b142d7f825a88e4a6cae8cd9983b3b5.r2.cloudflarestorage.com \
   --region auto
+
+# 3. Create media documents and link to content
+node --env-file=.env.local --import tsx scripts/migrate-media.ts path/to/dump.sql
 ```
 
 ## Documentation
