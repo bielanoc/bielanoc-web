@@ -1,10 +1,15 @@
 # Biela Noc — Festival Website
 
-Website and content management system for the Biela Noc (White Night) contemporary art festival in Bratislava and Košice, Slovakia.
+Website and content management system for the [Biela Noc](https://bielanoc-web.vercel.app/) (White Night) contemporary art festival in Bratislava and Košice, Slovakia.
+
+## Live
+
+- **Website:** https://bielanoc-web.vercel.app
+- **Admin CMS:** https://bielanoc-web.vercel.app/admin
 
 ## Status
 
-✅ **Ready for launch**
+✅ **Deployed and live**
 
 - [x] Phase 1: Foundation (Next.js 15 + Payload CMS 3 + PostgreSQL + Tailwind)
 - [x] Phase 2: Data Model (11 collections, 7 globals)
@@ -12,26 +17,40 @@ Website and content management system for the Biela Noc (White Night) contempora
 - [x] Phase 4: Integrations (push notifications, SEO, analytics)
 - [x] Phase 5: Polish & Launch (performance, a11y, migration, deployment)
 
-See [docs/](./docs/) for full specification.
-
 ## Hosting
 
 All free tier — $0/month:
 
 | Service | Role | Free Tier Limits |
 |---------|------|-----------------|
-| **Vercel** | App hosting + CDN | 100GB bandwidth/mo, serverless |
-| **Neon** | PostgreSQL 17 database | 0.5GB storage, autoscaling |
-| **Cloudflare R2** | Media storage (images, audio) | 10GB storage, 10M reads/mo |
+| [**Vercel**](https://vercel.com) | App hosting + CDN + serverless | 100GB bandwidth/mo |
+| [**Neon**](https://neon.tech) | PostgreSQL 17 database | 0.5GB storage, autoscaling to zero |
+| [**Cloudflare R2**](https://developers.cloudflare.com/r2/) | Media storage (S3-compatible) | 10GB storage, 10M reads/mo |
+
+### URLs
+
+| Resource | URL |
+|----------|-----|
+| Production app | `https://bielanoc-web.vercel.app` |
+| Media (public) | `https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev` |
+| R2 S3 API | `https://2b142d7f825a88e4a6cae8cd9983b3b5.r2.cloudflarestorage.com` |
+| Database | Neon `ep-hidden-breeze-aq9cs9jk` (us-east-1) |
+
+### Deployment
+
+- Every push to `main` auto-deploys to production via Vercel
+- Pull requests get preview deployments
+- Environment variables configured in Vercel dashboard
 
 ## Stack
 
-- **Next.js 15** — React framework with SSR
-- **Payload CMS 3.84** — Headless CMS (runs inside Next.js)
-- **PostgreSQL 17** — Database (Neon)
+- **Next.js 15** — React framework with App Router, SSR
+- **Payload CMS 3.84** — Headless CMS (embedded in Next.js, single deploy)
+- **PostgreSQL 17** — Database (Neon serverless)
 - **Tailwind CSS 4** — Styling
 - **TypeScript 5** — Language
-- **Cloudflare R2** — Media storage (S3-compatible)
+- **Cloudflare R2** — Media storage (S3-compatible, 3,300 files migrated)
+- **Firebase Admin** — Push notifications
 
 ## Project Structure
 
@@ -40,30 +59,15 @@ src/
 ├── app/
 │   ├── (frontend)/          ← Public website
 │   │   ├── [year]/[city]/   ← Dynamic year/city routes
-│   │   ├── layout.tsx       ← Frontend layout
-│   │   └── page.tsx         ← Homepage
-│   └── (payload)/           ← Admin panel (auto-generated)
-│       └── admin/
-├── collections/             ← Payload content types
-│   ├── Artists.ts
-│   ├── Partners.ts
-│   ├── Filters.ts
-│   ├── Routes.ts
-│   ├── DateEntries.ts
-│   ├── MP3Records.ts
-│   ├── Contacts.ts
-│   ├── Articles.ts
-│   ├── Notifications.ts
-│   ├── Users.ts
-│   └── Media.ts
-├── globals/                 ← Payload single-instance content
-│   ├── FestivalSettings.ts
-│   ├── TicketSettings.ts
-│   ├── PracticalInfo.ts
-│   ├── Volunteers.ts
-│   ├── SupportUs.ts
-│   ├── PressKit.ts
-│   └── AboutPage.ts
+│   │   ├── layout.tsx       ← Frontend layout (skip-to-content, nav, footer)
+│   │   └── page.tsx         ← Homepage (city selection)
+│   ├── (payload)/           ← Admin panel (auto-generated)
+│   │   └── admin/
+│   └── api/health/          ← Health check endpoint
+├── collections/             ← Payload content types (11 collections)
+├── globals/                 ← Payload single-instance content (7 globals)
+├── components/              ← Shared React components
+├── lib/                     ← Utilities (payload client, firebase, constants)
 └── payload.config.ts        ← Main CMS configuration
 ```
 
@@ -74,7 +78,7 @@ git clone https://github.com/bielanoc/bielanoc-web.git
 cd bielanoc-web
 pnpm install
 cp .env.example .env.local
-# Fill in DATABASE_URL and PAYLOAD_SECRET
+# Fill in DATABASE_URL, PAYLOAD_SECRET, S3 credentials
 pnpm dev
 ```
 
@@ -84,37 +88,47 @@ Then open:
 
 ## Content Migration
 
-Migration script (`scripts/migrate-strapi.ts`) imports data from the old Strapi PostgreSQL dump.
+Migration from the old Strapi CMS has been completed.
 
-**Migrated automatically (text data):**
+**Migrated (text data via `scripts/migrate-strapi.ts`):**
 
-| Collection | Records | Notes |
-|------------|---------|-------|
-| Artists | 415 | All editions (2020–2025), both cities |
-| Filters | 3 | Colored category chips |
-| Partners | 101 | All categories and years |
-| Contacts | 14 | Team members |
-| Date Entries | 79 | Event schedules |
-| MP3 Records | 17 | Audio metadata |
-| Routes | 1 | Walking route |
-| Notifications | 236 | Push notification history |
+| Collection | Records | Status |
+|------------|---------|--------|
+| Artists | 415 | ✅ All editions (2020–2025), both cities |
+| Filters | 3 | ✅ Colored category chips |
+| Contacts | 12 | ✅ Team members |
+| Date Entries | 78 | ✅ Event schedules |
+| MP3 Records | 17 | ✅ Audio metadata |
+| Routes | 1 | ✅ Walking route |
+| Notifications | 236 | ✅ Push notification history |
 
-**Not migrated (requires manual upload):**
+**Media files (uploaded to R2):**
 
-| Data | Reason | Action |
-|------|--------|--------|
-| Artist images | Binary files not in SQL dump | Upload via admin panel or R2 bucket |
-| Partner logos | Binary files not in SQL dump | Upload via admin panel or R2 bucket |
-| Contact photos | Binary files not in SQL dump | Upload via admin panel |
-| MP3 audio files | Binary files not in SQL dump | Upload via admin panel |
-| Practical Info | Was stored as Strapi components (complex structure) | Re-enter in admin |
-| Volunteers text | City-specific rich text | Re-enter in admin |
-| Ticket settings | Dynamic config, not historical data | Configure in admin |
-| About / Support Us | Rich text globals | Re-enter in admin |
+| Type | Count | Status |
+|------|-------|--------|
+| All media (images, logos, audio) | 3,300 | ✅ Uploaded to R2 |
 
-Run migration:
+**Still needs manual setup in admin:**
+
+| Data | Action |
+|------|--------|
+| Partners (101) | Add via admin — require logo upload (link to R2 files) |
+| Practical Info | Re-enter per city in admin (was Strapi components) |
+| Volunteers text | Re-enter per city in admin |
+| Ticket settings | Configure in admin |
+| About / Support Us | Re-enter rich text in admin |
+| Media → Artist linking | Link uploaded R2 images to artist records |
+
+**Run migration (if needed again on fresh DB):**
 ```bash
 node --env-file=.env.local --import tsx scripts/migrate-strapi.ts path/to/dump.sql
+```
+
+**Upload media to R2:**
+```bash
+aws s3 sync ./media/ s3://bielanoc-media/ \
+  --endpoint-url https://2b142d7f825a88e4a6cae8cd9983b3b5.r2.cloudflarestorage.com \
+  --region auto
 ```
 
 ## Documentation
