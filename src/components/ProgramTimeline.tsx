@@ -173,9 +173,9 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
       </div>
 
       {/* Event cards */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {dayEvents.length === 0 && (
-          <p className="text-white/40 text-center py-8">
+          <p className="text-white/40 text-center py-12">
             {locale === 'en' ? 'No events scheduled for this day.' : 'Na tento deň nie sú naplánované žiadne udalosti.'}
           </p>
         )}
@@ -187,51 +187,83 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
           const endDate = parseTime(event.end)
 
           return (
-            <div
-              key={event.id}
-              ref={live ? nowRef : undefined}
-              className={`relative border rounded-lg p-4 transition-all ${
+            <div key={event.id} ref={live ? nowRef : undefined}>
+            <Link
+              href={`/${year}/${city}/umelci/${event.id}`}
+              className={`group relative flex overflow-hidden rounded-xl transition-all duration-300 ${
                 live
-                  ? 'border-[#8ebc35] bg-[#8ebc35]/10'
+                  ? 'bg-gradient-to-r from-[#8ebc35]/15 to-[#8ebc35]/5 border border-[#8ebc35]/40 shadow-lg shadow-[#8ebc35]/10'
                   : past
-                    ? 'border-white/5 bg-white/2 opacity-50'
-                    : 'border-white/10 bg-white/5'
+                    ? 'bg-white/[0.02] border border-white/5 opacity-40'
+                    : 'bg-white/[0.04] border border-white/10 hover:border-white/20 hover:bg-white/[0.06]'
               }`}
             >
-              {live && (
-                <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                  <span className="w-2 h-2 bg-[#8ebc35] rounded-full animate-pulse" />
-                  <span className="text-[#8ebc35] text-xs font-bold uppercase">
-                    {locale === 'en' ? 'Live' : 'Práve teraz'}
-                  </span>
-                </div>
-              )}
-
-              <Link
-                href={`/${year}/${city}/umelci/${event.id}`}
-                className="block hover:opacity-80 transition-opacity"
-              >
-                <h3 className="font-semibold text-lg pr-24">{event.name}</h3>
-                {event.work && (
-                  <p className="text-white/60 text-sm mt-0.5">{event.work}</p>
-                )}
-              </Link>
-
-              <div className="flex items-center gap-3 mt-2 text-sm text-white/40">
-                {startDate && endDate && (
-                  <span>{formatTime(startDate)} – {formatTime(endDate)}</span>
-                )}
-                {event.place && (
+              {/* Left time strip */}
+              <div className={`flex flex-col items-center justify-center w-20 shrink-0 py-4 border-r ${
+                live
+                  ? 'border-[#8ebc35]/30 bg-[#8ebc35]/10'
+                  : 'border-white/5 bg-white/[0.02]'
+              }`}>
+                {startDate ? (
                   <>
-                    <span>·</span>
-                    <span>{event.place}</span>
+                    <span className={`text-lg font-bold tabular-nums ${live ? 'text-[#8ebc35]' : 'text-white/80'}`}>
+                      {formatTime(startDate)}
+                    </span>
+                    {endDate && (
+                      <span className="text-[10px] text-white/30 mt-0.5">
+                        {formatTime(endDate)}
+                      </span>
+                    )}
                   </>
+                ) : (
+                  <span className="text-xs text-white/30">—</span>
                 )}
               </div>
 
-              {event.dateText && !startDate && (
-                <p className="text-white/40 text-xs mt-1">{event.dateText}</p>
-              )}
+              {/* Content */}
+              <div className="flex-1 p-4 min-w-0">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className={`font-semibold truncate ${live ? 'text-white' : 'text-white/90 group-hover:text-white'} transition-colors`}>
+                      {event.name}
+                    </h3>
+                    {event.work && (
+                      <p className="text-white/50 text-sm mt-0.5 truncate">{event.work}</p>
+                    )}
+                  </div>
+
+                  {live && (
+                    <div className="flex items-center gap-1.5 shrink-0 px-2 py-1 rounded-full bg-[#8ebc35]/20">
+                      <span className="w-1.5 h-1.5 bg-[#8ebc35] rounded-full animate-pulse" />
+                      <span className="text-[#8ebc35] text-[10px] font-bold uppercase tracking-wider">
+                        {locale === 'en' ? 'Live' : 'Live'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {event.place && (
+                  <div className="flex items-center gap-1.5 mt-2.5">
+                    <svg className="w-3.5 h-3.5 text-white/30 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="text-sm text-white/40 truncate">{event.place}</span>
+                  </div>
+                )}
+
+                {event.dateText && !startDate && (
+                  <p className="text-white/30 text-xs mt-2">{event.dateText}</p>
+                )}
+              </div>
+
+              {/* Right arrow */}
+              <div className="flex items-center pr-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg className="w-4 h-4 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </Link>
             </div>
           )
         })}
@@ -239,19 +271,22 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
 
       {/* Events with only dateText (no structured start/end) */}
       {eventsWithoutStart.length > 0 && activeDay === days[0] && (
-        <div className="mt-8 border-t border-white/10 pt-6">
-          <h2 className="text-sm font-medium text-white/50 uppercase tracking-wide mb-4">
-            {locale === 'en' ? 'All days' : 'Všetky dni'}
+        <div className="mt-10 border-t border-white/10 pt-8">
+          <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+            {locale === 'en' ? 'All festival days' : 'Všetky festivalové dni'}
           </h2>
-          <div className="space-y-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             {eventsWithoutStart.map((event) => (
               <Link
                 key={event.id}
                 href={`/${year}/${city}/umelci/${event.id}`}
-                className="block border border-white/5 rounded-lg p-3 hover:border-white/20 transition-colors"
+                className="group flex items-center gap-3 border border-white/5 rounded-lg p-3 hover:border-white/15 hover:bg-white/[0.03] transition-all"
               >
-                <h3 className="font-medium">{event.name}</h3>
-                <p className="text-white/40 text-xs mt-0.5">{event.dateText}</p>
+                <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#8ebc35] transition-colors shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="font-medium text-sm text-white/80 group-hover:text-white truncate transition-colors">{event.name}</h3>
+                  <p className="text-white/30 text-xs mt-0.5 truncate">{event.dateText}</p>
+                </div>
               </Link>
             ))}
           </div>
