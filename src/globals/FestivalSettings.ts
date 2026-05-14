@@ -24,11 +24,13 @@ export const FestivalSettings: GlobalConfig = {
     {
       name: 'dateInfoBA',
       type: 'text',
+      localized: true,
       admin: { description: 'e.g. "3. – 5. október 2025 Bratislava"' },
     },
     {
       name: 'dateInfoKE',
       type: 'text',
+      localized: true,
       admin: { description: 'e.g. "10. – 12. október 2025 Košice"' },
     },
     {

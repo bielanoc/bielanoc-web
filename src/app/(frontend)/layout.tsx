@@ -36,7 +36,7 @@ export default async function FrontendLayout({
   const payload = await getPayloadClient()
   const [ticketSettings, festivalSettings, artistYears] = await Promise.all([
     payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
-    payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
+    payload.findGlobal({ slug: 'festival-settings', locale }).catch(() => null),
     payload.find({ collection: 'artists', limit: 0, depth: 0 }).then((res) => {
       const years = [...new Set(res.docs.map((a) => (a as unknown as { year?: string }).year as string).filter(Boolean))]
       return years.sort((a, b) => Number(b) - Number(a))
