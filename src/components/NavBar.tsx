@@ -131,7 +131,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', ava
       </header>
 
       {year && dateInfo && (dateInfo[city as 'ba' | 'ke']) && (
-        <div className="fixed top-[57px] left-0 right-0 z-40 bg-white/5 border-b border-white/5 text-center py-1.5 text-xs text-white/40 tracking-wide">
+        <div className="fixed top-[57px] left-0 right-0 z-40 bg-white/[0.03] border-b border-white/10 text-center py-1.5 text-xs text-white/70 font-medium tracking-wide">
           {dateInfo[city as 'ba' | 'ke']}
         </div>
       )}
