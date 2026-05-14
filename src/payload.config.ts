@@ -41,6 +41,10 @@ export default buildConfig({
           Component: '@/components/admin/DateReviewView#DateReviewView',
           path: '/tools/date-review',
         },
+        'image-review': {
+          Component: '@/components/admin/ImageReviewView#ImageReviewView',
+          path: '/tools/image-review',
+        },
       },
     },
   },

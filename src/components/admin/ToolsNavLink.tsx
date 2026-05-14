@@ -5,7 +5,11 @@ import { usePathname } from 'next/navigation'
 
 export function ToolsNavLink() {
   const pathname = usePathname()
-  const isActive = pathname?.startsWith('/admin/tools')
+
+  const links = [
+    { href: '/admin/tools/date-review', label: 'Date Review' },
+    { href: '/admin/tools/image-review', label: 'Image Review' },
+  ]
 
   return (
     <div style={{
@@ -17,20 +21,26 @@ export function ToolsNavLink() {
       <span style={{ fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--theme-elevation-400, #999)', fontWeight: 600 }}>
         Tools
       </span>
-      <Link
-        href="/admin/tools/date-review"
-        style={{
-          display: 'block',
-          padding: '0.4rem 0',
-          marginTop: '0.25rem',
-          fontSize: '0.8125rem',
-          textDecoration: 'none',
-          color: isActive ? 'var(--theme-text, #000)' : 'var(--theme-elevation-500, #666)',
-          fontWeight: isActive ? 600 : 400,
-        }}
-      >
-        Date Review
-      </Link>
+      {links.map((link) => {
+        const isActive = pathname === link.href
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            style={{
+              display: 'block',
+              padding: '0.4rem 0',
+              marginTop: '0.25rem',
+              fontSize: '0.8125rem',
+              textDecoration: 'none',
+              color: isActive ? 'var(--theme-text, #000)' : 'var(--theme-elevation-500, #666)',
+              fontWeight: isActive ? 600 : 400,
+            }}
+          >
+            {link.label}
+          </Link>
+        )
+      })}
     </div>
   )
 }

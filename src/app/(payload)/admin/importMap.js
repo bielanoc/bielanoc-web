@@ -25,6 +25,7 @@ import { LocationPicker as LocationPicker_746d4d1618cee14c21cb510ffdc3f1ec } fro
 import { ToolsNavLink as ToolsNavLink_5d4496310fe77df839e5ae5516ced3e8 } from '@/components/admin/ToolsNavLink'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { DateReviewView as DateReviewView_2936a04102ae8acaed72f9d31845597b } from '@/components/admin/DateReviewView'
+import { ImageReviewView as ImageReviewView_c8d01aecca4028e66f69741362054f40 } from '@/components/admin/ImageReviewView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -56,5 +57,6 @@ export const importMap = {
   "@/components/admin/ToolsNavLink#ToolsNavLink": ToolsNavLink_5d4496310fe77df839e5ae5516ced3e8,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/admin/DateReviewView#DateReviewView": DateReviewView_2936a04102ae8acaed72f9d31845597b,
+  "@/components/admin/ImageReviewView#ImageReviewView": ImageReviewView_c8d01aecca4028e66f69741362054f40,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
