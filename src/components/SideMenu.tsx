@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+import { UI_STRINGS, type Locale } from '@/lib/i18n'
 
 const AVAILABLE_YEARS = ['2025', '2024', '2023', '2022', '2021', '2020']
 
@@ -11,14 +12,16 @@ type Props = {
   onClose: () => void
   yearCity: string | null
   ticketSaleEnabled?: boolean
+  locale?: Locale
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk' }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
 
   const { year, city, section } = parseRoute(pathname)
+  const t = UI_STRINGS[locale]
 
   useEffect(() => {
     if (open) {
@@ -109,27 +112,27 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false }:
               onClick={onClose}
               className="block text-center px-4 py-2.5 bg-[#8ebc35] text-black font-medium text-sm uppercase tracking-wide hover:bg-[#7aa82d] transition-colors rounded"
             >
-              Predaj vstupeniek
+              {t.ticketSale}
             </Link>
           )}
 
           <div className="border-t border-white/10 my-2" />
 
-          <MenuLink href={`${base}/umelci`} onClick={onClose}>Umelci</MenuLink>
-          <MenuLink href={`${base}/mapa`} onClick={onClose}>Mapa</MenuLink>
-          <MenuLink href={`${base}/partneri`} onClick={onClose}>Partneri</MenuLink>
-          <MenuLink href={`${base}/info`} onClick={onClose}>Info</MenuLink>
-          <MenuLink href={`${base}/predaj`} onClick={onClose}>Vstupenky</MenuLink>
-          <MenuLink href={`${base}/dobrovolnici`} onClick={onClose}>Dobrovoľníci</MenuLink>
+          <MenuLink href={`${base}/umelci`} onClick={onClose}>{t.artists}</MenuLink>
+          <MenuLink href={`${base}/mapa`} onClick={onClose}>{t.map}</MenuLink>
+          <MenuLink href={`${base}/partneri`} onClick={onClose}>{t.partners}</MenuLink>
+          <MenuLink href={`${base}/info`} onClick={onClose}>{t.info}</MenuLink>
+          <MenuLink href={`${base}/predaj`} onClick={onClose}>{t.tickets}</MenuLink>
+          <MenuLink href={`${base}/dobrovolnici`} onClick={onClose}>{t.volunteers}</MenuLink>
 
           <div className="border-t border-white/10 my-4" />
 
-          <MenuLink href="/o-bielej-noci" onClick={onClose}>O Bielej Noci</MenuLink>
-          <MenuLink href="/kontakt" onClick={onClose}>Kontakt</MenuLink>
-          <MenuLink href="/podporte-nas" onClick={onClose}>Podporte nás</MenuLink>
-          <MenuLink href="/press" onClick={onClose}>Pre médiá</MenuLink>
-          <MenuLink href="/archive" onClick={onClose}>Archív</MenuLink>
-          <MenuLink href="/app" onClick={onClose}>Aplikácia</MenuLink>
+          <MenuLink href="/o-bielej-noci" onClick={onClose}>{t.about}</MenuLink>
+          <MenuLink href="/kontakt" onClick={onClose}>{t.contact}</MenuLink>
+          <MenuLink href="/podporte-nas" onClick={onClose}>{t.support}</MenuLink>
+          <MenuLink href="/press" onClick={onClose}>{t.press}</MenuLink>
+          <MenuLink href="/archive" onClick={onClose}>{t.archive}</MenuLink>
+          <MenuLink href="/app" onClick={onClose}>{t.app}</MenuLink>
 
           <div className="border-t border-white/10 my-4" />
 

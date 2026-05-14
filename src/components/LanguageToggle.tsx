@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { setLocale } from '@/app/(frontend)/actions'
-import type { Locale } from '@/lib/locale'
+import type { Locale } from '@/lib/i18n'
 
 type Props = {
   current: Locale

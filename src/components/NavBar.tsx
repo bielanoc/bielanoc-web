@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SideMenu } from './SideMenu'
 import { LanguageToggle } from './LanguageToggle'
-import type { Locale } from '@/lib/locale'
+import { UI_STRINGS, type Locale } from '@/lib/i18n'
 
 const AVAILABLE_YEARS = ['2025', '2024', '2023', '2022', '2021', '2020']
 
@@ -22,6 +22,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
 
   const yearCity = extractYearCity(pathname)
   const { year, city, section } = parseRoute(pathname)
+  const t = UI_STRINGS[locale]
 
   function switchCity(newCity: string) {
     const y = year || '2025'
@@ -45,27 +46,27 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
         {yearCity && (
           <nav className="hidden md:flex items-center gap-6 text-sm uppercase tracking-wide">
             <NavLink href={`/${yearCity}/umelci`} active={pathname.includes('/umelci')}>
-              Umelci
+              {t.artists}
             </NavLink>
             <NavLink href={`/${yearCity}/mapa`} active={pathname.includes('/mapa')}>
-              Mapa
+              {t.map}
             </NavLink>
             <NavLink href={`/${yearCity}/partneri`} active={pathname.includes('/partneri')}>
-              Partneri
+              {t.partners}
             </NavLink>
             <NavLink href={`/${yearCity}/info`} active={pathname.includes('/info')}>
-              Info
+              {t.info}
             </NavLink>
             {ticketSaleEnabled ? (
               <Link
                 href={`/${yearCity}/predaj`}
                 className="px-3 py-1 bg-[#8ebc35] text-black text-xs font-medium rounded hover:bg-[#7aa82d] transition-colors"
               >
-                Vstupenky
+                {t.tickets}
               </Link>
             ) : (
               <NavLink href={`/${yearCity}/predaj`} active={pathname.includes('/predaj')}>
-                Vstupenky
+                {t.tickets}
               </NavLink>
             )}
           </nav>
@@ -123,7 +124,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
         </div>
       )}
 
-      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} />
+      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} locale={locale} />
     </>
   )
 }

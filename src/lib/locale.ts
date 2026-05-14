@@ -1,69 +1,11 @@
 import { cookies } from 'next/headers'
 
-export type Locale = 'sk' | 'en'
+export { UI_STRINGS, DEFAULT_LOCALE } from './i18n'
+export type { Locale } from './i18n'
 
-export const DEFAULT_LOCALE: Locale = 'sk'
-
-export async function getLocale(): Promise<Locale> {
+export async function getLocale(): Promise<'sk' | 'en'> {
   const cookieStore = await cookies()
   const locale = cookieStore.get('locale')?.value
   if (locale === 'en') return 'en'
   return 'sk'
-}
-
-export const UI_STRINGS: Record<Locale, Record<string, string>> = {
-  sk: {
-    artists: 'Umelci',
-    map: 'Mapa',
-    partners: 'Partneri',
-    info: 'Info',
-    tickets: 'Vstupenky',
-    volunteers: 'Dobrovoľníci',
-    about: 'O Bielej Noci',
-    contact: 'Kontakt',
-    support: 'Podporte nás',
-    press: 'Pre médiá',
-    archive: 'Archív',
-    app: 'Aplikácia',
-    ticketSale: 'Predaj vstupeniek',
-    backToList: 'Späť na zoznam',
-    noArtists: 'Žiadni umelci pre tento ročník.',
-    noFilter: 'Žiadni umelci pre tento filter.',
-    clearFilter: 'Zrušiť filter',
-    place: 'Miesto',
-    dates: 'Termíny',
-    paidEntry: 'Platený vstup',
-    audio: 'Audio',
-    ticketsClosed: 'Predaj vstupeniek je momentálne uzavretý.',
-    ticketsOpen: 'Vstupenky sú v predaji!',
-    buyTickets: 'Kúpiť vstupenky',
-    festival: 'Festival súčasného umenia',
-  },
-  en: {
-    artists: 'Artists',
-    map: 'Map',
-    partners: 'Partners',
-    info: 'Info',
-    tickets: 'Tickets',
-    volunteers: 'Volunteers',
-    about: 'About',
-    contact: 'Contact',
-    support: 'Support Us',
-    press: 'Press',
-    archive: 'Archive',
-    app: 'App',
-    ticketSale: 'Ticket sales',
-    backToList: 'Back to list',
-    noArtists: 'No artists for this edition.',
-    noFilter: 'No artists match this filter.',
-    clearFilter: 'Clear filter',
-    place: 'Place',
-    dates: 'Dates',
-    paidEntry: 'Paid entry',
-    audio: 'Audio',
-    ticketsClosed: 'Ticket sales are currently closed.',
-    ticketsOpen: 'Tickets are on sale!',
-    buyTickets: 'Buy tickets',
-    festival: 'Contemporary art festival',
-  },
 }
