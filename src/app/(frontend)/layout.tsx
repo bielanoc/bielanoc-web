@@ -38,7 +38,7 @@ export default async function FrontendLayout({
     payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
     payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
     payload.find({ collection: 'artists', limit: 0, depth: 0 }).then((res) => {
-      const years = [...new Set(res.docs.map((a: { year?: string }) => a.year as string).filter(Boolean))]
+      const years = [...new Set(res.docs.map((a) => (a as unknown as { year?: string }).year as string).filter(Boolean))]
       return years.sort((a, b) => Number(b) - Number(a))
     }).catch(() => ['2025']),
   ])
