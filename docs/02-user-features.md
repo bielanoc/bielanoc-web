@@ -2,96 +2,120 @@
 
 Complete list of what a visitor can do on the website.
 
+**Legend:** ✅ Working | ⚠️ Partially working | ❌ Not yet implemented
+
 ## Global Navigation
 
-| Feature | Description |
-|---------|-------------|
-| Select city | Switch between Bratislava and Košice — all content changes |
-| Select year | Browse current or past editions (2021–2025) |
-| Switch language | Slovak ↔ English toggle |
-| Side menu | Drawer navigation with links + social media (Instagram, Facebook) |
-| Scroll to top | Floating button after scrolling down |
-| Festival date banner | Always-visible date info (e.g., "3. – 5. október 2025 Bratislava") |
+| Feature | Status | Description |
+|---------|--------|-------------|
+| Select city | ❌ | Switch between Bratislava and Košice — URL works but no UI switcher |
+| Select year | ❌ | Browse current or past editions (2021–2025) — URL works but no UI switcher |
+| Switch language | ❌ | Slovak ↔ English toggle — Payload has locales, frontend has no toggle |
+| Side menu | ✅ | Drawer navigation with links |
+| Social links in menu | ❌ | Instagram + Facebook at bottom of menu |
+| Scroll to top | ⚠️ | May exist but needs verification |
+| Festival date banner | ❌ | Always-visible date info |
+| Ticket button in menu | ❌ | Conditional button when sales are active |
 
 ## Core Features (per city/year)
 
 ### Browse Artists
 
-- Masonry grid of artist cards (image + name on hover)
-- Filter by 4 categories:
-  - Full weekend availability
-  - Time-limited
-  - Available today
-  - Paid entry
-- Pagination
-- Click through to artist detail
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Grid of artist cards | ✅ | 4-column responsive grid |
+| Artist images | ✅ | Served from R2 CDN |
+| Filter by category | ✅ | Colored filter chips |
+| Hover effect | ⚠️ | Border change only — old had image zoom 1.1x |
+| Click to detail | ✅ | |
 
 ### Artist Detail Page
 
-- Artist image
-- Name and work title
-- Bio text (in selected language)
-- Location marker (color-coded circle with number)
-- Performance dates and times
-- Audio recordings (MP3 player) — if available
-- Genre/category label
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Artist image | ✅ | Full-width left column |
+| Name and work title | ✅ | |
+| Description (artist bio) | ❌ | Data exists in DB but not displayed |
+| Description (work) | ❌ | Data exists in DB but not displayed |
+| Place / location | ✅ | |
+| Performance dates/times | ✅ | |
+| Genre label | ✅ | |
+| Audio recordings (MP3) | ⚠️ | Native `<audio>` controls — files not linked yet |
+| Paid entry indicator | ✅ | |
+| Back navigation | ✅ | Text link "← Späť na zoznam" |
 
 ### Interactive Map
 
-- Shows art installation locations on a map
-- Year-specific implementations (different map data each year)
-- Location markers match artist color-coding
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Map display | ✅ | Leaflet with dark tiles |
+| Artist markers | ✅ | Color-coded pins |
+| Map images (static) | ❌ | Old had downloadable map images per year |
+| Download button | ❌ | |
+| Lightbox zoom | ❌ | Old used PhotoSwipe |
 
 ### Partners
 
-- Grid of sponsor/partner logos
-- Organized by 11 categories:
-  1. General Partner
-  2. Main Partner
-  3. Partner
-  4. Official Partner
-  5. Support
-  6. Regional Partner
-  7. IT Partner
-  8. Delivery Partner
-  9. Main Media Partner
-  10. Other Media Partner
-  11. Appreciation
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Logo grid | ✅ | Grouped by category |
+| Partner logos | ❌ | Partners not created in DB yet |
+| External links | ✅ | Click logo → partner website |
 
 ### Tickets
 
-- Sale status indicator (on/off)
-- External purchase links (separate for BA and KE)
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Sale status | ✅ | On/off toggle from CMS |
+| Purchase links | ✅ | External links per city |
+| Ticket info text | ⚠️ | Needs content in admin |
 
 ### Practical Info
 
-- Expandable accordion panels
-- City-specific content (different info for BA vs KE)
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Accordion panels | ✅ | Native `<details>` elements |
+| City-specific content | ✅ | Structure ready |
+| Content | ❌ | Needs manual entry in admin |
 
 ### Volunteers
 
-- Information page about volunteering
-- City-specific, markdown content
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Rich text content | ✅ | Structure ready |
+| Content | ❌ | Needs manual entry in admin |
 
 ## Static / Global Pages
 
-| Page | Content |
-|------|---------|
-| Homepage | City selection, festival branding |
-| About (O Bielej Noci) | Rich text about the festival |
-| Contact | Team members grid — photo, name, role, email |
-| Support Us | How to support the festival (markdown) |
-| Press | Press kit download (zip archive) |
-| Archive | Links to past editions (2021–2024 + Humenné) |
-| Mobile App | App store links + app screenshots |
-| Articles | News articles with rich text content |
-| COVID-19 | Pandemic info (legacy, likely to be removed) |
+| Page | Status | Notes |
+|------|--------|-------|
+| Homepage | ✅ | Aurora background + city selection |
+| About (O Bielej Noci) | ⚠️ | Page exists, needs content + photos in admin |
+| Contact | ✅ | Team grid with photos (12 contacts linked) |
+| Support Us | ⚠️ | Page exists, needs content in admin |
+| Press | ✅ | Zip download |
+| Archive | ⚠️ | Page exists, needs cover images per year |
+| Mobile App | ✅ | App store links |
+| Articles | ✅ | Rich text articles |
 
 ## Push Notifications (Mobile App)
 
-- Users receive push notifications targeted by city (BA or KE)
-- Triggered when organizers publish a notification in the admin panel
-- Requires Firebase integration
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Firebase integration | ✅ | afterChange hook on Notifications collection |
+| City targeting | ✅ | Topics per city (BA/KE) |
+
+## Visual / UX Differences from Old Site
+
+| Old Feature | New Approach | Impact |
+|-------------|--------------|--------|
+| Homepage carousel with video | Aurora canvas animation | Intentional redesign |
+| Black→Blue gradient side menu | Plain black narrow menu | Less branded, more minimal |
+| Image zoom on artist hover | Border color change only | Less kinetic |
+| Custom audio player | Native HTML5 `<audio>` | More accessible, less designed |
+| Expansion panel icons | No icons | Simplified |
+| Page fade transitions | Instant navigation | Faster perceived speed |
+| Wide side menu (1000px) | Narrow (320px) | Less immersive |
 
 ## What Users CANNOT Do
 

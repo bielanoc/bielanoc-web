@@ -8,8 +8,8 @@ Implementation tasks ordered by dependency and priority.
 |---|------|--------|-------|
 | 1.1 | Project scaffolding | ✅ Done | Next.js 15.5 + Payload 3.84 + TypeScript + pnpm |
 | 1.2 | Database setup | ✅ Done | Neon PostgreSQL 17 (us-east-1) |
-| 1.3 | Storage setup | ⏳ Pending | Cloudflare R2 — not yet configured, using local for now |
-| 1.4 | Vercel deployment | ⏳ Pending | GitHub repo ready, needs Vercel connection |
+| 1.3 | Storage setup | ✅ Done | Cloudflare R2 (S3-compatible), public CDN |
+| 1.4 | Vercel deployment | ✅ Done | Auto-deploy on push to main |
 | 1.5 | Environment config | ✅ Done | `.env.example` with all vars documented |
 | 1.6 | Tailwind + dark theme | ✅ Done | Tailwind CSS 4 + PostCSS configured |
 | 1.7 | Internationalization | ✅ Done | Payload locales: sk (default), en |
@@ -67,16 +67,63 @@ Implementation tasks ordered by dependency and priority.
 | 4.4 | Analytics | ✅ Done | Google Analytics via `NEXT_PUBLIC_GA_ID` env var |
 | 4.5 | robots.txt | ✅ Done | Allows public, disallows /admin/ and /api/ |
 
-## Phase 5: Polish & Launch
+## Phase 5: Polish & Launch ✅
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 5.1 | Content migration | ✅ Done | Migration script: `scripts/migrate-strapi.ts` |
-| 5.2 | Performance audit | ✅ Done | `next/image`, lazy loading, `loading="lazy"` on all images |
-| 5.3 | Accessibility audit | ✅ Done | Skip-to-content, focus-visible, ARIA dialog, keyboard nav |
-| 5.4 | Production deployment | ✅ Done | Dockerfile, health check, deployment docs |
-| 5.5 | Admin user training | ✅ Done | `docs/10-admin-guide.md` |
-| 5.6 | Domain cutover | ⏳ Pending | Point bielanoc.sk to new hosting (manual step) |
+| 5.1 | Content migration | ✅ Done | `scripts/migrate-strapi.ts` + `scripts/link-media.ts` |
+| 5.2 | Media migration | ✅ Done | 751 docs, 413 artist images, 12 contact photos linked |
+| 5.3 | Performance audit | ✅ Done | `next/image`, lazy loading, `loading="lazy"` on all images |
+| 5.4 | Accessibility audit | ✅ Done | Skip-to-content, focus-visible, ARIA dialog, keyboard nav |
+| 5.5 | Production deployment | ✅ Done | Vercel auto-deploy, Neon DB, R2 media |
+| 5.6 | Admin user training | ✅ Done | `docs/10-admin-guide.md` |
+| 5.7 | Domain cutover | ⏳ Pending | Point bielanoc.sk to new hosting (manual step) |
+
+## Phase 6: Feature Parity (old site comparison)
+
+Missing features identified by comparing with the old Nuxt/Vue site.
+
+### High Priority
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 6.1 | Year/City navigation | ⏳ TODO | Users can't switch between BA/KE or browse older years from the UI. Need nav links or switcher in header/menu |
+| 6.2 | SK/EN language switch | ⏳ TODO | Old site was fully bilingual. Payload already has sk/en locales — need frontend toggle + translated UI strings |
+| 6.3 | Artist descriptions on detail page | ⏳ TODO | Display `descriptionArtist` and `descriptionWork` fields on artist detail page (data exists in DB) |
+| 6.4 | Map images + download | ⏳ TODO | Old site had static map images per year with lightbox (PhotoSwipe) and download button. Need to upload map images to R2 and display them |
+| 6.5 | Ticket sales button in menu | ⏳ TODO | Conditionally show "Predaj vstupeniek" button in side menu when sales are active |
+
+### Medium Priority
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 6.6 | Artist card hover effect | ⏳ TODO | Old had image zoom 1.1x on hover. New just changes border color. Consider adding subtle zoom |
+| 6.7 | Side menu style | ⏳ TODO | Old had black→blue gradient, wider (1000px), animated underlines on links. New is narrow plain black |
+| 6.8 | Archive page cover images | ⏳ TODO | Old showed cover images for each year with hover scale. Need images in R2 |
+| 6.9 | About page photos | ⏳ TODO | Old had atmospheric photos between text sections. Need images in R2 + CMS content |
+| 6.10 | Partners creation | ⏳ TODO | Partners not created in DB yet (logo required). Need to run partner migration |
+| 6.11 | MP3 file linking | ⏳ TODO | 0 MP3s linked — field name mismatch in morph table needs debugging |
+
+### Low Priority
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 6.12 | Google Analytics | ⏳ TODO | `NEXT_PUBLIC_GA_ID` env var exists, need to verify script loads |
+| 6.13 | Facebook Pixel | ⏳ TODO | Old had FB pixel tracking |
+| 6.14 | Page transitions | ⏳ TODO | Old had fade transitions between pages. Consider Next.js View Transitions |
+| 6.15 | Custom audio player styling | ⏳ TODO | Currently native `<audio>` controls. Old had custom styled play/pause |
+| 6.16 | Scroll-to-top button | ⏳ TODO | Listed as done in Phase 3 but may need verification |
+| 6.17 | Social links in side menu | ⏳ TODO | Instagram + Facebook at bottom of menu |
+| 6.18 | Festival date banner | ⏳ TODO | Always-visible date info below header |
+
+### Content (Manual — Admin CMS)
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 6.19 | Practical Info content | ⏳ Manual | Re-enter per city in admin (was Strapi component structure) |
+| 6.20 | Volunteers text | ⏳ Manual | Re-enter per city in admin |
+| 6.21 | Ticket settings | ⏳ Manual | Configure sale toggle, links, text per city |
+| 6.22 | About / Support Us content | ⏳ Manual | Re-enter rich text in admin |
 
 ## Estimated Timeline
 
