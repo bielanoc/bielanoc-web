@@ -86,6 +86,66 @@ Then open:
 - `http://localhost:3000` — Public website
 - `http://localhost:3000/admin` — Admin panel (create first user on initial visit)
 
+## Testing & QA
+
+```bash
+pnpm test          # Unit & component tests (Vitest, ~1s)
+pnpm test:watch    # Watch mode
+pnpm test:e2e      # E2E browser tests (Playwright)
+pnpm test:a11y     # Accessibility tests only (axe-core)
+pnpm lighthouse    # Lighthouse CI (performance, a11y, SEO scores)
+```
+
+### Unit & Component Tests (Vitest)
+
+```
+tests/
+├── setup.ts                         ← Test environment setup
+├── mocks/next.tsx                   ← Mocks for next/image, next/link, next/navigation
+├── lib/
+│   ├── i18n.test.ts                 ← Locale strings parity (SK/EN same keys, no empty values)
+│   └── constants.test.ts            ← Cities, partner categories integrity
+├── components/
+│   ├── ArtistFilters.test.tsx       ← Filter toggle, clear, relevant-only display
+│   ├── MapPageClient.test.tsx       ← List ↔ map selection sync, deselection
+│   └── NavBar.test.tsx              ← City/year switching, ticket button states
+└── integration/
+    ├── map-markers.test.ts          ← Marker building from artist data
+    ├── partners-grouping.test.ts    ← Category grouping and ordering
+    └── year-sorting.test.ts         ← Dynamic year list (newest first)
+```
+
+### E2E Tests (Playwright)
+
+```
+e2e/
+├── navigation.spec.ts    ← Homepage, navbar links, city/year switcher
+├── artists.spec.ts       ← Artist grid, detail page, back navigation
+├── map.spec.ts           ← Map rendering, list selection, markers
+└── accessibility.spec.ts ← axe-core WCAG 2.0 AA checks on key pages
+```
+
+### Pre-commit Hooks (Husky + lint-staged)
+
+On every commit:
+- ESLint auto-fix on staged `.ts`/`.tsx` files
+- TypeScript type-check (`tsc --noEmit`)
+
+### CI (GitHub Actions)
+
+Every push/PR runs:
+1. Type check → Lint → Unit tests
+2. E2E tests (Playwright with Chromium)
+
+### Lighthouse CI
+
+Scores performance, accessibility, best practices, SEO on:
+- Homepage
+- Artists page
+- Map page
+
+Thresholds: a11y ≥ 90 (error), performance ≥ 70, SEO ≥ 80 (warnings).
+
 ## Content Migration
 
 Migration from the old Strapi CMS has been completed.

@@ -35,6 +35,11 @@ Thumbs.db
 src/payload-types.ts
 media/
 
+# testing
+playwright-report/
+test-results/
+.lhci/
+
 # misc
 *.tsbuildinfo
 next-env.d.ts

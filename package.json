@@ -10,8 +10,12 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test e2e/accessibility.spec.ts",
+    "lighthouse": "lhci autorun",
     "generate:types": "payload generate:types",
-    "generate:migrations": "payload migrate:create"
+    "generate:migrations": "payload migrate:create",
+    "prepare": "husky"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.0",
@@ -30,6 +34,11 @@
     "sharp": "^0.33.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@axe-core/react": "^4.11.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -42,16 +51,23 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.0",
     "eslint-config-next": "^15.3.0",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "lint-staged": "^17.0.4",
     "postcss": "^8.5.3",
     "sass": "^1.99.0",
     "tailwindcss": "^4.1.4",
     "tsx": "^4.21.0",
     "typescript": "^5.8.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.6",
+    "vitest-axe": "^0.1.0"
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{ts,tsx,js}": "bash -c 'npx tsc --noEmit --pretty'"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
