@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { RichText } from '@/components/RichText'
+import { AudioPlayer } from '@/components/AudioPlayer'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
@@ -126,18 +127,16 @@ export default async function ArtistDetailPage({ params }: Props) {
           {records.length > 0 && (
             <div>
               <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.audio}</h3>
-              <ul className="space-y-2">
-                {records.map((r) => (
-                  <li key={r.id} className="text-sm">
-                    <span className="text-white/70">{r.title}</span>
-                    {r.file && typeof r.file === 'object' && (r.file.filename || r.file.url) && (
-                      <audio controls className="mt-1 w-full h-8" preload="none">
-                        <source src={r.file.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${r.file.filename}` : r.file.url!} />
-                      </audio>
-                    )}
-                  </li>
-                ))}
-              </ul>
+              <div className="space-y-2">
+                {records.map((r) => {
+                  const file = r.file && typeof r.file === 'object' ? r.file : null
+                  const src = file?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${file.filename}` : file?.url
+                  if (!src) return null
+                  return (
+                    <AudioPlayer key={r.id} src={src} title={r.title} />
+                  )
+                })}
+              </div>
             </div>
           )}
         </div>
