@@ -109,9 +109,9 @@ Missing features identified by comparing with the old Nuxt/Vue site.
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | 6.12 | Google Analytics | ✅ Done | Script loads via `NEXT_PUBLIC_GA_ID` env var |
-| 6.13 | Facebook Pixel | ⏳ TODO | Old had FB pixel tracking |
-| 6.14 | Page transitions | ⏳ TODO | Old had fade transitions between pages. Consider Next.js View Transitions |
-| 6.15 | Custom audio player styling | ⏳ TODO | Currently native `<audio>` controls. Old had custom styled play/pause |
+| 6.13 | Facebook Pixel | ✅ Done | `NEXT_PUBLIC_FB_PIXEL_ID` env var, loads via `next/script` |
+| 6.14 | Page transitions | ✅ Done | View Transitions API enabled, 200ms cross-fade between pages |
+| 6.15 | Custom audio player | ✅ Done | Custom `AudioPlayer` component with play/pause, seek bar, time display |
 | 6.16 | Scroll-to-top button | ✅ Done | FAB component, appears after 300px scroll |
 | 6.17 | Social links in side menu | ✅ Done | Instagram + Facebook links at bottom of menu |
 | 6.18 | Festival date banner | ✅ Done | City-specific date info below header from Festival Settings global |
