@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/press`, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${BASE_URL}/archive`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/app`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE_URL}/search`, changeFrequency: 'weekly', priority: 0.6 },
   ]
 
   const cities = ['ba', 'ke'] as const
