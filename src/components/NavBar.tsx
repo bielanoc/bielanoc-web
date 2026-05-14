@@ -48,6 +48,9 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', ava
             <NavLink href={`/${yearCity}/umelci`} active={pathname.includes('/umelci')}>
               {t.artists}
             </NavLink>
+            <NavLink href={`/${yearCity}/program`} active={pathname.includes('/program')}>
+              {t.program}
+            </NavLink>
             <NavLink href={`/${yearCity}/mapa`} active={pathname.includes('/mapa')}>
               {t.map}
             </NavLink>

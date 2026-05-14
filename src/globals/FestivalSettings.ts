@@ -41,5 +41,20 @@ export const FestivalSettings: GlobalConfig = {
       name: 'socialFacebook',
       type: 'text',
     },
+    {
+      name: 'debugMode',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Enable debug time override on frontend (shows time picker bar)' },
+    },
+    {
+      name: 'debugTime',
+      type: 'date',
+      admin: {
+        date: { pickerAppearance: 'dayAndTime' },
+        description: 'Simulated current time (only used when debug mode is on)',
+        condition: (data) => data?.debugMode === true,
+      },
+    },
   ],
 }

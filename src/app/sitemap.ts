@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cities = ['ba', 'ke'] as const
   const cityPages: MetadataRoute.Sitemap = cities.flatMap((city) => [
     { url: `${BASE_URL}/y${currentYear}/${city}/umelci`, changeFrequency: 'weekly' as const, priority: 0.9 },
+    { url: `${BASE_URL}/y${currentYear}/${city}/program`, changeFrequency: 'weekly' as const, priority: 0.8 },
     { url: `${BASE_URL}/y${currentYear}/${city}/mapa`, changeFrequency: 'weekly' as const, priority: 0.7 },
     { url: `${BASE_URL}/y${currentYear}/${city}/partneri`, changeFrequency: 'monthly' as const, priority: 0.5 },
     { url: `${BASE_URL}/y${currentYear}/${city}/predaj`, changeFrequency: 'weekly' as const, priority: 0.7 },
