@@ -9,13 +9,14 @@ type Props = {
 function extractText(node: any): string {
   if (!node) return ''
   if (node.text) return node.text
+  if (node.root) return extractText(node.root)
   if (node.children) return node.children.map(extractText).join('\n\n')
   return ''
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function containsHtml(node: any): boolean {
-  const text = extractText(node)
+function containsHtml(content: any): boolean {
+  const text = extractText(content)
   return /<[a-z][\s\S]*?>/i.test(text)
 }
 
