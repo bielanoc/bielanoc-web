@@ -341,7 +341,7 @@ async function main() {
       text: markdownToLexical(unescapeText(row!.text) || ''),
     }))
 
-  await payload.updateGlobal({
+  const savedInfo = await payload.updateGlobal({
     slug: 'practical-info',
     locale: 'sk',
     data: {
@@ -350,11 +350,12 @@ async function main() {
     },
   })
 
-  // Now set EN locale titles/text
+  // Now set EN locale titles/text — include item IDs so Payload updates in place
   const sectionsBA_EN = baSectionIds
     .map((id) => sectionMap.get(id))
     .filter(Boolean)
-    .map((row) => ({
+    .map((row, idx) => ({
+      id: savedInfo.sectionsBA?.[idx]?.id,
       title: unescapeText(row!.title_en) || unescapeText(row!.title) || '',
       text: markdownToLexical(unescapeText(row!.text_en) || unescapeText(row!.text) || ''),
     }))
@@ -362,7 +363,8 @@ async function main() {
   const sectionsKE_EN = keSectionIds
     .map((id) => sectionMap.get(id))
     .filter(Boolean)
-    .map((row) => ({
+    .map((row, idx) => ({
+      id: savedInfo.sectionsKE?.[idx]?.id,
       title: unescapeText(row!.title_en) || unescapeText(row!.title) || '',
       text: markdownToLexical(unescapeText(row!.text_en) || unescapeText(row!.text) || ''),
     }))
