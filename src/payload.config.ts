@@ -35,6 +35,15 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      afterNavLinks: ['@/components/admin/ToolsNavLink#ToolsNavLink'],
+      views: {
+        'date-review': {
+          Component: '@/components/admin/DateReviewView#DateReviewView',
+          path: '/tools/date-review',
+        },
+      },
+    },
   },
 
   collections: [
