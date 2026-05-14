@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Migration script: Strapi PostgreSQL dump → Payload CMS
  *
@@ -263,14 +264,20 @@ async function main() {
       })
 
       // Update English locale if available
-      if (row.description_artist_en || row.description_work_en || row.genre_en) {
+      const workEn = unescapeText(row.description_work_en ?? row.work_en ?? null)
+      const genreEn = row.genre_en || undefined
+      const placeEn = unescapeText(row.place_en ?? null)
+      const performanceEn = unescapeText(row.performance_en ?? null)
+      const enData: Record<string, string | undefined> = {}
+      if (workEn) enData.work = workEn
+      if (genreEn) enData.genre = genreEn
+      if (placeEn) enData.place = placeEn
+      if (performanceEn) enData.performance = performanceEn
+      if (Object.keys(enData).length > 0) {
         await payload.update({
           collection: 'artists',
           id: doc.id,
-          data: {
-            work: unescapeText(row.description_work_en) ? row.work : undefined,
-            genre: row.genre_en || undefined,
-          },
+          data: enData,
           locale: 'en',
         }).catch(() => {})
       }

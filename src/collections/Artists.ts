@@ -35,17 +35,26 @@ export const Artists: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'locationPicker',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/LocationPicker#LocationPicker',
+        },
+      },
+    },
+    {
       type: 'row',
       fields: [
         {
           name: 'latitude',
           type: 'number',
-          admin: { width: '50%' },
+          admin: { width: '50%', description: 'Auto-filled from map' },
         },
         {
           name: 'longitude',
           type: 'number',
-          admin: { width: '50%' },
+          admin: { width: '50%', description: 'Auto-filled from map' },
         },
       ],
     },
