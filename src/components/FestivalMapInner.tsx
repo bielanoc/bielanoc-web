@@ -101,12 +101,14 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
     <MapContainer
       center={center}
       zoom={14}
+      maxZoom={20}
       className="w-full h-full z-0"
       scrollWheelZoom={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        maxZoom={20}
       />
       <FitAllMarkers markers={markers} />
       <FlyToSelected selectedId={selectedId ?? null} markers={markers} />
@@ -124,22 +126,41 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
               <strong style={{ color: '#8ebc35' }}>{m.number}. {m.name}</strong>
               {m.work && <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0' }}>{m.work}</p>}
               {m.place && <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', margin: '2px 0 0' }}>{m.place}</p>}
-              <a
-                href={m.href}
-                style={{
-                  display: 'inline-block',
-                  marginTop: '8px',
-                  padding: '4px 10px',
-                  background: '#8ebc35',
-                  color: '#000',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                }}
-              >
-                {moreInfoLabel ?? 'Viac info'} →
-              </a>
+              <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
+                <a
+                  href={m.href}
+                  style={{
+                    display: 'inline-block',
+                    padding: '4px 10px',
+                    background: '#8ebc35',
+                    color: '#000',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                  }}
+                >
+                  {moreInfoLabel ?? 'Viac info'} →
+                </a>
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-block',
+                    padding: '4px 10px',
+                    background: 'rgba(255,255,255,0.1)',
+                    color: '#fff',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                  }}
+                >
+                  Navigovať ↗
+                </a>
+              </div>
             </div>
           </Popup>
         </Marker>
