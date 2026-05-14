@@ -90,22 +90,31 @@ function getCurrentLocalMinutes(now: Date): number {
   return getLocalMinutes(now)
 }
 
-function toInputValue(iso: string): string {
-  // "2025-10-11T19:30:00.000Z" -> "2025-10-11T19:30"
-  return iso.replace('Z', '').slice(0, 16)
+function localToUTC(iso: string): Date {
+  const stripped = iso.replace('Z', '').slice(0, 16)
+  const [datePart, timePart] = stripped.split('T')
+  const [y, m, d] = datePart.split('-').map(Number)
+  const [h, min] = timePart.split(':').map(Number)
+  const guess = new Date(Date.UTC(y, m - 1, d, h, min))
+  const parts = getLocalParts(guess)
+  const diffMin = (parts.hour * 60 + parts.minute) - (h * 60 + min)
+  return new Date(guess.getTime() - diffMin * 60000)
+}
+
+function toInputValue(date: Date): string {
+  const { year, month, day, hour, minute } = getLocalParts(date)
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
 }
 
 function fromInputValue(val: string): Date {
-  // "2025-10-11T19:30" -> treat as UTC
-  return new Date(val + ':00.000Z')
+  return localToUTC(val)
 }
 
 export function ProgramTimeline({ events, city, year, locale, debugMode, debugTime }: Props) {
-  const initialInput = debugTime ? toInputValue(debugTime) : new Date().toISOString().slice(0, 16)
+  const debugDate = debugMode && debugTime ? localToUTC(debugTime) : null
+  const initialInput = debugDate ? toInputValue(debugDate) : toInputValue(new Date())
   const [simulatedInput, setSimulatedInput] = useState<string>(initialInput)
-  const [currentTime, setCurrentTime] = useState<Date>(
-    debugMode && debugTime ? new Date(debugTime) : new Date()
-  )
+  const [currentTime, setCurrentTime] = useState<Date>(debugDate ?? new Date())
   const nowRef = useRef<HTMLDivElement>(null)
   const scrolledRef = useRef(false)
 
@@ -216,8 +225,7 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
             </p>
             <button
               onClick={() => {
-                const now = new Date().toISOString().slice(0, 16)
-                setSimulatedInput(now)
+                setSimulatedInput(toInputValue(new Date()))
                 scrolledRef.current = false
               }}
               className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
