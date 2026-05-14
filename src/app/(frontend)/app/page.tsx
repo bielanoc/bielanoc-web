@@ -1,15 +1,21 @@
-import type { Metadata } from 'next'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
-export const metadata: Metadata = { title: 'Mobilná aplikácia' }
+export async function generateMetadata() {
+  const locale = await getLocale()
+  return { title: locale === 'en' ? 'Mobile App' : 'Mobilná aplikácia' }
+}
 
-export default function MobileAppPage() {
+export default async function MobileAppPage() {
+  const locale = await getLocale()
   return (
     <div className="px-6 py-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Mobilná aplikácia</h1>
+      <h1 className="text-3xl font-bold mb-8">{locale === 'en' ? 'Mobile App' : 'Mobilná aplikácia'}</h1>
 
       <div className="border border-white/10 rounded p-8 text-center space-y-6">
         <p className="text-white/70 text-lg">
-          Stiahnite si aplikáciu Biela Noc pre interaktívnu mapu, program a notifikácie.
+          {locale === 'en'
+            ? 'Download the Biela Noc app for interactive map, program and notifications.'
+            : 'Stiahnite si aplikáciu Biela Noc pre interaktívnu mapu, program a notifikácie.'}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -39,7 +45,9 @@ export default function MobileAppPage() {
         </div>
 
         <p className="text-white/40 text-sm">
-          Aplikácia je dostupná zadarmo pre iOS a Android.
+          {locale === 'en'
+            ? 'Available for free on iOS and Android.'
+            : 'Aplikácia je dostupná zadarmo pre iOS a Android.'}
         </p>
       </div>
     </div>

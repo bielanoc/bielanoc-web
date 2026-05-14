@@ -1,7 +1,18 @@
 import Link from 'next/link'
 import { AuroraBackground } from '@/components/AuroraBackground'
+import { getPayloadClient } from '@/lib/payload'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
+  const payload = await getPayloadClient()
+  const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null)
+  const currentYear = (settings as any)?.currentYear ?? '2025'
+  const dateBA = (settings as any)?.dateInfoBA
+  const dateKE = (settings as any)?.dateInfoKE
+  const dateDisplay = dateBA || dateKE || null
+
   return (
     <>
       <AuroraBackground />
@@ -11,16 +22,18 @@ export default function HomePage() {
             BIELA NOC
           </h1>
           <p className="text-lg md:text-xl text-white/50 max-w-md mx-auto">
-            Festival súčasného umenia
+            {t.festival}
           </p>
-          <p className="text-sm text-white/30">
-            3. – 5. október 2025
-          </p>
+          {dateDisplay && (
+            <p className="text-sm text-white/30">
+              {dateDisplay}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-16">
-          <CityLink href="/y2025/ba/umelci" city="Bratislava" />
-          <CityLink href="/y2025/ke/umelci" city="Košice" />
+          <CityLink href={`/y${currentYear}/ba/umelci`} city="Bratislava" />
+          <CityLink href={`/y${currentYear}/ke/umelci`} city="Košice" />
         </div>
       </div>
     </>

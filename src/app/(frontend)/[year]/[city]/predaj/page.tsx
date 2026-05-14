@@ -1,5 +1,6 @@
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, type CityCode } from '@/lib/constants'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
   params: Promise<{ year: string; city: string }>
@@ -7,12 +8,16 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityName = CITIES[city as CityCode]?.label ?? city
-  return { title: `Vstupenky — ${cityName}` }
+  return { title: `${t.tickets} — ${cityName}` }
 }
 
 export default async function TicketsPage({ params }: Props) {
   const { city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
 
   const payload = await getPayloadClient()
@@ -22,15 +27,15 @@ export default async function TicketsPage({ params }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Vstupenky</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.tickets}</h1>
 
       {!ticket.saleEnabled ? (
         <div className="border border-white/10 rounded p-8 text-center">
-          <p className="text-white/60 text-lg">Predaj vstupeniek je momentálne uzavretý.</p>
+          <p className="text-white/60 text-lg">{t.ticketsClosed}</p>
         </div>
       ) : (
         <div className="border border-white/10 rounded p-8 text-center space-y-6">
-          <p className="text-lg">Vstupenky sú v predaji!</p>
+          <p className="text-lg">{t.ticketsOpen}</p>
           {link && (
             <a
               href={link}
@@ -38,7 +43,7 @@ export default async function TicketsPage({ params }: Props) {
               rel="noopener noreferrer"
               className="inline-block px-8 py-3 bg-[#8ebc35] text-black font-medium hover:bg-[#7aa82d] transition-colors"
             >
-              Kúpiť vstupenky — {CITIES[cityCode].label}
+              {t.buyTickets} — {CITIES[cityCode].label}
             </a>
           )}
         </div>

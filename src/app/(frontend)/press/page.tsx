@@ -1,9 +1,14 @@
 import { getPayloadClient } from '@/lib/payload'
-import type { Metadata } from 'next'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
-export const metadata: Metadata = { title: 'Pre médiá' }
+export async function generateMetadata() {
+  const locale = await getLocale()
+  return { title: UI_STRINGS[locale].press }
+}
 
 export default async function PressPage() {
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
   const data = await payload.findGlobal({ slug: 'press-kit' })
 
@@ -11,11 +16,13 @@ export default async function PressPage() {
 
   return (
     <div className="px-6 py-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Pre médiá</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.press}</h1>
 
       <div className="border border-white/10 rounded p-8 text-center space-y-4">
         <p className="text-white/70">
-          Stiahnite si kompletný press kit s logami, fotkami a ďalšími materiálmi.
+          {locale === 'en'
+            ? 'Download the complete press kit with logos, photos and other materials.'
+            : 'Stiahnite si kompletný press kit s logami, fotkami a ďalšími materiálmi.'}
         </p>
         {(archive?.filename || archive?.url) ? (
           <a
@@ -23,10 +30,12 @@ export default async function PressPage() {
             download
             className="inline-block px-8 py-3 bg-[#8ebc35] text-black font-medium hover:bg-[#7aa82d] transition-colors"
           >
-            Stiahnuť press kit (ZIP)
+            {locale === 'en' ? 'Download press kit (ZIP)' : 'Stiahnuť press kit (ZIP)'}
           </a>
         ) : (
-          <p className="text-white/40">Press kit nie je momentálne dostupný.</p>
+          <p className="text-white/40">
+            {locale === 'en' ? 'Press kit is not currently available.' : 'Press kit nie je momentálne dostupný.'}
+          </p>
         )}
       </div>
     </div>

@@ -1,20 +1,26 @@
 import { getPayloadClient } from '@/lib/payload'
-import type { Metadata } from 'next'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
-export const metadata: Metadata = { title: 'Kontakt' }
+export async function generateMetadata() {
+  const locale = await getLocale()
+  return { title: UI_STRINGS[locale].contact }
+}
 
 export default async function ContactPage() {
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
   const contacts = await payload.find({
     collection: 'contacts',
     sort: 'orderRank',
     limit: 50,
     depth: 1,
+    locale,
   })
 
   return (
     <div className="px-6 py-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Kontakt</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.contact}</h1>
 
       {contacts.docs.length === 0 ? (
         <p className="text-white/40">Žiadne kontakty.</p>

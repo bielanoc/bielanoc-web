@@ -1,6 +1,7 @@
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { FestivalMap } from '@/components/FestivalMap'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 const CITY_CENTERS = {
   ba: { lat: 48.1486, lng: 17.1077, zoom: 14 },
@@ -19,6 +20,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function MapPage({ params }: Props) {
   const { year, city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
   const yearNum = year.replace('y', '')
 
@@ -33,6 +36,7 @@ export default async function MapPage({ params }: Props) {
     },
     limit: 200,
     depth: 0,
+    locale,
   })
 
   const markers = artists.docs
@@ -51,7 +55,7 @@ export default async function MapPage({ params }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Mapa</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.map}</h1>
 
       {markers.length === 0 ? (
         <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded flex items-center justify-center">

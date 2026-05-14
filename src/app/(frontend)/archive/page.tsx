@@ -1,19 +1,26 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
-export const metadata: Metadata = { title: 'Archív' }
+export async function generateMetadata() {
+  const locale = await getLocale()
+  return { title: UI_STRINGS[locale].archive }
+}
 
 const editions = [
   { year: 'y2024', cities: ['ba', 'ke'] },
   { year: 'y2023', cities: ['ba', 'ke'] },
   { year: 'y2022', cities: ['ba', 'ke'] },
   { year: 'y2021', cities: ['ba', 'ke'] },
+  { year: 'y2020', cities: ['ba', 'ke'] },
 ]
 
-export default function ArchivePage() {
+export default async function ArchivePage() {
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
+
   return (
     <div className="px-6 py-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Archív</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.archive}</h1>
 
       <div className="space-y-4">
         {editions.map((edition) => (

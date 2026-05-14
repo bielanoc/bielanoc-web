@@ -2,6 +2,8 @@ import { getPayloadClient } from '@/lib/payload'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { RichText } from '@/components/RichText'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
   params: Promise<{ year: string; city: string; id: string }>
@@ -29,12 +31,15 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ArtistDetailPage({ params }: Props) {
   const { year, city, id } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
 
   const artist = await payload.findByID({
     collection: 'artists',
     id,
     depth: 2,
+    locale,
   }).catch(() => null)
 
   if (!artist) notFound()
@@ -53,7 +58,7 @@ export default async function ArtistDetailPage({ params }: Props) {
         href={`/${year}/${city}/umelci`}
         className="text-sm text-white/50 hover:text-white transition-colors mb-6 inline-block"
       >
-        ← Späť na zoznam
+        ← {t.backToList}
       </Link>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -88,16 +93,22 @@ export default async function ArtistDetailPage({ params }: Props) {
             <p className="text-sm text-white/50 uppercase tracking-wide">{artist.genre}</p>
           )}
 
+          {artist.description && (
+            <div>
+              <RichText content={artist.description} />
+            </div>
+          )}
+
           {artist.place && (
             <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-1">Miesto</h3>
+              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-1">{t.place}</h3>
               <p>{artist.place}</p>
             </div>
           )}
 
           {dates.length > 0 && (
             <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">Termíny</h3>
+              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.dates}</h3>
               <ul className="space-y-1">
                 {dates.map((d) => (
                   <li key={d.id} className="text-sm">
@@ -109,12 +120,12 @@ export default async function ArtistDetailPage({ params }: Props) {
           )}
 
           {artist.paid && (
-            <p className="text-sm text-yellow-400">Platený vstup</p>
+            <p className="text-sm text-yellow-400">{t.paidEntry}</p>
           )}
 
           {records.length > 0 && (
             <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">Audio</h3>
+              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.audio}</h3>
               <ul className="space-y-2">
                 {records.map((r) => (
                   <li key={r.id} className="text-sm">

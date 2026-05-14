@@ -1,16 +1,24 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+
+const AVAILABLE_YEARS = ['2025', '2024', '2023', '2022', '2021', '2020']
 
 type Props = {
   open: boolean
   onClose: () => void
   yearCity: string | null
+  ticketSaleEnabled?: boolean
 }
 
-export function SideMenu({ open, onClose, yearCity }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const { year, city, section } = parseRoute(pathname)
 
   useEffect(() => {
     if (open) {
@@ -33,6 +41,20 @@ export function SideMenu({ open, onClose, yearCity }: Props) {
 
   const base = yearCity ? `/${yearCity}` : '/y2025/ba'
 
+  function switchCity(newCity: string) {
+    const y = year || '2025'
+    const s = section || 'umelci'
+    router.push(`/y${y}/${newCity}/${s}`)
+    onClose()
+  }
+
+  function switchYear(newYear: string) {
+    const c = city || 'ba'
+    const s = section || 'umelci'
+    router.push(`/y${newYear}/${c}/${s}`)
+    onClose()
+  }
+
   return (
     <>
       {open && (
@@ -52,6 +74,47 @@ export function SideMenu({ open, onClose, yearCity }: Props) {
         </div>
 
         <nav className="flex flex-col gap-4 px-8 text-lg">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="flex border border-white/20 rounded overflow-hidden text-sm">
+              <button
+                onClick={() => switchCity('ba')}
+                className={`px-3 py-1.5 transition-colors ${city === 'ba' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+              >
+                Bratislava
+              </button>
+              <button
+                onClick={() => switchCity('ke')}
+                className={`px-3 py-1.5 transition-colors ${city === 'ke' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+              >
+                Košice
+              </button>
+            </div>
+
+            <select
+              value={year || '2025'}
+              onChange={(e) => switchYear(e.target.value)}
+              className="bg-transparent border border-white/20 rounded text-sm text-white/70 px-2 py-1.5 cursor-pointer hover:border-white/40 transition-colors"
+            >
+              {AVAILABLE_YEARS.map((y) => (
+                <option key={y} value={y} className="bg-black text-white">
+                  {y}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {ticketSaleEnabled && (
+            <Link
+              href={`${base}/predaj`}
+              onClick={onClose}
+              className="block text-center px-4 py-2.5 bg-[#8ebc35] text-black font-medium text-sm uppercase tracking-wide hover:bg-[#7aa82d] transition-colors rounded"
+            >
+              Predaj vstupeniek
+            </Link>
+          )}
+
+          <div className="border-t border-white/10 my-2" />
+
           <MenuLink href={`${base}/umelci`} onClick={onClose}>Umelci</MenuLink>
           <MenuLink href={`${base}/mapa`} onClick={onClose}>Mapa</MenuLink>
           <MenuLink href={`${base}/partneri`} onClick={onClose}>Partneri</MenuLink>
@@ -90,4 +153,10 @@ function MenuLink({ href, onClick, children }: { href: string; onClick: () => vo
       {children}
     </Link>
   )
+}
+
+function parseRoute(pathname: string): { year: string | null; city: string | null; section: string | null } {
+  const match = pathname.match(/^\/y(\d{4})\/(ba|ke)(?:\/([^/]+))?/)
+  if (!match) return { year: null, city: null, section: null }
+  return { year: match[1], city: match[2], section: match[3] || null }
 }

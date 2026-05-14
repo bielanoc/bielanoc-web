@@ -4,6 +4,8 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
+import { getPayloadClient } from '@/lib/payload'
+import { getLocale } from '@/lib/locale'
 import '../globals.css'
 
 export const metadata: Metadata = {
@@ -25,13 +27,25 @@ export const metadata: Metadata = {
   },
 }
 
-export default function FrontendLayout({
+export default async function FrontendLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const locale = await getLocale()
+  const payload = await getPayloadClient()
+  const [ticketSettings, festivalSettings] = await Promise.all([
+    payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
+    payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
+  ])
+  const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
+  const dateInfo = {
+    ba: (festivalSettings as any)?.dateInfoBA ?? null,
+    ke: (festivalSettings as any)?.dateInfoKE ?? null,
+  }
+
   return (
-    <html lang="sk">
+    <html lang={locale}>
       <body className="bg-black text-white min-h-screen antialiased">
         <a
           href="#main-content"
@@ -39,7 +53,7 @@ export default function FrontendLayout({
         >
           Preskočiť na obsah
         </a>
-        <NavBar />
+        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} />
         <main id="main-content" className="pt-16 min-h-[calc(100vh-4rem)]">
           {children}
         </main>

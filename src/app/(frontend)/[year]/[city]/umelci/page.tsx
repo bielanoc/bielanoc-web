@@ -1,6 +1,7 @@
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { ArtistFilters } from '@/components/ArtistFilters'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
   params: Promise<{ year: string; city: string }>
@@ -14,6 +15,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ArtistsPage({ params }: Props) {
   const { year, city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
   const cityName = CITIES[cityCode]?.label ?? city
   const yearNum = year.replace('y', '')
@@ -30,11 +33,13 @@ export default async function ArtistsPage({ params }: Props) {
       sort: 'hierarchy',
       limit: 200,
       depth: 1,
+      locale,
     }),
     payload.find({
       collection: 'filters',
       limit: 50,
       depth: 0,
+      locale,
     }),
   ])
 
@@ -61,13 +66,13 @@ export default async function ArtistsPage({ params }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">Umelci</h1>
+      <h1 className="text-3xl font-bold mb-2">{t.artists}</h1>
       <p className="text-white/50 mb-8">
         {cityName} {yearNum}
       </p>
 
       {artists.docs.length === 0 ? (
-        <p className="text-white/40">Žiadni umelci pre tento ročník.</p>
+        <p className="text-white/40">{t.noArtists}</p>
       ) : (
         <ArtistFilters
           filters={filterData}

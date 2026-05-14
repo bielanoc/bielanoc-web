@@ -98,7 +98,7 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
                   alt={artist.name}
                   loading="lazy"
                   decoding="async"
-                  className="w-full aspect-[3/4] object-cover"
+                  className="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div className="w-full aspect-[3/4] bg-white/5 flex items-center justify-center">

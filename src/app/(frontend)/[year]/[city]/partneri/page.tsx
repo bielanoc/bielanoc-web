@@ -1,5 +1,6 @@
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, PARTNER_CATEGORIES, type CityCode } from '@/lib/constants'
+import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
   params: Promise<{ year: string; city: string }>
@@ -7,12 +8,16 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityName = CITIES[city as CityCode]?.label ?? city
-  return { title: `Partneri — ${cityName}` }
+  return { title: `${t.partners} — ${cityName}` }
 }
 
 export default async function PartnersPage({ params }: Props) {
   const { year, city } = await params
+  const locale = await getLocale()
+  const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
   const yearNum = year.replace('y', '')
   const cityField = cityCode === 'ba' ? 'bratislava' : 'kosice'
@@ -35,7 +40,7 @@ export default async function PartnersPage({ params }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Partneri</h1>
+      <h1 className="text-3xl font-bold mb-8">{t.partners}</h1>
 
       {grouped.length === 0 ? (
         <p className="text-white/40">Žiadni partneri pre tento ročník.</p>
