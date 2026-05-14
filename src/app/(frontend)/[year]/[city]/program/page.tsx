@@ -40,18 +40,20 @@ export default async function ProgramPage({ params }: Props) {
 
   const events = artistsResult.docs
     .filter((a) => Array.isArray(a.dates) && a.dates.length > 0)
-    .map((a) => {
+    .flatMap((a) => {
       const dates = a.dates as { id: number; dateText?: string; start?: string; end?: string; display?: boolean }[]
-      const firstDate = dates[0]
-      return {
-        id: String(a.id),
-        name: a.name,
-        work: a.work ?? null,
-        place: a.place ?? null,
-        dateText: firstDate?.dateText ?? null,
-        start: firstDate?.start ?? null,
-        end: firstDate?.end ?? null,
-      }
+      return dates
+        .filter((d) => d.display !== false)
+        .map((d, idx) => ({
+          id: `${a.id}${idx > 0 ? `-${idx}` : ''}`,
+          artistId: String(a.id),
+          name: a.name,
+          work: a.work ?? null,
+          place: a.place ?? null,
+          dateText: d.dateText ?? null,
+          start: d.start ?? null,
+          end: d.end ?? null,
+        }))
     })
 
   const settings = festivalSettings as unknown as Record<string, unknown>

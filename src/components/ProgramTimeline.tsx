@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 type Event = {
   id: string
+  artistId: string
   name: string
   work: string | null
   place: string | null
@@ -273,7 +274,7 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
           return (
             <div key={event.id} ref={live ? nowRef : undefined}>
             <Link
-              href={`/${year}/${city}/umelci/${event.id}`}
+              href={`/y${year}/${city}/umelci/${event.artistId}`}
               className={`group relative flex overflow-hidden rounded-xl transition-all duration-300 ${
                 live
                   ? 'bg-gradient-to-r from-[#8ebc35]/15 to-[#8ebc35]/5 border border-[#8ebc35]/40 shadow-lg shadow-[#8ebc35]/10'
@@ -377,7 +378,7 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
             {eventsWithoutStart.map((event) => (
               <Link
                 key={event.id}
-                href={`/${year}/${city}/umelci/${event.id}`}
+                href={`/y${year}/${city}/umelci/${event.artistId}`}
                 className="group flex items-center gap-3 border border-white/5 rounded-lg p-3 hover:border-white/15 hover:bg-white/[0.03] transition-all"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#8ebc35] transition-colors shrink-0" />
