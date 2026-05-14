@@ -45,24 +45,43 @@ const DAY_LABELS_EN: Record<string, string> = {
   '2025-10-12': 'Sunday Oct 12',
 }
 
+// Stored times use UTC values as wall clock times (19:00Z means 19:00 local)
 function parseTime(iso: string | null): Date | null {
   if (!iso) return null
   return new Date(iso)
 }
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString('sk', { hour: '2-digit', minute: '2-digit' })
+  const h = date.getUTCHours().toString().padStart(2, '0')
+  const m = date.getUTCMinutes().toString().padStart(2, '0')
+  return `${h}:${m}`
+}
+
+function getWallMinutes(date: Date): number {
+  return date.getUTCHours() * 60 + date.getUTCMinutes()
 }
 
 function getEventDay(event: Event): string | null {
   if (!event.start) return null
   const d = new Date(event.start)
   const hour = d.getUTCHours()
-  // Events after midnight (00:00-05:00) belong to previous day
   if (hour < 5) {
     d.setUTCDate(d.getUTCDate() - 1)
   }
   return d.toISOString().slice(0, 10)
+}
+
+function getCurrentWallDate(now: Date): string {
+  const hour = now.getHours()
+  const d = new Date(now)
+  if (hour < 5) {
+    d.setDate(d.getDate() - 1)
+  }
+  return d.toISOString().slice(0, 10)
+}
+
+function getCurrentWallMinutes(now: Date): number {
+  return now.getHours() * 60 + now.getMinutes()
 }
 
 export function ProgramTimeline({ events, city, year, locale, debugMode, debugTime }: Props) {
@@ -73,6 +92,7 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
     debugMode && debugTime ? new Date(debugTime) : new Date()
   )
   const nowRef = useRef<HTMLDivElement>(null)
+  const scrolledRef = useRef(false)
 
   useEffect(() => {
     if (debugMode) {
@@ -85,23 +105,19 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
   }, [debugMode, simulatedTime])
 
   useEffect(() => {
-    if (nowRef.current) {
-      nowRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    if (nowRef.current && !scrolledRef.current) {
+      scrolledRef.current = true
+      setTimeout(() => {
+        nowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 300)
     }
-  }, [currentTime])
+  })
 
   const days = FESTIVAL_DAYS[city] || FESTIVAL_DAYS.ba
   const dayLabels = locale === 'en' ? DAY_LABELS_EN : DAY_LABELS_SK
 
   const currentDay = useMemo(() => {
-    const dateStr = currentTime.toISOString().slice(0, 10)
-    const hour = currentTime.getHours()
-    if (hour < 5) {
-      const prev = new Date(currentTime)
-      prev.setDate(prev.getDate() - 1)
-      return prev.toISOString().slice(0, 10)
-    }
-    return dateStr
+    return getCurrentWallDate(currentTime)
   }, [currentTime])
 
   const [activeDay, setActiveDay] = useState<string>(
@@ -125,33 +141,71 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
 
   function isLive(event: Event): boolean {
     if (!event.start || !event.end) return false
-    const start = new Date(event.start).getTime()
-    const end = new Date(event.end).getTime()
-    const now = currentTime.getTime()
-    return now >= start && now <= end
+    const eventDay = getEventDay(event)
+    if (eventDay !== currentDay) return false
+
+    const startMin = getWallMinutes(new Date(event.start))
+    const endMin = getWallMinutes(new Date(event.end))
+    const nowMin = getCurrentWallMinutes(currentTime)
+
+    // Handle events crossing midnight (e.g. 21:00 - 03:00)
+    if (endMin <= startMin) {
+      return nowMin >= startMin || nowMin <= endMin
+    }
+    return nowMin >= startMin && nowMin <= endMin
   }
 
   function isPast(event: Event): boolean {
     if (!event.end) return false
-    return currentTime.getTime() > new Date(event.end).getTime()
+    const eventDay = getEventDay(event)
+    if (!eventDay) return false
+
+    if (eventDay < currentDay) return true
+    if (eventDay > currentDay) return false
+
+    const endMin = getWallMinutes(new Date(event.end))
+    const startMin = getWallMinutes(new Date(event.start!))
+    const nowMin = getCurrentWallMinutes(currentTime)
+
+    // Handle cross-midnight: if end < start, event ends next morning
+    if (endMin <= startMin) {
+      return nowMin > endMin && nowMin < startMin
+    }
+    return nowMin > endMin
   }
 
   return (
     <div>
       {debugMode && (
         <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50 bg-yellow-900/95 border border-yellow-500/50 rounded-lg p-3 backdrop-blur-sm">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center justify-between mb-2">
             <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
+            <span className="text-yellow-400/50 text-[10px]">from Festival Settings</span>
           </div>
           <input
             type="datetime-local"
             value={simulatedTime}
-            onChange={(e) => setSimulatedTime(e.target.value)}
+            onChange={(e) => {
+              setSimulatedTime(e.target.value)
+              scrolledRef.current = false
+            }}
             className="w-full px-3 py-1.5 bg-black/50 border border-yellow-500/30 rounded text-sm text-white"
           />
-          <p className="text-yellow-400/60 text-xs mt-1">
-            Simulated: {currentTime.toLocaleString('sk')}
-          </p>
+          <div className="flex items-center justify-between mt-2">
+            <p className="text-yellow-400/60 text-xs">
+              {currentTime.toLocaleString('sk', { weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            </p>
+            <button
+              onClick={() => {
+                const now = new Date().toISOString().slice(0, 16)
+                setSimulatedTime(now)
+                scrolledRef.current = false
+              }}
+              className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
+            >
+              Reset to now
+            </button>
+          </div>
         </div>
       )}
 
