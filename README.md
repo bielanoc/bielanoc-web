@@ -114,9 +114,9 @@ Migration from the old Strapi CMS has been completed.
 |------|-------|--------|
 | Media documents | 751 | ✅ Created in Payload (8 failed: PDFs, video, corrupt images) |
 | Artist images | 413 | ✅ Linked to artist records (1 name mismatch) |
-| Partner logos | 99 | ✅ Partners created with logos |
+| Partner logos | 95 | ✅ Partners created with logos via `scripts/migrate-partners.ts` |
 | Contact photos | 12 | ✅ Linked to contact records |
-| MP3 audio files | 0 | ⚠️ Field name mismatch — needs manual fix |
+| MP3 audio files | 17 | ✅ Linked via `scripts/link-mp3s.ts` |
 
 **Media serving:**
 
@@ -200,7 +200,10 @@ node --env-file=.env.local --import tsx scripts/migrate-media.ts path/to/dump.sq
 # 4. Link media to artists, contacts (by name matching)
 node --env-file=.env.local --import tsx scripts/link-media.ts path/to/dump.sql
 
-# 5. Migrate globals content (practical info, volunteers, tickets, about, support us)
+# 5. Create partners with logos
+node --env-file=.env.local --import tsx scripts/migrate-partners.ts path/to/dump.sql
+
+# 6. Migrate globals content (practical info, volunteers, tickets, about, support us)
 node --env-file=.env.local --import tsx scripts/migrate-content.ts path/to/dump.sql
 ```
 
