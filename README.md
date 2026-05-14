@@ -124,14 +124,63 @@ Images are served directly from R2 public CDN (`NEXT_PUBLIC_S3_URL` + filename).
 The frontend resolves URLs via `process.env.NEXT_PUBLIC_S3_URL/${filename}` rather
 than Payload's `/api/media/file/` proxy (which doesn't work for externally-uploaded files).
 
-**Still needs manual setup in admin:**
+**Globals content (migrated via `scripts/migrate-content.ts`):**
 
-| Data | Action |
-|------|--------|
-| Practical Info | Re-enter per city in admin (was Strapi components) |
-| Volunteers text | Re-enter per city in admin |
-| Ticket settings | Configure in admin |
-| About / Support Us | Re-enter rich text in admin |
+| Global | Content | Status |
+|--------|---------|--------|
+| Practical Info | 6 BA + 6 KE sections (SK/EN) | ✅ Migrated |
+| Volunteers | BA + KE signup info | ✅ Migrated |
+| Ticket Settings | sale=on, goout.net links, pricing | ✅ Migrated |
+| About Page | 3 sections (SK/EN) | ✅ Migrated |
+| Support Us | Partner info (SK/EN) | ✅ Migrated |
+
+## Remaining Tasks (Content-Blocked)
+
+All code-implementable features are done. The following tasks require images/content to be uploaded to R2 via the admin CMS before the UI can be built:
+
+### 6.4 — Map Images + Download
+
+Old site had static map images per year/city with lightbox and download button.
+
+**Found in R2:**
+- 2025 BA: [BN_25_Mapa_BA_WEB_31b8423d27.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/BN_25_Mapa_BA_WEB_31b8423d27.jpg)
+
+**Missing:** All KE maps, all years before 2025.
+
+### 6.8 — Archive Page Cover Images
+
+Old site showed cover images for each year with hover scale effect.
+
+**Found in R2:**
+- Generic: [event_covers_4_e7738c7983.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/event_covers_4_e7738c7983.jpg)
+- 2024: [Biela_Noc_KE_11_10_2024_88_937696231e.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_Noc_KE_11_10_2024_88_937696231e.jpg), [BN_2024_APOLLO_2_a2c817986e.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/BN_2024_APOLLO_2_a2c817986e.jpg)
+- 2021: [Biela_Noc_BA_2021_24_NBS_Rozhlas_martina_mlcuchova_8_b9b6c4086f.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_Noc_BA_2021_24_NBS_Rozhlas_martina_mlcuchova_8_b9b6c4086f.jpg), [BN_21_Keep_Your_Bubble_by_Lousy_cf8341c57b.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/BN_21_Keep_Your_Bubble_by_Lousy_cf8341c57b.jpg)
+- 2019: [martina_mlcuchova_Ariadna_BNKE_2019_hq_70_71ef4d7910.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/martina_mlcuchova_Ariadna_BNKE_2019_hq_70_71ef4d7910.jpg)
+- 2017: [Biela_Noc_Budmerice_04112017_martina_mlcuchova_8_addc79ab70.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_Noc_Budmerice_04112017_martina_mlcuchova_8_addc79ab70.jpg)
+
+**Missing:** Dedicated covers for 2018, 2020, 2022, 2023, 2025.
+
+### 6.9 — About Page Photos
+
+Old site had atmospheric installation photos between text sections.
+
+**Found in R2 (good candidates):**
+- [david_hanko_BN_kosice_web_33_a08f519059.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/david_hanko_BN_kosice_web_33_a08f519059.jpg)
+- [Biela_Noc_BA_2021_33_Trznica_martina_mlcuchova_6_f42800fb23.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_Noc_BA_2021_33_Trznica_martina_mlcuchova_6_f42800fb23.jpg)
+- [WEB_Dorota_Sadovska_Adam_Eva_2022_DSC_5525_bn_d4065cc81b.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/WEB_Dorota_Sadovska_Adam_Eva_2022_DSC_5525_bn_d4065cc81b.jpg)
+- [WEB_BN_label_light_forest_0b735569fd.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/WEB_BN_label_light_forest_0b735569fd.jpg)
+- [WEB_NEW_NONOTAK_4aec7585fe.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/WEB_NEW_NONOTAK_4aec7585fe.jpg)
+- [WEB_fontana_eurovea_f93c82b0ca.jpg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/WEB_fontana_eurovea_f93c82b0ca.jpg)
+- [Biela_noc_foto_4fc8631e72.jpeg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_noc_foto_4fc8631e72.jpeg)
+- [Biela_noc_foto_e7fe9ce5ad.jpeg](https://pub-bb450ef159ef4ef5acc99816228545a7.r2.dev/Biela_noc_foto_e7fe9ce5ad.jpeg)
+
+**Action needed:** Select which photos to use and assign them in the CMS.
+
+### To unblock these tasks
+
+1. Upload missing map images (KE maps, older years) to R2
+2. Choose/upload cover images for missing archive years (2018, 2020, 2022, 2023, 2025)
+3. Select atmospheric photos for the About page and configure in the CMS
 
 **Run full migration (if needed again on fresh DB):**
 
@@ -150,6 +199,9 @@ node --env-file=.env.local --import tsx scripts/migrate-media.ts path/to/dump.sq
 
 # 4. Link media to artists, contacts (by name matching)
 node --env-file=.env.local --import tsx scripts/link-media.ts path/to/dump.sql
+
+# 5. Migrate globals content (practical info, volunteers, tickets, about, support us)
+node --env-file=.env.local --import tsx scripts/migrate-content.ts path/to/dump.sql
 ```
 
 ## Documentation

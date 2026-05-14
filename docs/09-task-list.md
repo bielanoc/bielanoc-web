@@ -120,10 +120,10 @@ Missing features identified by comparing with the old Nuxt/Vue site.
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 6.19 | Practical Info content | ⏳ Manual | Re-enter per city in admin (was Strapi component structure) |
-| 6.20 | Volunteers text | ⏳ Manual | Re-enter per city in admin |
-| 6.21 | Ticket settings | ⏳ Manual | Configure sale toggle, links, text per city |
-| 6.22 | About / Support Us content | ⏳ Manual | Re-enter rich text in admin |
+| 6.19 | Practical Info content | ✅ Done | Migrated via `scripts/migrate-content.ts` — 6 BA + 6 KE sections with SK/EN |
+| 6.20 | Volunteers text | ✅ Done | Migrated via `scripts/migrate-content.ts` — BA + KE content |
+| 6.21 | Ticket settings | ✅ Done | Migrated via `scripts/migrate-content.ts` — sale=on, goout.net links, pricing text |
+| 6.22 | About / Support Us content | ✅ Done | Migrated via `scripts/migrate-content.ts` — SK + EN for both |
 
 ## Estimated Timeline
 
