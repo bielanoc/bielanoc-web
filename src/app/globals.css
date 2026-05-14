@@ -8,6 +8,14 @@
   }
 }
 
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 ::view-transition-old(root) {
   animation: fade-out 200ms ease-out;
 }

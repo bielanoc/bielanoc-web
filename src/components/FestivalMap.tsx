@@ -17,18 +17,28 @@ type MarkerData = {
 type Props = {
   markers: MarkerData[]
   center: LatLngExpression
-  zoom: number
+  selectedId?: string | null
+  onMarkerSelect?: (id: string) => void
+  moreInfoLabel?: string
 }
 
 const MapInner = dynamic(() => import('./FestivalMapInner'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[70vh] bg-white/5 flex items-center justify-center">
+    <div className="w-full h-full bg-white/5 flex items-center justify-center">
       <p className="text-white/40">Načítavam mapu...</p>
     </div>
   ),
 })
 
-export function FestivalMap({ markers, center, zoom }: Props) {
-  return <MapInner markers={markers} center={center} zoom={zoom} />
+export function FestivalMap({ markers, center, selectedId, onMarkerSelect, moreInfoLabel }: Props) {
+  return (
+    <MapInner
+      markers={markers}
+      center={center}
+      selectedId={selectedId}
+      onMarkerSelect={onMarkerSelect}
+      moreInfoLabel={moreInfoLabel}
+    />
+  )
 }
