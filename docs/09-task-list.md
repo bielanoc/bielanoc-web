@@ -125,6 +125,52 @@ Missing features identified by comparing with the old Nuxt/Vue site.
 | 6.21 | Ticket settings | ✅ Done | Migrated via `scripts/migrate-content.ts` — sale=on, goout.net links, pricing text |
 | 6.22 | About / Support Us content | ✅ Done | Migrated via `scripts/migrate-content.ts` — SK + EN for both |
 
+## Phase 7: New Features
+
+### Payments & Tickets
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 7.1 | Payment gateway integration | ⏳ TODO | Apple Pay, Google Pay, card payments. Candidates: Stripe, GoPay (SK market) |
+| 7.2 | In-app ticket purchase flow | ⏳ TODO | Buy tickets directly on site instead of redirecting to goout.net |
+| 7.3 | Order confirmation & e-ticket | ⏳ TODO | Email with QR code ticket after successful payment |
+
+### Authentication
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 7.4 | Google OAuth login | ⏳ TODO | Sign in with Google for visitors (favorites, ticket history) |
+| 7.5 | User profile / favorites | ⏳ TODO | Save favorite artists, personal schedule |
+
+### Landing Page Variants
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 7.6 | Landing page variant A | ⏳ TODO | Interactive light canvas (cursor reveals content) |
+| 7.7 | Landing page variant B | ⏳ TODO | Kinetic typography (animated "BIELA NOC" letters) |
+| 7.8 | Landing page variant C | ⏳ TODO | Full-bleed video loop of past installations |
+| 7.9 | A/B testing setup | ⏳ TODO | Serve variants to different visitors, track engagement |
+
+### Deployment & Infrastructure
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 7.10 | Production platform selection | ⏳ TODO | Evaluate: Vercel (current), Cloudflare Pages, AWS Amplify, self-hosted VPS |
+| 7.11 | Domain cutover (bielanoc.sk) | ⏳ TODO | Point production domain to chosen platform |
+| 7.12 | CDN & caching strategy | ⏳ TODO | ISR, edge caching, media CDN optimization |
+
+### Content & UX Enhancements
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 7.13 | Artist gallery (multi-photo) | ⏳ TODO | Array of images per artist with lightbox viewer |
+| 7.14 | Search / full-text search | ⏳ TODO | Search artists by name, work, place across all years |
+| 7.15 | PWA support | ⏳ TODO | Offline mode, installable, push notifications via web |
+| 7.16 | Event countdown timer | ⏳ TODO | Countdown to festival start on homepage |
+| 7.18 | Multi-language admin UI labels | ⏳ TODO | Location picker, field descriptions in both SK/EN |
+| 7.19 | Map static images & download | ⏳ TODO | Printable PDF/image map per year/city (from 6.4) |
+| 7.20 | Archive page with cover images | ⏳ TODO | Year covers with hover effect (from 6.8) |
+
 ## Estimated Timeline
 
 | Phase | Effort |
