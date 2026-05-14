@@ -45,7 +45,6 @@ const DAY_LABELS_EN: Record<string, string> = {
   '2025-10-12': 'Sunday Oct 12',
 }
 
-// Stored times use UTC values as wall clock times (19:00Z means 19:00 local)
 function parseTime(iso: string | null): Date | null {
   if (!iso) return null
   return new Date(iso)
@@ -59,6 +58,17 @@ function formatTime(date: Date): string {
 
 function getWallMinutes(date: Date): number {
   return date.getUTCHours() * 60 + date.getUTCMinutes()
+}
+
+// Parse first time pattern (HH:MM or HH.MM) from dateText
+function parseTimesFromText(dateText: string | null): { startStr: string | null; endStr: string | null } {
+  if (!dateText) return { startStr: null, endStr: null }
+  const timePattern = /(\d{1,2})[.:](\d{2})/g
+  const matches = [...dateText.matchAll(timePattern)]
+  if (matches.length === 0) return { startStr: null, endStr: null }
+  const startStr = `${matches[0][1].padStart(2, '0')}:${matches[0][2]}`
+  const endStr = matches.length >= 2 ? `${matches[1][1].padStart(2, '0')}:${matches[1][2]}` : null
+  return { startStr, endStr }
 }
 
 function getEventDay(event: Event): string | null {
@@ -133,6 +143,12 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
   const [activeDay, setActiveDay] = useState<string>(
     days.includes(currentDay) ? currentDay : days[0]
   )
+
+  useEffect(() => {
+    if (days.includes(currentDay)) {
+      setActiveDay(currentDay)
+    }
+  }, [currentDay, days])
 
   const dayEvents = useMemo(() => {
     return events
@@ -249,6 +265,10 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
           const past = isPast(event)
           const startDate = parseTime(event.start)
           const endDate = parseTime(event.end)
+          // Use dateText-parsed times for display (more reliable than stored UTC)
+          const textTimes = parseTimesFromText(event.dateText)
+          const displayStart = textTimes.startStr || (startDate ? formatTime(startDate) : null)
+          const displayEnd = textTimes.endStr || (endDate ? formatTime(endDate) : null)
 
           return (
             <div key={event.id} ref={live ? nowRef : undefined}>
@@ -268,14 +288,14 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
                   ? 'border-[#8ebc35]/30 bg-[#8ebc35]/10'
                   : 'border-white/5 bg-white/[0.02]'
               }`}>
-                {startDate ? (
+                {displayStart ? (
                   <>
                     <span className={`text-lg font-bold tabular-nums ${live ? 'text-[#8ebc35]' : 'text-white/80'}`}>
-                      {formatTime(startDate)}
+                      {displayStart}
                     </span>
-                    {endDate && (
+                    {displayEnd && (
                       <span className="text-[10px] text-white/30 mt-0.5">
-                        {formatTime(endDate)}
+                        {displayEnd}
                       </span>
                     )}
                   </>
