@@ -87,34 +87,34 @@ Missing features identified by comparing with the old Nuxt/Vue site.
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 6.1 | Year/City navigation | ⏳ TODO | Users can't switch between BA/KE or browse older years from the UI. Need nav links or switcher in header/menu |
-| 6.2 | SK/EN language switch | ⏳ TODO | Old site was fully bilingual. Payload already has sk/en locales — need frontend toggle + translated UI strings |
-| 6.3 | Artist descriptions on detail page | ⏳ TODO | Display `descriptionArtist` and `descriptionWork` fields on artist detail page (data exists in DB) |
-| 6.4 | Map images + download | ⏳ TODO | Old site had static map images per year with lightbox (PhotoSwipe) and download button. Need to upload map images to R2 and display them |
-| 6.5 | Ticket sales button in menu | ⏳ TODO | Conditionally show "Predaj vstupeniek" button in side menu when sales are active |
+| 6.1 | Year/City navigation | ✅ Done | BA/KE toggle + year selector in header and side menu |
+| 6.2 | SK/EN language switch | ✅ Done | Cookie-based locale toggle, all pages pass locale to Payload, UI strings translated |
+| 6.3 | Artist descriptions on detail page | ✅ Done | RichText `description` field displayed; 412 artists migrated via `scripts/migrate-descriptions.ts` |
+| 6.4 | Map images + download | ⏳ TODO | Old site had static map images per year with lightbox and download button. Need to upload map images to R2 |
+| 6.5 | Ticket sales button in menu | ✅ Done | Green button in side menu + highlighted in desktop nav when `saleEnabled` is true |
 
 ### Medium Priority
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 6.6 | Artist card hover effect | ⏳ TODO | Old had image zoom 1.1x on hover. New just changes border color. Consider adding subtle zoom |
-| 6.7 | Side menu style | ⏳ TODO | Old had black→blue gradient, wider (1000px), animated underlines on links. New is narrow plain black |
+| 6.6 | Artist card hover effect | ✅ Done | Image zoom 1.05x on hover with 500ms transition |
+| 6.7 | Side menu style | ✅ Done | Wider (500px), gradient background (black→dark blue), animated underline on link hover |
 | 6.8 | Archive page cover images | ⏳ TODO | Old showed cover images for each year with hover scale. Need images in R2 |
 | 6.9 | About page photos | ⏳ TODO | Old had atmospheric photos between text sections. Need images in R2 + CMS content |
-| 6.10 | Partners creation | ⏳ TODO | Partners not created in DB yet (logo required). Need to run partner migration |
-| 6.11 | MP3 file linking | ⏳ TODO | 0 MP3s linked — field name mismatch in morph table needs debugging |
+| 6.10 | Partners creation | ✅ Done | 99 partners created with logos via `scripts/link-media.ts` |
+| 6.11 | MP3 file linking | ✅ Done | 17 MP3 records created, files linked, artists connected (Stroon 6, sedemminut 8, Erik Sikora 1) |
 
 ### Low Priority
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 6.12 | Google Analytics | ⏳ TODO | `NEXT_PUBLIC_GA_ID` env var exists, need to verify script loads |
+| 6.12 | Google Analytics | ✅ Done | Script loads via `NEXT_PUBLIC_GA_ID` env var |
 | 6.13 | Facebook Pixel | ⏳ TODO | Old had FB pixel tracking |
 | 6.14 | Page transitions | ⏳ TODO | Old had fade transitions between pages. Consider Next.js View Transitions |
 | 6.15 | Custom audio player styling | ⏳ TODO | Currently native `<audio>` controls. Old had custom styled play/pause |
-| 6.16 | Scroll-to-top button | ⏳ TODO | Listed as done in Phase 3 but may need verification |
-| 6.17 | Social links in side menu | ⏳ TODO | Instagram + Facebook at bottom of menu |
-| 6.18 | Festival date banner | ⏳ TODO | Always-visible date info below header |
+| 6.16 | Scroll-to-top button | ✅ Done | FAB component, appears after 300px scroll |
+| 6.17 | Social links in side menu | ✅ Done | Instagram + Facebook links at bottom of menu |
+| 6.18 | Festival date banner | ✅ Done | City-specific date info below header from Festival Settings global |
 
 ### Content (Manual — Admin CMS)
 
