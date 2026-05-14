@@ -32,6 +32,13 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
     )
   }
 
+  // Only show filters that have at least one artist on this page
+  const relevantFilters = filters.filter((filter) =>
+    artists.some((artist) =>
+      artist.filters?.some((f) => typeof f === 'object' && f.slug === filter.slug)
+    )
+  )
+
   const filtered = active.length === 0
     ? artists
     : artists.filter((artist) => {
@@ -44,9 +51,9 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
 
   return (
     <>
-      {filters.length > 0 && (
+      {relevantFilters.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-8">
-          {filters.map((filter) => {
+          {relevantFilters.map((filter) => {
             const isActive = active.includes(filter.slug)
             return (
               <button
