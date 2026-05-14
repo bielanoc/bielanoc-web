@@ -164,7 +164,7 @@ Missing features identified by comparing with the old Nuxt/Vue site.
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | 7.13 | Artist gallery (multi-photo) | ⏳ TODO | Array of images per artist with lightbox viewer |
-| 7.14 | Search / full-text search | ⏳ TODO | Search artists by name, work, place across all years |
+| 7.14 | Search / full-text search | ✅ Done | Client-side instant search at `/search`, accent-insensitive, multi-term |
 | 7.15 | PWA support | ⏳ TODO | Offline mode, installable, push notifications via web |
 | 7.16 | Event countdown timer | ⏳ TODO | Countdown to festival start on homepage |
 | 7.18 | Multi-language admin UI labels | ⏳ TODO | Location picker, field descriptions in both SK/EN |
