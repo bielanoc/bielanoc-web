@@ -108,15 +108,21 @@ Migration from the old Strapi CMS has been completed.
 |------|-------|--------|
 | All media (images, logos, audio) | 3,300 | ✅ Uploaded to R2 |
 
-**Media linked (via `scripts/migrate-media.ts`):**
+**Media linked (via `scripts/migrate-media.ts` + `scripts/link-media.ts`):**
 
 | Type | Count | Status |
 |------|-------|--------|
-| Media documents | 759 | ✅ Created in Payload, pointing to R2 |
-| Artist images | 414 | ✅ Linked to artist records |
+| Media documents | 751 | ✅ Created in Payload (8 failed: PDFs, video, corrupt images) |
+| Artist images | 413 | ✅ Linked to artist records (1 name mismatch) |
 | Partner logos | 99 | ✅ Partners created with logos |
-| Contact photos | 14 | ✅ Linked to contact records |
-| MP3 audio files | 17 | ✅ Linked to MP3 records |
+| Contact photos | 12 | ✅ Linked to contact records |
+| MP3 audio files | 0 | ⚠️ Field name mismatch — needs manual fix |
+
+**Media serving:**
+
+Images are served directly from R2 public CDN (`NEXT_PUBLIC_S3_URL` + filename).
+The frontend resolves URLs via `process.env.NEXT_PUBLIC_S3_URL/${filename}` rather
+than Payload's `/api/media/file/` proxy (which doesn't work for externally-uploaded files).
 
 **Still needs manual setup in admin:**
 
@@ -139,8 +145,11 @@ aws s3 sync /tmp/bielanoc-media/bielanoc/ s3://bielanoc-media/ \
   --endpoint-url https://2b142d7f825a88e4a6cae8cd9983b3b5.r2.cloudflarestorage.com \
   --region auto
 
-# 3. Create media documents and link to content
+# 3. Create media documents in Payload
 node --env-file=.env.local --import tsx scripts/migrate-media.ts path/to/dump.sql
+
+# 4. Link media to artists, contacts (by name matching)
+node --env-file=.env.local --import tsx scripts/link-media.ts path/to/dump.sql
 ```
 
 ## Documentation
