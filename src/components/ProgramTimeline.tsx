@@ -71,23 +71,33 @@ function getEventDay(event: Event): string | null {
   return d.toISOString().slice(0, 10)
 }
 
+// For "now" we also use UTC so everything is consistent with stored event times
 function getCurrentWallDate(now: Date): string {
-  const hour = now.getHours()
+  const hour = now.getUTCHours()
   const d = new Date(now)
   if (hour < 5) {
-    d.setDate(d.getDate() - 1)
+    d.setUTCDate(d.getUTCDate() - 1)
   }
   return d.toISOString().slice(0, 10)
 }
 
 function getCurrentWallMinutes(now: Date): number {
-  return now.getHours() * 60 + now.getMinutes()
+  return now.getUTCHours() * 60 + now.getUTCMinutes()
+}
+
+function toInputValue(iso: string): string {
+  // "2025-10-11T19:30:00.000Z" -> "2025-10-11T19:30"
+  return iso.replace('Z', '').slice(0, 16)
+}
+
+function fromInputValue(val: string): Date {
+  // "2025-10-11T19:30" -> treat as UTC
+  return new Date(val + ':00.000Z')
 }
 
 export function ProgramTimeline({ events, city, year, locale, debugMode, debugTime }: Props) {
-  const [simulatedTime, setSimulatedTime] = useState<string>(
-    debugTime || new Date().toISOString().slice(0, 16)
-  )
+  const initialInput = debugTime ? toInputValue(debugTime) : new Date().toISOString().slice(0, 16)
+  const [simulatedInput, setSimulatedInput] = useState<string>(initialInput)
   const [currentTime, setCurrentTime] = useState<Date>(
     debugMode && debugTime ? new Date(debugTime) : new Date()
   )
@@ -96,13 +106,13 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
 
   useEffect(() => {
     if (debugMode) {
-      setCurrentTime(new Date(simulatedTime))
+      setCurrentTime(fromInputValue(simulatedInput))
     } else {
       setCurrentTime(new Date())
       const interval = setInterval(() => setCurrentTime(new Date()), 60000)
       return () => clearInterval(interval)
     }
-  }, [debugMode, simulatedTime])
+  }, [debugMode, simulatedInput])
 
   useEffect(() => {
     if (nowRef.current && !scrolledRef.current) {
@@ -184,21 +194,21 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
           </div>
           <input
             type="datetime-local"
-            value={simulatedTime}
+            value={simulatedInput}
             onChange={(e) => {
-              setSimulatedTime(e.target.value)
+              setSimulatedInput(e.target.value)
               scrolledRef.current = false
             }}
             className="w-full px-3 py-1.5 bg-black/50 border border-yellow-500/30 rounded text-sm text-white"
           />
           <div className="flex items-center justify-between mt-2">
             <p className="text-yellow-400/60 text-xs">
-              {currentTime.toLocaleString('sk', { weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              {simulatedInput.replace('T', ' ')}
             </p>
             <button
               onClick={() => {
                 const now = new Date().toISOString().slice(0, 16)
-                setSimulatedTime(now)
+                setSimulatedInput(now)
                 scrolledRef.current = false
               }}
               className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
@@ -291,6 +301,20 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
                       <span className="w-1.5 h-1.5 bg-[#8ebc35] rounded-full animate-pulse" />
                       <span className="text-[#8ebc35] text-[10px] font-bold uppercase tracking-wider">
                         {locale === 'en' ? 'Live' : 'Live'}
+                      </span>
+                    </div>
+                  )}
+                  {past && !live && (
+                    <div className="shrink-0 px-2 py-1 rounded-full bg-white/5">
+                      <span className="text-white/30 text-[10px] font-medium uppercase tracking-wider">
+                        {locale === 'en' ? 'Finished' : 'Ukončené'}
+                      </span>
+                    </div>
+                  )}
+                  {!live && !past && (
+                    <div className="shrink-0 px-2 py-1 rounded-full bg-blue-500/10">
+                      <span className="text-blue-400/70 text-[10px] font-medium uppercase tracking-wider">
+                        {locale === 'en' ? 'Upcoming' : 'Plánované'}
                       </span>
                     </div>
                   )}
