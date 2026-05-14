@@ -17,9 +17,9 @@ export default async function PressPage() {
         <p className="text-white/70">
           Stiahnite si kompletný press kit s logami, fotkami a ďalšími materiálmi.
         </p>
-        {archive?.url ? (
+        {(archive?.filename || archive?.url) ? (
           <a
-            href={archive.url}
+            href={archive?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${archive.filename}` : archive.url!}
             download
             className="inline-block px-8 py-3 bg-[#8ebc35] text-black font-medium hover:bg-[#7aa82d] transition-colors"
           >

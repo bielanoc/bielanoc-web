@@ -49,7 +49,7 @@ export default async function ArtistsPage({ params }: Props) {
     id: String(a.id),
     name: a.name,
     work: a.work ?? null,
-    image: a.image && typeof a.image === 'object' ? { url: a.image.url ?? null } : null,
+    image: a.image && typeof a.image === 'object' ? { url: a.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${a.image.filename}` : a.image.url ?? null } : null,
     filters: Array.isArray(a.filters)
       ? a.filters.map((f) =>
           typeof f === 'object'

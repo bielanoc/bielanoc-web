@@ -25,20 +25,17 @@ export function AuroraBackground() {
 
     const bands = [
       // Top aurora
-      { y: 0.18, height: 0.6, hue: 130, speed: 0.15, waveAmp: 0.10, waveFreq: 2.4, alpha: 0.13 },
-      { y: 0.30, height: 0.5, hue: 160, speed: 0.20, waveAmp: 0.08, waveFreq: 3.2, alpha: 0.10 },
-      { y: 0.22, height: 0.55, hue: 100, speed: 0.18, waveAmp: 0.09, waveFreq: 2.8, alpha: 0.09 },
-      { y: 0.38, height: 0.45, hue: 190, speed: 0.16, waveAmp: 0.10, waveFreq: 4.0, alpha: 0.08 },
-      { y: 0.12, height: 0.65, hue: 145, speed: 0.14, waveAmp: 0.11, waveFreq: 1.6, alpha: 0.07 },
-      { y: 0.28, height: 0.5, hue: 120, speed: 0.22, waveAmp: 0.09, waveFreq: 3.6, alpha: 0.06 },
-      { y: 0.48, height: 0.4, hue: 170, speed: 0.19, waveAmp: 0.10, waveFreq: 2.0, alpha: 0.07 },
+      { y: 0.15, height: 0.3, hue: 130, speed: 0.15, waveAmp: 0.10, waveFreq: 2.4, alpha: 0.14 },
+      { y: 0.22, height: 0.25, hue: 160, speed: 0.20, waveAmp: 0.08, waveFreq: 3.2, alpha: 0.11 },
+      { y: 0.18, height: 0.28, hue: 100, speed: 0.18, waveAmp: 0.09, waveFreq: 2.8, alpha: 0.10 },
       // Middle
-      { y: 0.55, height: 0.45, hue: 155, speed: 0.17, waveAmp: 0.09, waveFreq: 2.8, alpha: 0.07 },
+      { y: 0.42, height: 0.22, hue: 190, speed: 0.16, waveAmp: 0.12, waveFreq: 4.0, alpha: 0.10 },
+      { y: 0.50, height: 0.2, hue: 145, speed: 0.19, waveAmp: 0.11, waveFreq: 2.2, alpha: 0.08 },
+      { y: 0.46, height: 0.25, hue: 170, speed: 0.22, waveAmp: 0.10, waveFreq: 3.0, alpha: 0.07 },
       // Bottom aurora
-      { y: 0.72, height: 0.5, hue: 200, speed: 0.18, waveAmp: 0.11, waveFreq: 2.6, alpha: 0.10 },
-      { y: 0.80, height: 0.45, hue: 140, speed: 0.21, waveAmp: 0.10, waveFreq: 3.0, alpha: 0.08 },
-      { y: 0.68, height: 0.55, hue: 165, speed: 0.16, waveAmp: 0.12, waveFreq: 1.8, alpha: 0.07 },
-      { y: 0.88, height: 0.4, hue: 110, speed: 0.23, waveAmp: 0.09, waveFreq: 3.4, alpha: 0.06 },
+      { y: 0.72, height: 0.25, hue: 200, speed: 0.18, waveAmp: 0.12, waveFreq: 2.6, alpha: 0.12 },
+      { y: 0.80, height: 0.22, hue: 140, speed: 0.21, waveAmp: 0.11, waveFreq: 3.0, alpha: 0.09 },
+      { y: 0.76, height: 0.28, hue: 165, speed: 0.16, waveAmp: 0.13, waveFreq: 1.8, alpha: 0.08 },
     ]
 
     type Star = {

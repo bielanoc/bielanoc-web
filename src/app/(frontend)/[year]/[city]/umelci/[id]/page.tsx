@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: Props) {
   if (!artist) return { title: 'Umelec' }
 
   const image = artist.image && typeof artist.image === 'object' ? artist.image : null
+  const imageUrl = image?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${image.filename}` : image?.url
 
   return {
     title: artist.name,
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: artist.name,
       description: artist.work || `${artist.name} — Biela Noc`,
-      ...(image?.url && { images: [{ url: image.url }] }),
+      ...(imageUrl && { images: [{ url: imageUrl }] }),
     },
   }
 }
@@ -57,10 +58,10 @@ export default async function ArtistDetailPage({ params }: Props) {
 
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          {artist.image && typeof artist.image === 'object' && artist.image.url ? (
+          {artist.image && typeof artist.image === 'object' && (artist.image.filename || artist.image.url) ? (
             <div className="relative w-full aspect-[3/4] border border-white/10 overflow-hidden">
               <Image
-                src={artist.image.url}
+                src={artist.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${artist.image.filename}` : artist.image.url!}
                 alt={artist.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -118,9 +119,9 @@ export default async function ArtistDetailPage({ params }: Props) {
                 {records.map((r) => (
                   <li key={r.id} className="text-sm">
                     <span className="text-white/70">{r.title}</span>
-                    {r.file && typeof r.file === 'object' && r.file.url && (
+                    {r.file && typeof r.file === 'object' && (r.file.filename || r.file.url) && (
                       <audio controls className="mt-1 w-full h-8" preload="none">
-                        <source src={r.file.url} />
+                        <source src={r.file.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${r.file.filename}` : r.file.url!} />
                       </audio>
                     )}
                   </li>
