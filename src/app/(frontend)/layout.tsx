@@ -48,6 +48,10 @@ export default async function FrontendLayout({
     ba: (settings?.dateInfoBA as string) ?? null,
     ke: (settings?.dateInfoKE as string) ?? null,
   }
+  const socialLinks = {
+    instagram: (settings?.socialInstagram as string) || null,
+    facebook: (settings?.socialFacebook as string) || null,
+  }
   const availableYears = artistYears as string[]
 
   return (
@@ -59,7 +63,7 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
-        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} availableYears={availableYears} />
+        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} availableYears={availableYears} socialLinks={socialLinks} />
         <main id="main-content" className="pt-16 min-h-[calc(100vh-4rem)]">
           {children}
         </main>

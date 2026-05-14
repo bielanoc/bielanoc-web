@@ -12,9 +12,10 @@ type Props = {
   ticketSaleEnabled?: boolean
   locale?: Locale
   availableYears?: string[]
+  socialLinks?: { instagram: string | null; facebook: string | null }
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'] }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
@@ -136,12 +137,16 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
           <div className="border-t border-white/10 my-4" />
 
           <div className="flex gap-4 text-sm text-white/50">
-            <a href="https://instagram.com/bielanoc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-              Instagram
-            </a>
-            <a href="https://facebook.com/bielanoc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-              Facebook
-            </a>
+            {socialLinks?.instagram && (
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                Instagram
+              </a>
+            )}
+            {socialLinks?.facebook && (
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                Facebook
+              </a>
+            )}
           </div>
         </nav>
       </div>

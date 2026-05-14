@@ -12,9 +12,10 @@ type NavBarProps = {
   dateInfo?: { ba: string | null; ke: string | null }
   locale?: Locale
   availableYears?: string[]
+  socialLinks?: { instagram: string | null; facebook: string | null }
 }
 
-export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', availableYears = ['2025'] }: NavBarProps) {
+export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', availableYears = ['2025'], socialLinks }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -132,7 +133,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', ava
         </div>
       )}
 
-      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} />
+      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} socialLinks={socialLinks} />
     </>
   )
 }
