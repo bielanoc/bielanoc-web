@@ -1,6 +1,7 @@
 import { RichText as PayloadRichText } from '@payloadcms/richtext-lexical/react'
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any
 }
 

@@ -22,6 +22,7 @@ export default async function InfoPage({ params }: Props) {
   const payload = await getPayloadClient()
   const info = await payload.findGlobal({ slug: 'practical-info', locale })
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sections: Array<{ id?: string | null; title?: string | null; text?: any }> =
     (cityCode === 'ba' ? info.sectionsBA : info.sectionsKE) || []
 

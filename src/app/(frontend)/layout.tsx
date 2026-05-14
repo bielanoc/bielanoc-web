@@ -38,14 +38,15 @@ export default async function FrontendLayout({
     payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
     payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
     payload.find({ collection: 'artists', limit: 0, depth: 0 }).then((res) => {
-      const years = [...new Set(res.docs.map((a: any) => a.year as string).filter(Boolean))]
+      const years = [...new Set(res.docs.map((a: { year?: string }) => a.year as string).filter(Boolean))]
       return years.sort((a, b) => Number(b) - Number(a))
     }).catch(() => ['2025']),
   ])
   const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
+  const settings = festivalSettings as Record<string, unknown> | null
   const dateInfo = {
-    ba: (festivalSettings as any)?.dateInfoBA ?? null,
-    ke: (festivalSettings as any)?.dateInfoKE ?? null,
+    ba: (settings?.dateInfoBA as string) ?? null,
+    ke: (settings?.dateInfoKE as string) ?? null,
   }
   const availableYears = artistYears as string[]
 

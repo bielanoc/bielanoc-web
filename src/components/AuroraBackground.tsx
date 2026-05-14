@@ -45,7 +45,8 @@ export function AuroraBackground() {
     }
     const stars: Star[] = []
 
-    function spawnStar(w: number, _h: number) {
+    function spawnStar(w: number, h: number) {
+      void h
       const brightness = Math.random()
       const isBright = brightness > 0.7
       stars.push({

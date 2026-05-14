@@ -1,4 +1,4 @@
-import { getLocale, UI_STRINGS } from '@/lib/locale'
+import { getLocale } from '@/lib/locale'
 
 export async function generateMetadata() {
   const locale = await getLocale()

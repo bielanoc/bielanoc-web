@@ -1,7 +1,7 @@
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { MapPageClient } from '@/components/MapPageClient'
-import { getLocale, UI_STRINGS } from '@/lib/locale'
+import { getLocale } from '@/lib/locale'
 
 const CITY_CENTERS = {
   ba: { lat: 48.1486, lng: 17.1077 },
@@ -21,7 +21,6 @@ export async function generateMetadata({ params }: Props) {
 export default async function MapPage({ params }: Props) {
   const { year, city } = await params
   const locale = await getLocale()
-  const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
   const yearNum = year.replace('y', '')
 
