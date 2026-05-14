@@ -42,8 +42,23 @@ The main content — each festival artwork/performance is one artist entry.
 | **paid** | Checkbox — marks paid entry events |
 | **filters** | Relation to Filters (color categories shown on artist grid) |
 | **routes** | Relation to Routes (walking routes) |
-| **dates** | Relation to Date Entries (performance schedule) |
+| **dates** | Inline array — each entry has start/end datetime and display toggle |
 | **records** | Relation to MP3 Records (audio guides) |
+
+**Dates (inline array):**
+
+Each artist has a `dates` array directly on their record. Each entry has:
+- **start** — Date and time when the performance begins
+- **end** — Date and time when the performance ends
+- **display** — Whether to show this date on the frontend
+
+For multi-night events (e.g. installations running Fri–Sun), create one entry per night:
+- Night 1: Oct 10, 19:00 → Oct 11, 00:00
+- Night 2: Oct 11, 19:00 → Oct 12, 00:00
+- Night 3: Oct 12, 19:00 → Oct 13, 00:00
+
+Times are stored in UTC. The admin date picker converts your local time automatically.
+The frontend displays times in Europe/Bratislava timezone.
 
 **Tips:**
 - Set `hierarchy` to control display order on the artists page
@@ -104,19 +119,6 @@ Assign filters to artists via the artist's `filters` field.
 
 Filters only appear on the artists page if at least one artist on that page has the filter assigned.
 
-### Date Entries (Content)
-
-Performance date/time entries linked to artists.
-
-| Field | Description |
-|-------|-------------|
-| **dateText** | Human-readable label (e.g. "Piatok 3.10., 18:00 – 22:00") |
-| **start** | Start date and time |
-| **end** | End date and time |
-| **display** | Show on the frontend |
-
-Create entries here, then link them to artists via the artist's `dates` field.
-
 ### Routes (Content)
 
 Walking routes grouping artists geographically.
@@ -170,10 +172,12 @@ Images are automatically optimized by the frontend (WebP conversion, responsive 
 | Field | Description |
 |-------|-------------|
 | **currentYear** | The active festival year — used as default on the homepage |
-| **dateInfoBA** | Date banner text for Bratislava (e.g. "3. – 5. október 2025 Bratislava") |
-| **dateInfoKE** | Date banner text for Košice |
+| **dateInfoBA** | Date banner text for Bratislava (localized, e.g. "3. – 5. október 2025 Bratislava") |
+| **dateInfoKE** | Date banner text for Košice (localized) |
 | **socialInstagram** | Instagram URL |
 | **socialFacebook** | Facebook URL |
+| **debugMode** | Enable time simulation on the Program page (for testing live events) |
+| **debugTime** | Simulated "now" time — only used when debugMode is on |
 
 ### Ticket Settings
 
@@ -258,16 +262,19 @@ There is no bulk copy. Create new entries manually for the new year. Partners ca
 | URL | Page |
 |-----|------|
 | `/` | Homepage (city selection) |
-| `/2025/ba/umelci` | Artist grid — Bratislava 2025 |
-| `/2025/ke/umelci` | Artist grid — Košice 2025 |
-| `/2025/ba/umelci/123` | Artist detail page (ID-based) |
-| `/2025/ba/mapa` | Interactive map |
-| `/2025/ba/info` | Practical info (accordion) |
-| `/2025/ba/partneri` | Partners page |
-| `/2025/ba/kontakt` | Contact page |
+| `/y2025/ba/umelci` | Artist grid — Bratislava 2025 |
+| `/y2025/ke/umelci` | Artist grid — Košice 2025 |
+| `/y2025/ba/umelci/123` | Artist detail page (ID-based) |
+| `/y2025/ba/program` | Program timeline (day tabs, live detection) |
+| `/y2025/ba/mapa` | Interactive map |
+| `/y2025/ba/info` | Practical info (accordion) |
+| `/y2025/ba/partneri` | Partners page |
+| `/y2025/ba/predaj` | Ticket sale page |
+| `/y2025/ba/dobrovolnici` | Volunteers page |
 | `/o-bielej-noci` | About page |
+| `/kontakt` | Contact page |
 | `/podporte-nas` | Support us page |
-| `/dobrovolnici` | Volunteers page |
+| `/search` | Search |
 | `/app` | Mobile app download links |
 | `/admin` | Payload CMS admin panel |
 

@@ -69,7 +69,7 @@ src/
 │   ├── (payload)/           ← Admin panel (auto-generated)
 │   │   └── admin/
 │   └── api/health/          ← Health check endpoint
-├── collections/             ← Payload content types (11 collections)
+├── collections/             ← Payload content types (10 collections)
 ├── globals/                 ← Payload single-instance content (7 globals)
 ├── components/              ← Shared React components
 ├── lib/                     ← Utilities (payload client, firebase, constants)
@@ -153,51 +153,13 @@ Thresholds: a11y ≥ 90 (error), performance ≥ 70, SEO ≥ 80 (warnings).
 
 ## Content Migration
 
-Migration from the old Strapi CMS has been completed.
-
-**Migrated (text data via `scripts/migrate-strapi.ts`):**
-
-| Collection | Records | Status |
-|------------|---------|--------|
-| Artists | 415 | ✅ All editions (2020–2025), both cities |
-| Filters | 3 | ✅ Colored category chips |
-| Contacts | 12 | ✅ Team members |
-| Date Entries | 78 | ✅ Event schedules |
-| MP3 Records | 17 | ✅ Audio metadata |
-| Routes | 1 | ✅ Walking route |
-| Notifications | 236 | ✅ Push notification history |
-
-**Media files (uploaded to R2):**
-
-| Type | Count | Status |
-|------|-------|--------|
-| All media (images, logos, audio) | 3,300 | ✅ Uploaded to R2 |
-
-**Media linked (via `scripts/migrate-media.ts` + `scripts/link-media.ts`):**
-
-| Type | Count | Status |
-|------|-------|--------|
-| Media documents | 751 | ✅ Created in Payload (8 failed: PDFs, video, corrupt images) |
-| Artist images | 413 | ✅ Linked to artist records (1 name mismatch) |
-| Partner logos | 95 | ✅ Partners created with logos via `scripts/migrate-partners.ts` |
-| Contact photos | 12 | ✅ Linked to contact records |
-| MP3 audio files | 17 | ✅ Linked via `scripts/link-mp3s.ts` |
+Migration from the old Strapi CMS has been completed. Migration scripts have been removed from the repository (they were one-time use).
 
 **Media serving:**
 
 Images are served directly from R2 public CDN (`NEXT_PUBLIC_S3_URL` + filename).
 The frontend resolves URLs via `process.env.NEXT_PUBLIC_S3_URL/${filename}` rather
 than Payload's `/api/media/file/` proxy (which doesn't work for externally-uploaded files).
-
-**Globals content (migrated via `scripts/migrate-content.ts`):**
-
-| Global | Content | Status |
-|--------|---------|--------|
-| Practical Info | 6 BA + 6 KE sections (SK/EN) | ✅ Migrated |
-| Volunteers | BA + KE signup info | ✅ Migrated |
-| Ticket Settings | sale=on, goout.net links, pricing | ✅ Migrated |
-| About Page | 3 sections (SK/EN) | ✅ Migrated |
-| Support Us | Partner info (SK/EN) | ✅ Migrated |
 
 ## Video Assets (from old site)
 
@@ -260,31 +222,6 @@ Old site had atmospheric installation photos between text sections.
 1. Upload missing map images (KE maps, older years) to R2
 2. Choose/upload cover images for missing archive years (2018, 2020, 2022, 2023, 2025)
 3. Select atmospheric photos for the About page and configure in the CMS
-
-**Run full migration (if needed again on fresh DB):**
-
-```bash
-# 1. Import text data (artists, filters, contacts, dates, notifications)
-node --env-file=.env.local --import tsx scripts/migrate-strapi.ts path/to/dump.sql
-
-# 2. Upload media files to R2
-unzip bielanoc.zip -d /tmp/bielanoc-media
-aws s3 sync /tmp/bielanoc-media/bielanoc/ s3://bielanoc-media/ \
-  --endpoint-url https://2b142d7f825a88e4a6cae8cd9983b3b5.r2.cloudflarestorage.com \
-  --region auto
-
-# 3. Create media documents in Payload
-node --env-file=.env.local --import tsx scripts/migrate-media.ts path/to/dump.sql
-
-# 4. Link media to artists, contacts (by name matching)
-node --env-file=.env.local --import tsx scripts/link-media.ts path/to/dump.sql
-
-# 5. Create partners with logos
-node --env-file=.env.local --import tsx scripts/migrate-partners.ts path/to/dump.sql
-
-# 6. Migrate globals content (practical info, volunteers, tickets, about, support us)
-node --env-file=.env.local --import tsx scripts/migrate-content.ts path/to/dump.sql
-```
 
 ## Admin Guide
 
