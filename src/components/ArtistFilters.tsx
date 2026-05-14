@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 type Filter = {
   id: string
@@ -100,13 +101,15 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
               className="block mb-4 break-inside-avoid group relative overflow-hidden border border-white/10 hover:border-[#8ebc35]/50 transition-colors"
             >
               {artist.image && artist.image.url ? (
-                <img
-                  src={artist.image.url}
-                  alt={artist.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                <div className="relative w-full aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={artist.image.url}
+                    alt={artist.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
               ) : (
                 <div className="w-full aspect-[3/4] bg-white/5 flex items-center justify-center">
                   <span className="text-white/20 text-4xl">{artist.name.charAt(0)}</span>

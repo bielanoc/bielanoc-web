@@ -7,15 +7,14 @@ import { SideMenu } from './SideMenu'
 import { LanguageToggle } from './LanguageToggle'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
 
-const AVAILABLE_YEARS = ['2025', '2024', '2023', '2022', '2021', '2020']
-
 type NavBarProps = {
   ticketSaleEnabled?: boolean
   dateInfo?: { ba: string | null; ke: string | null }
   locale?: Locale
+  availableYears?: string[]
 }
 
-export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: NavBarProps) {
+export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk', availableYears = ['2025'] }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -25,7 +24,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
   const t = UI_STRINGS[locale]
 
   function switchCity(newCity: string) {
-    const y = year || '2025'
+    const y = year || availableYears[0]
     const s = section || 'umelci'
     router.push(`/y${y}/${newCity}/${s}`)
   }
@@ -97,7 +96,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
                 onChange={(e) => switchYear(e.target.value)}
                 className="bg-transparent border border-white/20 rounded text-xs text-white/70 px-2 py-1 appearance-none cursor-pointer hover:border-white/40 transition-colors"
               >
-                {AVAILABLE_YEARS.map((y) => (
+                {availableYears.map((y) => (
                   <option key={y} value={y} className="bg-black text-white">
                     {y}
                   </option>
@@ -124,7 +123,7 @@ export function NavBar({ ticketSaleEnabled = false, dateInfo, locale = 'sk' }: N
         </div>
       )}
 
-      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} locale={locale} />
+      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} yearCity={yearCity} ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} />
     </>
   )
 }

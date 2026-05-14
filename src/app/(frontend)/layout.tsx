@@ -34,15 +34,20 @@ export default async function FrontendLayout({
 }) {
   const locale = await getLocale()
   const payload = await getPayloadClient()
-  const [ticketSettings, festivalSettings] = await Promise.all([
+  const [ticketSettings, festivalSettings, artistYears] = await Promise.all([
     payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
     payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
+    payload.find({ collection: 'artists', limit: 0, depth: 0 }).then((res) => {
+      const years = [...new Set(res.docs.map((a: any) => a.year as string).filter(Boolean))]
+      return years.sort((a, b) => Number(b) - Number(a))
+    }).catch(() => ['2025']),
   ])
   const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
   const dateInfo = {
     ba: (festivalSettings as any)?.dateInfoBA ?? null,
     ke: (festivalSettings as any)?.dateInfoKE ?? null,
   }
+  const availableYears = artistYears as string[]
 
   return (
     <html lang={locale}>
@@ -53,7 +58,7 @@ export default async function FrontendLayout({
         >
           Preskočiť na obsah
         </a>
-        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} />
+        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} availableYears={availableYears} />
         <main id="main-content" className="pt-16 min-h-[calc(100vh-4rem)]">
           {children}
         </main>

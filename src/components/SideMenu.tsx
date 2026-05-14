@@ -5,17 +5,16 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
 
-const AVAILABLE_YEARS = ['2025', '2024', '2023', '2022', '2021', '2020']
-
 type Props = {
   open: boolean
   onClose: () => void
   yearCity: string | null
   ticketSaleEnabled?: boolean
   locale?: Locale
+  availableYears?: string[]
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk' }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'] }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
@@ -42,10 +41,10 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
     return () => document.removeEventListener('keydown', handleKey)
   }, [open, onClose])
 
-  const base = yearCity ? `/${yearCity}` : '/y2025/ba'
+  const base = yearCity ? `/${yearCity}` : `/y${availableYears[0]}/ba`
 
   function switchCity(newCity: string) {
-    const y = year || '2025'
+    const y = year || availableYears[0]
     const s = section || 'umelci'
     router.push(`/y${y}/${newCity}/${s}`)
     onClose()
@@ -94,11 +93,11 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             </div>
 
             <select
-              value={year || '2025'}
+              value={year || availableYears[0]}
               onChange={(e) => switchYear(e.target.value)}
               className="bg-transparent border border-white/20 rounded text-sm text-white/70 px-2 py-1.5 cursor-pointer hover:border-white/40 transition-colors"
             >
-              {AVAILABLE_YEARS.map((y) => (
+              {availableYears.map((y) => (
                 <option key={y} value={y} className="bg-black text-white">
                   {y}
                 </option>
