@@ -23,6 +23,7 @@ type Props = {
   selectedId?: string | null
   onMarkerSelect?: (id: string) => void
   moreInfoLabel?: string
+  navigateLabel?: string
 }
 
 function createNumberedIcon(num: number, selected: boolean) {
@@ -77,7 +78,7 @@ function FlyToSelected({ selectedId, markers }: { selectedId: string | null; mar
   return null
 }
 
-export default function FestivalMapInner({ markers, center, selectedId, onMarkerSelect, moreInfoLabel }: Props) {
+export default function FestivalMapInner({ markers, center, selectedId, onMarkerSelect, moreInfoLabel, navigateLabel }: Props) {
   useEffect(() => {
     const style = document.createElement('style')
     style.textContent = `
@@ -158,7 +159,7 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
                     border: '1px solid rgba(255,255,255,0.2)',
                   }}
                 >
-                  Navigovať ↗
+                  {navigateLabel ?? 'Navigovať'} ↗
                 </a>
               </div>
             </div>

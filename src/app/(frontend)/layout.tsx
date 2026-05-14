@@ -57,7 +57,7 @@ export default async function FrontendLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:bg-[#8ebc35] focus:text-black focus:rounded focus:text-sm focus:font-medium"
         >
-          Preskočiť na obsah
+          {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
         <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} availableYears={availableYears} />
         <main id="main-content" className="pt-16 min-h-[calc(100vh-4rem)]">

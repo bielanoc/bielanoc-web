@@ -199,6 +199,20 @@ than Payload's `/api/media/file/` proxy (which doesn't work for externally-uploa
 | About Page | 3 sections (SK/EN) | ✅ Migrated |
 | Support Us | Partner info (SK/EN) | ✅ Migrated |
 
+## Video Assets (from old site)
+
+The old Nuxt/Strapi site had no artist-specific video content. Videos were purely decorative:
+
+| File | Size | Purpose |
+|------|------|---------|
+| `NB_web_ico1.mp4` | 1.7 MB | Looping animation for Bratislava city link (2023 homepage) |
+| `NB_web_ico2.mp4` | 2.1 MB | Looping animation for Košice city link (2023 homepage) |
+| YouTube `1F9cdGX5bTQ` | — | Background hero embed (older homepage, `HomepageVideo.vue`) |
+
+A `Carousel.vue` component supported YouTube video slides but was commented out in production.
+
+These files are in `web_original/app/frontend/static/` and were not migrated to the new site.
+
 ## Remaining Tasks (Content-Blocked)
 
 All code-implementable features are done. The following tasks require images/content to be uploaded to R2 via the admin CMS before the UI can be built:

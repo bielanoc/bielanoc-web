@@ -20,18 +20,14 @@ type Props = {
   selectedId?: string | null
   onMarkerSelect?: (id: string) => void
   moreInfoLabel?: string
+  navigateLabel?: string
 }
 
 const MapInner = dynamic(() => import('./FestivalMapInner'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full bg-white/5 flex items-center justify-center">
-      <p className="text-white/40">Načítavam mapu...</p>
-    </div>
-  ),
 })
 
-export function FestivalMap({ markers, center, selectedId, onMarkerSelect, moreInfoLabel }: Props) {
+export function FestivalMap({ markers, center, selectedId, onMarkerSelect, moreInfoLabel, navigateLabel }: Props) {
   return (
     <MapInner
       markers={markers}
@@ -39,6 +35,7 @@ export function FestivalMap({ markers, center, selectedId, onMarkerSelect, moreI
       selectedId={selectedId}
       onMarkerSelect={onMarkerSelect}
       moreInfoLabel={moreInfoLabel}
+      navigateLabel={navigateLabel}
     />
   )
 }

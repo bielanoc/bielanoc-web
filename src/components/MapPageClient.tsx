@@ -19,9 +19,10 @@ type Props = {
   markers: MarkerData[]
   center: LatLngExpression
   moreInfoLabel: string
+  navigateLabel: string
 }
 
-export function MapPageClient({ markers, center, moreInfoLabel }: Props) {
+export function MapPageClient({ markers, center, moreInfoLabel, navigateLabel }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const handleSelect = (id: string) => {
@@ -37,6 +38,7 @@ export function MapPageClient({ markers, center, moreInfoLabel }: Props) {
           selectedId={selectedId}
           onMarkerSelect={handleSelect}
           moreInfoLabel={moreInfoLabel}
+          navigateLabel={navigateLabel}
         />
       </div>
 

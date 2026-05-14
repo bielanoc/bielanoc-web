@@ -67,6 +67,7 @@ export default async function MapPage({ params }: Props) {
           markers={markers}
           center={[center.lat, center.lng]}
           moreInfoLabel={locale === 'en' ? 'More info' : 'Viac info'}
+          navigateLabel={locale === 'en' ? 'Navigate' : 'Navigovať'}
         />
       )}
     </>

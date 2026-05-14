@@ -4,9 +4,10 @@ import userEvent from '@testing-library/user-event'
 import '../mocks/next'
 
 vi.mock('@/components/FestivalMap', () => ({
-  FestivalMap: ({ markers, selectedId, onMarkerSelect, moreInfoLabel }: any) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  FestivalMap: ({ markers, selectedId, onMarkerSelect }: { markers: any[]; selectedId?: string | null; onMarkerSelect?: (id: string) => void }) => (
     <div data-testid="festival-map" data-selected={selectedId}>
-      {markers.map((m: any) => (
+      {markers.map((m) => (
         <button key={m.id} data-testid={`marker-${m.id}`} onClick={() => onMarkerSelect?.(m.id)}>
           {m.name}
         </button>
@@ -25,7 +26,7 @@ const mockMarkers = [
 
 describe('MapPageClient', () => {
   it('renders the program list with all markers', () => {
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     expect(screen.getAllByText('Artist A')).toHaveLength(2) // list + map mock
     expect(screen.getAllByText('Artist B')).toHaveLength(2)
@@ -33,14 +34,14 @@ describe('MapPageClient', () => {
   })
 
   it('renders work and place info for markers that have them', () => {
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     expect(screen.getByText('Installation A')).toBeInTheDocument()
     expect(screen.getByText('Place A')).toBeInTheDocument()
   })
 
   it('does not render work/place for markers without them', () => {
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     const listButtons = screen.getAllByRole('button')
     const thirdButton = listButtons.find((b) => b.textContent?.includes('Artist C'))
@@ -50,7 +51,7 @@ describe('MapPageClient', () => {
 
   it('selects a marker when list item is clicked', async () => {
     const user = userEvent.setup()
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     const listItem = screen.getAllByRole('button').find((b) => b.textContent?.includes('Artist A'))
     await user.click(listItem!)
@@ -61,7 +62,7 @@ describe('MapPageClient', () => {
 
   it('deselects a marker when the same list item is clicked again', async () => {
     const user = userEvent.setup()
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     const listItem = screen.getAllByRole('button').find((b) => b.textContent?.includes('Artist A'))
     await user.click(listItem!)
@@ -73,7 +74,7 @@ describe('MapPageClient', () => {
 
   it('selects a marker when map marker is clicked', async () => {
     const user = userEvent.setup()
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     await user.click(screen.getByTestId('marker-2'))
 
@@ -82,7 +83,7 @@ describe('MapPageClient', () => {
   })
 
   it('renders numbered badges in the list', () => {
-    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" />)
+    render(<MapPageClient markers={mockMarkers} center={[48.14, 17.10]} moreInfoLabel="Viac info" navigateLabel="Navigovať" />)
 
     expect(screen.getByText('1')).toBeInTheDocument()
     expect(screen.getByText('2')).toBeInTheDocument()
