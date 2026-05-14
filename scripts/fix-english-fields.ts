@@ -115,8 +115,9 @@ async function main() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const enData: Record<string, any> = {}
 
-    const workEn = unescapeText(row.description_work_en ?? row.work_en ?? null)
-    if (workEn) enData.work = workEn
+    // Note: description_work_en is a long description, NOT the artwork title.
+    // The `work` field (title) has no separate EN column — it's the same in both locales.
+    // Do NOT write description_work_en into work field.
 
     const genreEn = row.genre_en
     if (genreEn) enData.genre = genreEn

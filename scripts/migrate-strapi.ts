@@ -264,12 +264,12 @@ async function main() {
       })
 
       // Update English locale if available
-      const workEn = unescapeText(row.description_work_en ?? row.work_en ?? null)
+      // Note: description_work_en is a long description, NOT the artwork title.
+      // The `work` field (title) is the same in both locales — no EN column exists.
       const genreEn = row.genre_en || undefined
       const placeEn = unescapeText(row.place_en ?? null)
       const performanceEn = unescapeText(row.performance_en ?? null)
       const enData: Record<string, string | undefined> = {}
-      if (workEn) enData.work = workEn
       if (genreEn) enData.genre = genreEn
       if (placeEn) enData.place = placeEn
       if (performanceEn) enData.performance = performanceEn
