@@ -25,17 +25,17 @@ export function AuroraBackground() {
 
     const bands = [
       // Top aurora
-      { y: 0.15, height: 0.3, hue: 130, speed: 0.15, waveAmp: 0.10, waveFreq: 2.4, alpha: 0.14 },
-      { y: 0.22, height: 0.25, hue: 160, speed: 0.20, waveAmp: 0.08, waveFreq: 3.2, alpha: 0.11 },
-      { y: 0.18, height: 0.28, hue: 100, speed: 0.18, waveAmp: 0.09, waveFreq: 2.8, alpha: 0.10 },
+      { y: 0.15, height: 0.3, hue: 130, speed: 0.15, waveAmp: 0.10, waveFreq: 2.4, alpha: 0.28 },
+      { y: 0.22, height: 0.25, hue: 160, speed: 0.20, waveAmp: 0.08, waveFreq: 3.2, alpha: 0.22 },
+      { y: 0.18, height: 0.28, hue: 100, speed: 0.18, waveAmp: 0.09, waveFreq: 2.8, alpha: 0.20 },
       // Middle
-      { y: 0.42, height: 0.22, hue: 190, speed: 0.16, waveAmp: 0.12, waveFreq: 4.0, alpha: 0.10 },
-      { y: 0.50, height: 0.2, hue: 145, speed: 0.19, waveAmp: 0.11, waveFreq: 2.2, alpha: 0.08 },
-      { y: 0.46, height: 0.25, hue: 170, speed: 0.22, waveAmp: 0.10, waveFreq: 3.0, alpha: 0.07 },
+      { y: 0.42, height: 0.22, hue: 190, speed: 0.16, waveAmp: 0.12, waveFreq: 4.0, alpha: 0.20 },
+      { y: 0.50, height: 0.2, hue: 145, speed: 0.19, waveAmp: 0.11, waveFreq: 2.2, alpha: 0.16 },
+      { y: 0.46, height: 0.25, hue: 170, speed: 0.22, waveAmp: 0.10, waveFreq: 3.0, alpha: 0.14 },
       // Bottom aurora
-      { y: 0.72, height: 0.25, hue: 200, speed: 0.18, waveAmp: 0.12, waveFreq: 2.6, alpha: 0.12 },
-      { y: 0.80, height: 0.22, hue: 140, speed: 0.21, waveAmp: 0.11, waveFreq: 3.0, alpha: 0.09 },
-      { y: 0.76, height: 0.28, hue: 165, speed: 0.16, waveAmp: 0.13, waveFreq: 1.8, alpha: 0.08 },
+      { y: 0.72, height: 0.25, hue: 200, speed: 0.18, waveAmp: 0.12, waveFreq: 2.6, alpha: 0.24 },
+      { y: 0.80, height: 0.22, hue: 140, speed: 0.21, waveAmp: 0.11, waveFreq: 3.0, alpha: 0.18 },
+      { y: 0.76, height: 0.28, hue: 165, speed: 0.16, waveAmp: 0.13, waveFreq: 1.8, alpha: 0.16 },
     ]
 
     type Star = {
@@ -45,7 +45,7 @@ export function AuroraBackground() {
     }
     const stars: Star[] = []
 
-    function spawnStar(w: number, h: number) {
+    function spawnStar(w: number, _h: number) {
       const brightness = Math.random()
       const isBright = brightness > 0.7
       stars.push({
@@ -102,11 +102,11 @@ export function AuroraBackground() {
           const hue = band.hue + hueShift + Math.sin(xRatio * 4) * 8
 
           gradient.addColorStop(0, 'hsla(0, 0%, 0%, 0)')
-          gradient.addColorStop(0.25, `hsla(${hue}, 12%, 50%, ${a * 0.2})`)
-          gradient.addColorStop(0.4, `hsla(${hue}, 15%, 60%, ${a * 0.6})`)
-          gradient.addColorStop(0.5, `hsla(${hue}, 18%, 68%, ${a})`)
-          gradient.addColorStop(0.6, `hsla(${hue + 8}, 15%, 60%, ${a * 0.6})`)
-          gradient.addColorStop(0.75, `hsla(${hue + 12}, 12%, 50%, ${a * 0.2})`)
+          gradient.addColorStop(0.2, `hsla(${hue}, 30%, 45%, ${a * 0.3})`)
+          gradient.addColorStop(0.35, `hsla(${hue}, 40%, 55%, ${a * 0.7})`)
+          gradient.addColorStop(0.5, `hsla(${hue}, 45%, 65%, ${a})`)
+          gradient.addColorStop(0.65, `hsla(${hue + 8}, 40%, 55%, ${a * 0.7})`)
+          gradient.addColorStop(0.8, `hsla(${hue + 12}, 30%, 45%, ${a * 0.3})`)
           gradient.addColorStop(1, 'hsla(0, 0%, 0%, 0)')
 
           offCtx.fillStyle = gradient

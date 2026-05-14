@@ -6,6 +6,11 @@ Website and content management system for the [Biela Noc](https://bielanoc-web.v
 
 - **Website:** https://bielanoc-web.vercel.app
 - **Admin CMS:** https://bielanoc-web.vercel.app/admin
+- **Artists with audio:**
+  - [sedemminut (BA 2024)](https://bielanoc-web.vercel.app/y2024/ba/umelci/249)
+  - [sedemminut (KE 2024)](https://bielanoc-web.vercel.app/y2024/ke/umelci/286)
+  - [Erik Sikora & Milan Kolcun (KE 2024)](https://bielanoc-web.vercel.app/y2024/ke/umelci/168)
+  - [Stroon & Klára Hudáková (BA 2024)](https://bielanoc-web.vercel.app/y2024/ba/umelci/165)
 
 ## Status
 

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { AuroraBackground } from '@/components/AuroraBackground'
 import { getPayloadClient } from '@/lib/payload'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
@@ -7,10 +8,10 @@ export default async function HomePage() {
   const locale = await getLocale()
   const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
-  const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null)
-  const currentYear = (settings as any)?.currentYear ?? '2025'
-  const dateBA = (settings as any)?.dateInfoBA
-  const dateKE = (settings as any)?.dateInfoKE
+  const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null) as Record<string, unknown> | null
+  const currentYear = (settings?.currentYear as string) ?? '2025'
+  const dateBA = settings?.dateInfoBA as string | undefined
+  const dateKE = settings?.dateInfoKE as string | undefined
   const dateDisplay = dateBA || dateKE || null
 
   return (
@@ -35,6 +36,15 @@ export default async function HomePage() {
           <CityLink href={`/y${currentYear}/ba/umelci`} city="Bratislava" />
           <CityLink href={`/y${currentYear}/ke/umelci`} city="Košice" />
         </div>
+
+        <Image
+          src="/cityline.png"
+          alt=""
+          width={1400}
+          height={200}
+          className="absolute bottom-8 left-0 w-full h-auto opacity-60 pointer-events-none"
+          priority
+        />
       </div>
     </>
   )
