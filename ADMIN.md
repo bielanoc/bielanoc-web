@@ -250,3 +250,25 @@ Create a new entry in Notifications. It sends immediately to all app users subsc
 
 ### Duplicate content for a new year
 There is no bulk copy. Create new entries manually for the new year. Partners can often be duplicated by creating new entries with the same logo and updating the year.
+
+---
+
+## URL Structure (Public Website)
+
+| URL | Page |
+|-----|------|
+| `/` | Homepage (city selection) |
+| `/2025/ba/umelci` | Artist grid — Bratislava 2025 |
+| `/2025/ke/umelci` | Artist grid — Košice 2025 |
+| `/2025/ba/umelci/123` | Artist detail page (ID-based) |
+| `/2025/ba/mapa` | Interactive map |
+| `/2025/ba/info` | Practical info (accordion) |
+| `/2025/ba/partneri` | Partners page |
+| `/2025/ba/kontakt` | Contact page |
+| `/o-bielej-noci` | About page |
+| `/podporte-nas` | Support us page |
+| `/dobrovolnici` | Volunteers page |
+| `/app` | Mobile app download links |
+| `/admin` | Payload CMS admin panel |
+
+Years and cities are dynamic — content determines which combinations exist.

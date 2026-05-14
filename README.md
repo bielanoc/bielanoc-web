@@ -272,10 +272,15 @@ node --env-file=.env.local --import tsx scripts/migrate-partners.ts path/to/dump
 node --env-file=.env.local --import tsx scripts/migrate-content.ts path/to/dump.sql
 ```
 
+## Admin Guide
+
+For content editors: **[ADMIN.md](ADMIN.md)** — complete guide to managing all collections, globals, localization, and common tasks in the Payload CMS admin panel.
+
 ## Documentation
 
 | Document | Description |
 |----------|-------------|
+| [ADMIN.md](ADMIN.md) | **Complete CMS admin guide** (collections, globals, workflows) |
 | [01 - Project Overview](docs/01-project-overview.md) | What this project is |
 | [02 - User Features](docs/02-user-features.md) | What visitors can do |
 | [03 - Data Model](docs/03-data-model.md) | Content types and relationships |
@@ -285,7 +290,6 @@ node --env-file=.env.local --import tsx scripts/migrate-content.ts path/to/dump.
 | [07 - Admin Features](docs/07-admin-features.md) | What organizers do in the CMS |
 | [08 - Infrastructure](docs/08-infrastructure.md) | Hosting, CI/CD, deployment |
 | [09 - Task List](docs/09-task-list.md) | Implementation plan |
-| [10 - Admin Guide](docs/10-admin-guide.md) | CMS guide for content editors |
 | [11 - Deployment](docs/11-deployment.md) | Production deployment instructions |
 
 ## License
