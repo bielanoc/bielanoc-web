@@ -11,7 +11,6 @@ import { Media } from './collections/Media'
 import { Artists } from './collections/Artists'
 import { Filters } from './collections/Filters'
 import { Routes } from './collections/Routes'
-import { DateEntries } from './collections/DateEntries'
 import { MP3Records } from './collections/MP3Records'
 import { Partners } from './collections/Partners'
 import { Contacts } from './collections/Contacts'
@@ -52,7 +51,6 @@ export default buildConfig({
     Artists,
     Filters,
     Routes,
-    DateEntries,
     MP3Records,
     Partners,
     Contacts,

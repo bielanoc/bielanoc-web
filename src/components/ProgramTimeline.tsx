@@ -9,7 +9,6 @@ type Event = {
   name: string
   work: string | null
   place: string | null
-  dateText: string | null
   start: string | null
   end: string | null
 }
@@ -61,16 +60,6 @@ function getWallMinutes(date: Date): number {
   return date.getUTCHours() * 60 + date.getUTCMinutes()
 }
 
-// Parse first time pattern (HH:MM or HH.MM) from dateText
-function parseTimesFromText(dateText: string | null): { startStr: string | null; endStr: string | null } {
-  if (!dateText) return { startStr: null, endStr: null }
-  const timePattern = /(\d{1,2})[.:](\d{2})/g
-  const matches = [...dateText.matchAll(timePattern)]
-  if (matches.length === 0) return { startStr: null, endStr: null }
-  const startStr = `${matches[0][1].padStart(2, '0')}:${matches[0][2]}`
-  const endStr = matches.length >= 2 ? `${matches[1][1].padStart(2, '0')}:${matches[1][2]}` : null
-  return { startStr, endStr }
-}
 
 function getEventDay(event: Event): string | null {
   if (!event.start) return null
@@ -164,7 +153,7 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
       })
   }, [events, activeDay])
 
-  const eventsWithoutStart = events.filter((e) => !e.start && e.dateText)
+  const eventsWithoutStart = events.filter((e) => !e.start)
 
   function isLive(event: Event): boolean {
     if (!event.start || !event.end) return false
@@ -266,10 +255,8 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
           const past = isPast(event)
           const startDate = parseTime(event.start)
           const endDate = parseTime(event.end)
-          // Use dateText-parsed times for display (more reliable than stored UTC)
-          const textTimes = parseTimesFromText(event.dateText)
-          const displayStart = textTimes.startStr || (startDate ? formatTime(startDate) : null)
-          const displayEnd = textTimes.endStr || (endDate ? formatTime(endDate) : null)
+          const displayStart = startDate ? formatTime(startDate) : null
+          const displayEnd = endDate ? formatTime(endDate) : null
 
           return (
             <div key={event.id} ref={live ? nowRef : undefined}>
@@ -351,9 +338,6 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
                   </div>
                 )}
 
-                {event.dateText && !startDate && (
-                  <p className="text-white/30 text-xs mt-2">{event.dateText}</p>
-                )}
               </div>
 
               {/* Right arrow */}
@@ -384,7 +368,6 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
                 <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#8ebc35] transition-colors shrink-0" />
                 <div className="min-w-0">
                   <h3 className="font-medium text-sm text-white/80 group-hover:text-white truncate transition-colors">{event.name}</h3>
-                  <p className="text-white/30 text-xs mt-0.5 truncate">{event.dateText}</p>
                 </div>
               </Link>
             ))}

@@ -91,12 +91,13 @@ async function main() {
       },
     })
 
-    // Link to artist
+    // Link to artist (old relationship format — script is deprecated)
     await payload.update({
       collection: 'artists',
       id: artist.id,
       data: {
-        dates: [dateEntry.id],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        dates: [dateEntry.id] as any,
       },
     })
 

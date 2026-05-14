@@ -32,7 +32,7 @@ export default async function ProgramPage({ params }: Props) {
         year: { equals: yearNum },
       },
       limit: 200,
-      depth: 1,
+      depth: 0,
       locale,
     }),
     payload.findGlobal({ slug: 'festival-settings' }),
@@ -41,16 +41,15 @@ export default async function ProgramPage({ params }: Props) {
   const events = artistsResult.docs
     .filter((a) => Array.isArray(a.dates) && a.dates.length > 0)
     .flatMap((a) => {
-      const dates = a.dates as { id: number; dateText?: string; start?: string; end?: string; display?: boolean }[]
+      const dates = a.dates as { id?: string; start?: string; end?: string; display?: boolean }[]
       return dates
-        .filter((d) => d.display !== false)
+        .filter((d) => d.display !== false && d.start)
         .map((d, idx) => ({
           id: `${a.id}${idx > 0 ? `-${idx}` : ''}`,
           artistId: String(a.id),
           name: a.name,
           work: a.work ?? null,
           place: a.place ?? null,
-          dateText: d.dateText ?? null,
           start: d.start ?? null,
           end: d.end ?? null,
         }))

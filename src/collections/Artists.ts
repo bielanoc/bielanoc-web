@@ -127,9 +127,39 @@ export const Artists: CollectionConfig = {
     },
     {
       name: 'dates',
-      type: 'relationship',
-      relationTo: 'date-entries',
-      hasMany: true,
+      type: 'array',
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'start',
+              type: 'date',
+              admin: {
+                width: '50%',
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+              },
+            },
+            {
+              name: 'end',
+              type: 'date',
+              admin: {
+                width: '50%',
+                date: {
+                  pickerAppearance: 'dayAndTime',
+                },
+              },
+            },
+          ],
+        },
+        {
+          name: 'display',
+          type: 'checkbox',
+          defaultValue: true,
+        },
+      ],
     },
     {
       name: 'records',

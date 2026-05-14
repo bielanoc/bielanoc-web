@@ -113,7 +113,7 @@ export default async function ArtistDetailPage({ params }: Props) {
               <ul className="space-y-1">
                 {dates.map((d) => (
                   <li key={d.id} className="text-sm">
-                    {d.dateText || formatDateRange(d.start, d.end)}
+                    {formatDateRange(d.start, d.end)}
                   </li>
                 ))}
               </ul>
@@ -148,11 +148,11 @@ export default async function ArtistDetailPage({ params }: Props) {
 function formatDateRange(start: string | null | undefined, end: string | null | undefined): string {
   if (!start) return ''
   const s = new Date(start)
-  const dateStr = s.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long' })
-  const timeStr = s.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit' })
+  const dateStr = s.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', timeZone: 'UTC' })
+  const timeStr = s.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
   if (end) {
     const e = new Date(end)
-    const endTime = e.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit' })
+    const endTime = e.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
     return `${dateStr}, ${timeStr} – ${endTime}`
   }
   return `${dateStr}, ${timeStr}`
