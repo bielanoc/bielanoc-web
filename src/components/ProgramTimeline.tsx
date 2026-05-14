@@ -45,44 +45,49 @@ const DAY_LABELS_EN: Record<string, string> = {
   '2025-10-12': 'Sunday Oct 12',
 }
 
-function parseTime(iso: string | null): Date | null {
-  if (!iso) return null
-  return new Date(iso)
+const TZ = 'Europe/Bratislava'
+
+function getLocalParts(date: Date): { year: number; month: number; day: number; hour: number; minute: number } {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: TZ,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  }).formatToParts(date)
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? 0)
+  return { year: get('year'), month: get('month'), day: get('day'), hour: get('hour'), minute: get('minute') }
 }
 
 function formatTime(date: Date): string {
-  const h = date.getUTCHours().toString().padStart(2, '0')
-  const m = date.getUTCMinutes().toString().padStart(2, '0')
-  return `${h}:${m}`
+  const { hour, minute } = getLocalParts(date)
+  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
 }
 
-function getWallMinutes(date: Date): number {
-  return date.getUTCHours() * 60 + date.getUTCMinutes()
+function getLocalMinutes(date: Date): number {
+  const { hour, minute } = getLocalParts(date)
+  return hour * 60 + minute
 }
-
 
 function getEventDay(event: Event): string | null {
   if (!event.start) return null
-  const d = new Date(event.start)
-  const hour = d.getUTCHours()
+  const { year, month, day, hour } = getLocalParts(new Date(event.start))
   if (hour < 5) {
-    d.setUTCDate(d.getUTCDate() - 1)
+    const prev = new Date(Date.UTC(year, month - 1, day - 1))
+    return prev.toISOString().slice(0, 10)
   }
-  return d.toISOString().slice(0, 10)
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
 }
 
-// For "now" we also use UTC so everything is consistent with stored event times
 function getCurrentWallDate(now: Date): string {
-  const hour = now.getUTCHours()
-  const d = new Date(now)
+  const { year, month, day, hour } = getLocalParts(now)
   if (hour < 5) {
-    d.setUTCDate(d.getUTCDate() - 1)
+    const prev = new Date(Date.UTC(year, month - 1, day - 1))
+    return prev.toISOString().slice(0, 10)
   }
-  return d.toISOString().slice(0, 10)
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
 }
 
-function getCurrentWallMinutes(now: Date): number {
-  return now.getUTCHours() * 60 + now.getUTCMinutes()
+function getCurrentLocalMinutes(now: Date): number {
+  return getLocalMinutes(now)
 }
 
 function toInputValue(iso: string): string {
@@ -160,11 +165,10 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
     const eventDay = getEventDay(event)
     if (eventDay !== currentDay) return false
 
-    const startMin = getWallMinutes(new Date(event.start))
-    const endMin = getWallMinutes(new Date(event.end))
-    const nowMin = getCurrentWallMinutes(currentTime)
+    const startMin = getLocalMinutes(new Date(event.start))
+    const endMin = getLocalMinutes(new Date(event.end))
+    const nowMin = getCurrentLocalMinutes(currentTime)
 
-    // Handle events crossing midnight (e.g. 21:00 - 03:00)
     if (endMin <= startMin) {
       return nowMin >= startMin || nowMin <= endMin
     }
@@ -179,11 +183,10 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
     if (eventDay < currentDay) return true
     if (eventDay > currentDay) return false
 
-    const endMin = getWallMinutes(new Date(event.end))
-    const startMin = getWallMinutes(new Date(event.start!))
-    const nowMin = getCurrentWallMinutes(currentTime)
+    const endMin = getLocalMinutes(new Date(event.end))
+    const startMin = getLocalMinutes(new Date(event.start!))
+    const nowMin = getCurrentLocalMinutes(currentTime)
 
-    // Handle cross-midnight: if end < start, event ends next morning
     if (endMin <= startMin) {
       return nowMin > endMin && nowMin < startMin
     }
@@ -253,10 +256,8 @@ export function ProgramTimeline({ events, city, year, locale, debugMode, debugTi
         {dayEvents.map((event) => {
           const live = isLive(event)
           const past = isPast(event)
-          const startDate = parseTime(event.start)
-          const endDate = parseTime(event.end)
-          const displayStart = startDate ? formatTime(startDate) : null
-          const displayEnd = endDate ? formatTime(endDate) : null
+          const displayStart = event.start ? formatTime(new Date(event.start)) : null
+          const displayEnd = event.end ? formatTime(new Date(event.end)) : null
 
           return (
             <div key={event.id} ref={live ? nowRef : undefined}>

@@ -147,12 +147,13 @@ export default async function ArtistDetailPage({ params }: Props) {
 
 function formatDateRange(start: string | null | undefined, end: string | null | undefined): string {
   if (!start) return ''
+  const tz = 'Europe/Bratislava'
   const s = new Date(start)
-  const dateStr = s.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', timeZone: 'UTC' })
-  const timeStr = s.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
+  const dateStr = s.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', timeZone: tz })
+  const timeStr = s.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: tz })
   if (end) {
     const e = new Date(end)
-    const endTime = e.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
+    const endTime = e.toLocaleTimeString('sk-SK', { hour: '2-digit', minute: '2-digit', timeZone: tz })
     return `${dateStr}, ${timeStr} – ${endTime}`
   }
   return `${dateStr}, ${timeStr}`
