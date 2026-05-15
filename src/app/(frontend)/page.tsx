@@ -56,10 +56,10 @@ export default async function HomePage() {
 
   // Homepage images
   const homepageGroup = branding?.homepage as Record<string, unknown> | null
-  const baImage = getMediaUrl(homepageGroup?.imageBA) || '/homepage/2025/ba.png'
-  const baHoverImage = getMediaUrl(homepageGroup?.imageBAHover) || '/homepage/2025/ba_hover.png'
-  const keImage = getMediaUrl(homepageGroup?.imageKE) || '/homepage/2025/ke.png'
-  const keHoverImage = getMediaUrl(homepageGroup?.imageKEHover) || '/homepage/2025/ke_hover.png'
+  const baImage = getMediaUrl(homepageGroup?.imageBA)
+  const baHoverImage = getMediaUrl(homepageGroup?.imageBAHover)
+  const keImage = getMediaUrl(homepageGroup?.imageKE)
+  const keHoverImage = getMediaUrl(homepageGroup?.imageKEHover)
 
   return (
     <>
@@ -70,20 +70,24 @@ export default async function HomePage() {
         className="relative flex items-start p-10 group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: baColor }}
       >
-        <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={baImage}
-            alt="Bratislava"
-            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={baHoverImage}
-            alt="Bratislava"
-            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-          />
-        </div>
+        {baImage && (
+          <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={baImage}
+              alt="Bratislava"
+              className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+            />
+            {baHoverImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={baHoverImage}
+                alt="Bratislava"
+                className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+              />
+            )}
+          </div>
+        )}
       </Link>
 
       <Link
@@ -91,20 +95,24 @@ export default async function HomePage() {
         className="relative flex items-start p-10 group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: keColor }}
       >
-        <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={keImage}
-            alt="Košice"
-            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={keHoverImage}
-            alt="Košice"
-            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-          />
-        </div>
+        {keImage && (
+          <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={keImage}
+              alt="Košice"
+              className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+            />
+            {keHoverImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={keHoverImage}
+                alt="Košice"
+                className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+              />
+            )}
+          </div>
+        )}
       </Link>
     </div>
     </>
