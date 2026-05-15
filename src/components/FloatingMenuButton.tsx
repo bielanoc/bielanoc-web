@@ -32,13 +32,13 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
 
   return (
     <>
-      <div className="fixed top-3 left-3 z-50 sm:top-4 sm:left-4">
+      <div className="absolute top-3 left-3 z-50 sm:top-4 sm:left-4">
         <Link href="/" aria-label="Biela Noc" className="block bg-black/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 border border-white/10">
           <Image src={logoUrl} alt="Biela Noc" width={60} height={48} priority className="w-[36px] h-[29px] sm:w-[60px] sm:h-[48px]" />
         </Link>
       </div>
 
-      <div className="fixed top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50">
         <button
           onClick={() => setMenuOpen(true)}
           className="flex flex-col gap-1.5 p-2.5 bg-black/70 backdrop-blur-sm border border-white/10 rounded-lg hover:bg-black/90 transition-colors"

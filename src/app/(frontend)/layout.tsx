@@ -97,18 +97,18 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
-        <FloatingMenuButton
-          ticketSaleEnabled={ticketSaleEnabled}
-          locale={locale}
-          availableYears={availableYears}
-          socialLinks={socialLinks}
-          debugMode={debugMode}
-          debugTime={debugTime}
-          festivalActive={festivalActive}
-          logoUrl={logoUrl}
-          menuGradientColor={menuGradientColor}
-        />
-        <main id="main-content" className="min-h-screen">
+        <main id="main-content" className="relative min-h-screen">
+          <FloatingMenuButton
+            ticketSaleEnabled={ticketSaleEnabled}
+            locale={locale}
+            availableYears={availableYears}
+            socialLinks={socialLinks}
+            debugMode={debugMode}
+            debugTime={debugTime}
+            festivalActive={festivalActive}
+            logoUrl={logoUrl}
+            menuGradientColor={menuGradientColor}
+          />
           {children}
         </main>
         <ConditionalFooter text={footerText} links={footerLinks} />
