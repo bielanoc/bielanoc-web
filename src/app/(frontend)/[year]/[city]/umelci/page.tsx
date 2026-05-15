@@ -63,7 +63,7 @@ export default async function ArtistsPage({ params }: Props) {
   })
 
   return (
-    <div className="px-6 py-8 max-w-7xl mx-auto">
+    <div className="px-6 pt-16 sm:pt-8 pb-8 max-w-7xl mx-auto">
       {artists.docs.length === 0 ? (
         <p className="text-white/40">{t.noArtists}</p>
       ) : (

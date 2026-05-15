@@ -59,7 +59,7 @@ export default async function MapPage({ params }: Props) {
 
   return (
     <>
-      <div className="pl-20 pr-6 pt-4">
+      <div className="pl-14 sm:pl-20 pr-6 pt-14 sm:pt-4">
         <Link
           href={`/${year}/${city}/umelci`}
           className="text-sm text-white/50 hover:text-white transition-colors inline-block"
