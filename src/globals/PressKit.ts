@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobalPages } from '@/lib/revalidate'
 
 export const PressKit: GlobalConfig = {
   slug: 'press-kit',
   admin: {
     group: 'Settings',
+  },
+  hooks: {
+    afterChange: [() => { revalidateGlobalPages() }],
   },
   fields: [
     {

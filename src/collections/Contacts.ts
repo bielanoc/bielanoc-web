@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateGlobalPages } from '@/lib/revalidate'
 
 export const Contacts: CollectionConfig = {
   slug: 'contacts',
@@ -6,6 +7,10 @@ export const Contacts: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'role', 'orderRank'],
     group: 'Content',
+  },
+  hooks: {
+    afterChange: [() => { revalidateGlobalPages() }],
+    afterDelete: [() => { revalidateGlobalPages() }],
   },
   fields: [
     {

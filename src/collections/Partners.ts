@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePartnerPages } from '@/lib/revalidate'
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
@@ -6,6 +7,20 @@ export const Partners: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'year'],
     group: 'Content',
+  },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        if (doc.bratislava) revalidatePartnerPages(doc.year, 'ba')
+        if (doc.kosice) revalidatePartnerPages(doc.year, 'ke')
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        if (doc.bratislava) revalidatePartnerPages(doc.year, 'ba')
+        if (doc.kosice) revalidatePartnerPages(doc.year, 'ke')
+      },
+    ],
   },
   fields: [
     {

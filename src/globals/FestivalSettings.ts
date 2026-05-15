@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobalPages } from '@/lib/revalidate'
 
 export const FestivalSettings: GlobalConfig = {
   slug: 'festival-settings',
   admin: {
     group: 'Settings',
+  },
+  hooks: {
+    afterChange: [() => { revalidateGlobalPages() }],
   },
   fields: [
     {

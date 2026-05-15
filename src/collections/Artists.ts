@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateArtistPages } from '@/lib/revalidate'
 
 export const Artists: CollectionConfig = {
   slug: 'artists',
@@ -8,6 +9,18 @@ export const Artists: CollectionConfig = {
     group: 'Content',
   },
   versions: { drafts: true },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        revalidateArtistPages(doc.year, doc.city)
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        revalidateArtistPages(doc.year, doc.city)
+      },
+    ],
+  },
   fields: [
     {
       name: 'name',

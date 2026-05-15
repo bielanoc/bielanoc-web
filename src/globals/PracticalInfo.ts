@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobalPages } from '@/lib/revalidate'
 
 export const PracticalInfo: GlobalConfig = {
   slug: 'practical-info',
   admin: {
     group: 'Settings',
+  },
+  hooks: {
+    afterChange: [() => { revalidateGlobalPages() }],
   },
   fields: [
     {
