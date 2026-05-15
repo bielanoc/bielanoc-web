@@ -58,6 +58,10 @@ export default async function FrontendLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_S3_URL!} />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_S3_URL!} />
+      </head>
       <body className="bg-black text-white min-h-screen antialiased">
         <a
           href="#main-content"
