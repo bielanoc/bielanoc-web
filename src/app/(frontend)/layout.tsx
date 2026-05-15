@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import React from 'react'
-import { NavBar } from '@/components/NavBar'
+import { FloatingMenuButton } from '@/components/FloatingMenuButton'
 import { Footer } from '@/components/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
@@ -46,10 +46,6 @@ export default async function FrontendLayout({
   ])
   const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
   const settings = festivalSettings as Record<string, unknown> | null
-  const dateInfo = {
-    ba: (settings?.dateInfoBA as string) ?? null,
-    ke: (settings?.dateInfoKE as string) ?? null,
-  }
   const socialLinks = {
     instagram: (settings?.socialInstagram as string) || null,
     facebook: (settings?.socialFacebook as string) || null,
@@ -69,8 +65,8 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
-        <NavBar ticketSaleEnabled={ticketSaleEnabled} dateInfo={dateInfo} locale={locale} availableYears={availableYears} socialLinks={socialLinks} />
-        <main id="main-content" className="pt-16 min-h-[calc(100vh-4rem)]">
+        <FloatingMenuButton ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} socialLinks={socialLinks} />
+        <main id="main-content" className="min-h-screen">
           {children}
         </main>
         <Footer />

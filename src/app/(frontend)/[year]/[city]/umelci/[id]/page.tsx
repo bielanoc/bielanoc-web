@@ -75,7 +75,7 @@ export default async function ArtistDetailPage({ params }: Props) {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           {artist.image && typeof artist.image === 'object' && (artist.image.filename || artist.image.url) ? (
-            <div className="relative w-full aspect-[3/4] border border-white/10 overflow-hidden">
+            <div className="relative w-full aspect-[4/3] border border-white/10 overflow-hidden">
               <Image
                 src={artist.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${artist.image.filename}` : artist.image.url!}
                 alt={artist.name}
@@ -86,7 +86,7 @@ export default async function ArtistDetailPage({ params }: Props) {
               />
             </div>
           ) : (
-            <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-full aspect-[4/3] bg-white/5 border border-white/10 flex items-center justify-center">
               <span className="text-white/20 text-6xl">{artist.name.charAt(0)}</span>
             </div>
           )}

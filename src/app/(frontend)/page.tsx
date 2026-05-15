@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/AuroraBackground'
+import { OffFestivalHome } from '@/components/OffFestivalHome'
 import { getPayloadClient } from '@/lib/payload'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 
@@ -9,10 +10,29 @@ export default async function HomePage() {
   const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
   const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null) as Record<string, unknown> | null
+  const festivalActive = (settings?.festivalActive as boolean) ?? true
   const currentYear = (settings?.currentYear as string) ?? '2025'
   const dateBA = settings?.dateInfoBA as string | undefined
   const dateKE = settings?.dateInfoKE as string | undefined
   const dateDisplay = dateBA || dateKE || null
+
+  if (!festivalActive) {
+    const articlesResult = await payload.find({
+      collection: 'articles',
+      limit: 20,
+      sort: '-createdAt',
+      locale,
+    }).catch(() => null)
+
+    const articles = (articlesResult?.docs ?? []).map((a) => ({
+      id: String(a.id),
+      title: (a.title as string) || '',
+      excerpt: '',
+      createdAt: (a as unknown as { createdAt: string }).createdAt,
+    }))
+
+    return <OffFestivalHome articles={articles} locale={locale} />
+  }
 
   return (
     <>

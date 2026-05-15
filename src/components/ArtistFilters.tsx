@@ -1,15 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useFavorites } from '@/lib/useFavorites'
+import { DebugTimePicker, localToUTC, getLocalParts } from './DebugTimePicker'
 
-type Filter = {
-  id: string
-  title: string
-  slug: string
-  color: string
+type ArtistDate = {
+  start: string | null
+  end: string | null
+  display?: boolean
 }
 
 type Artist = {
@@ -17,136 +18,165 @@ type Artist = {
   name: string
   work?: string | null
   image?: { url?: string | null } | null
-  filters?: (Filter | string | number)[]
+  mapNumber: number | null
+  dates?: ArtistDate[]
 }
 
 type Props = {
-  filters: Filter[]
   artists: Artist[]
   yearCity: string
+  debugMode: boolean
+  debugTime: string | null
+  locale: string
 }
 
-export function ArtistFilters({ filters, artists, yearCity }: Props) {
-  const [active, setActive] = useState<string[]>([])
-  const router = useRouter()
+type FilterTab = 'all' | 'today' | 'favorites'
 
-  const toggle = (slug: string) => {
-    setActive((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
-    )
+function getDateString(date: Date): string {
+  const { year, month, day, hour } = getLocalParts(date)
+  if (hour < 5) {
+    const prev = new Date(Date.UTC(year, month - 1, day - 1))
+    return prev.toISOString().slice(0, 10)
   }
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+}
 
-  // Only show filters that have at least one artist on this page
-  const relevantFilters = filters.filter((filter) =>
-    artists.some((artist) =>
-      artist.filters?.some((f) => typeof f === 'object' && f.slug === filter.slug)
-    )
-  )
+function artistHasDateOn(artist: Artist, dateStr: string): boolean {
+  if (!artist.dates || artist.dates.length === 0) return false
+  return artist.dates.some((d) => {
+    if (!d.start) return false
+    const startDate = getDateString(new Date(d.start))
+    return startDate === dateStr
+  })
+}
 
-  const filtered = active.length === 0
-    ? artists
-    : artists.filter((artist) => {
-        if (!artist.filters) return false
-        return artist.filters.some((f) => {
-          const filter = typeof f === 'object' ? f : null
-          return filter && active.includes(filter.slug)
-        })
-      })
+export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale }: Props) {
+  const [activeTab, setActiveTab] = useState<FilterTab>('all')
+  const [currentTime, setCurrentTime] = useState<Date>(() => {
+    if (debugMode && debugTime) return localToUTC(debugTime)
+    return new Date()
+  })
+  const router = useRouter()
+  const { toggle: toggleFavorite, isFavorite } = useFavorites()
+
+  const handleTimeChange = useCallback((time: Date) => {
+    setCurrentTime(time)
+  }, [])
+
+  const todayStr = getDateString(currentTime)
+
+  const filtered = (() => {
+    switch (activeTab) {
+      case 'today':
+        return artists.filter((a) => artistHasDateOn(a, todayStr))
+      case 'favorites':
+        return artists.filter((a) => isFavorite(a.id))
+      default:
+        return artists
+    }
+  })()
+
+  const tabs: { key: FilterTab; label: string }[] = [
+    { key: 'all', label: locale === 'en' ? 'All' : 'Všetky' },
+    { key: 'today', label: locale === 'en' ? 'Today' : 'Dnes' },
+    { key: 'favorites', label: locale === 'en' ? 'Favorites' : 'Obľúbené' },
+  ]
 
   return (
     <>
-      {relevantFilters.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-8">
-          {relevantFilters.map((filter) => {
-            const isActive = active.includes(filter.slug)
-            return (
-              <button
-                key={filter.id}
-                onClick={() => toggle(filter.slug)}
-                className="flex items-center gap-2 px-3 py-1.5 border rounded-full text-sm transition-colors"
-                style={{
-                  borderColor: isActive ? filter.color : 'rgba(255,255,255,0.15)',
-                  backgroundColor: isActive ? `${filter.color}20` : 'transparent',
-                }}
-              >
-                <span
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{
-                    backgroundColor: isActive ? filter.color : 'transparent',
-                    border: `2px solid ${filter.color}`,
-                  }}
-                />
-                <span className={isActive ? 'text-white' : 'text-white/60'}>
-                  {filter.title}
-                </span>
-              </button>
-            )
-          })}
-          {active.length > 0 && (
-            <button
-              onClick={() => setActive([])}
-              className="px-3 py-1.5 text-sm text-white/40 hover:text-white transition-colors"
-            >
-              Zrušiť filter
-            </button>
-          )}
-        </div>
-      )}
+      <div className="flex gap-2 mb-8">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeTab === tab.key
+                ? 'bg-[#8ebc35] text-black'
+                : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
       {filtered.length === 0 ? (
-        <p className="text-white/40">Žiadni umelci pre tento filter.</p>
+        <p className="text-white/40">
+          {activeTab === 'favorites'
+            ? (locale === 'en' ? 'No favorites yet. Tap the heart on any artist to save them.' : 'Zatiaľ žiadne obľúbené. Kliknite na srdce pri umelcovi.')
+            : activeTab === 'today'
+            ? (locale === 'en' ? 'No performances today.' : 'Dnes nie sú žiadne vystúpenia.')
+            : (locale === 'en' ? 'No artists for this edition.' : 'Žiadni umelci pre tento ročník.')}
+        </p>
       ) : (
         <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
           {filtered.map((artist) => (
-            <Link
-              key={artist.id}
-              href={`/${yearCity}/umelci/${artist.id}`}
-              className="block mb-4 break-inside-avoid group relative overflow-hidden border border-white/10 hover:border-[#8ebc35]/50 transition-colors"
-              onMouseEnter={() => router.prefetch(`/${yearCity}/umelci/${artist.id}`)}
-            >
-              {artist.image && artist.image.url ? (
-                <div className="relative w-full aspect-[3/4] overflow-hidden bg-white/5 animate-pulse">
-                  <Image
-                    src={artist.image.url}
-                    alt={artist.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    onLoad={(e) => (e.currentTarget.parentElement!.classList.remove('animate-pulse', 'bg-white/5'))}
-                  />
+            <div key={artist.id} className="mb-4 break-inside-avoid relative group">
+              <Link
+                href={`/${yearCity}/umelci/${artist.id}`}
+                className="block relative overflow-hidden border border-white/10 hover:border-[#8ebc35]/50 transition-colors"
+                onMouseEnter={() => router.prefetch(`/${yearCity}/umelci/${artist.id}`)}
+              >
+                {artist.image && artist.image.url ? (
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-white/5 animate-pulse">
+                    <Image
+                      src={artist.image.url}
+                      alt={artist.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      onLoad={(e) => (e.currentTarget.parentElement!.classList.remove('animate-pulse', 'bg-white/5'))}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full aspect-[4/3] bg-white/5 flex items-center justify-center">
+                    <span className="text-white/20 text-4xl">{artist.name.charAt(0)}</span>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+                  <div>
+                    <span className="text-sm font-medium">{artist.name}</span>
+                    {artist.work && (
+                      <p className="text-xs text-white/60 mt-0.5">{artist.work}</p>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <div className="w-full aspect-[3/4] bg-white/5 flex items-center justify-center">
-                  <span className="text-white/20 text-4xl">{artist.name.charAt(0)}</span>
-                </div>
+              </Link>
+
+              {artist.mapNumber != null && (
+                <Link
+                  href={`/${yearCity}/mapa?artist=${artist.id}`}
+                  className="absolute top-2 left-2 w-7 h-7 rounded-full bg-[#8ebc35] text-black text-xs font-bold flex items-center justify-center hover:scale-110 transition-transform"
+                  title={locale === 'en' ? 'Show on map' : 'Zobraziť na mape'}
+                >
+                  {artist.mapNumber}
+                </Link>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-4">
-                <div>
-                  <span className="text-sm font-medium">{artist.name}</span>
-                  {artist.work && (
-                    <p className="text-xs text-white/60 mt-0.5">{artist.work}</p>
-                  )}
-                </div>
-              </div>
-              {artist.filters && artist.filters.length > 0 && (
-                <div className="absolute top-2 right-2 flex gap-1">
-                  {artist.filters.map((f) => {
-                    const filter = typeof f === 'object' ? f : null
-                    if (!filter) return null
-                    return (
-                      <span
-                        key={filter.id}
-                        className="w-2.5 h-2.5 rounded-full"
-                        style={{ backgroundColor: filter.color }}
-                      />
-                    )
-                  })}
-                </div>
-              )}
-            </Link>
+
+              <button
+                onClick={(e) => { e.preventDefault(); toggleFavorite(artist.id) }}
+                className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-colors"
+                aria-label={isFavorite(artist.id) ? 'Remove from favorites' : 'Add to favorites'}
+              >
+                <svg
+                  className={`w-4 h-4 transition-colors ${isFavorite(artist.id) ? 'text-red-500 fill-red-500' : 'text-white/60 fill-none'}`}
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+            </div>
           ))}
         </div>
       )}
+
+      <DebugTimePicker
+        debugMode={debugMode}
+        debugTime={debugTime}
+        onTimeChange={handleTimeChange}
+      />
     </>
   )
 }

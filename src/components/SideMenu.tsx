@@ -119,7 +119,6 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
           <div className="border-t border-white/10 my-2" />
 
           <MenuLink href={`${base}/umelci`} onClick={onClose}>{t.artists}</MenuLink>
-          <MenuLink href={`${base}/program`} onClick={onClose}>{t.program}</MenuLink>
           <MenuLink href={`${base}/mapa`} onClick={onClose}>{t.map}</MenuLink>
           <MenuLink href={`${base}/partneri`} onClick={onClose}>{t.partners}</MenuLink>
           <MenuLink href={`${base}/info`} onClick={onClose}>{t.info}</MenuLink>

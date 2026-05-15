@@ -23,7 +23,7 @@ export default async function ArtistsPage({ params }: Props) {
 
   const payload = await getPayloadClient()
 
-  const [artists, filters] = await Promise.all([
+  const [artists, festivalSettings] = await Promise.all([
     payload.find({
       collection: 'artists',
       where: {
@@ -35,34 +35,33 @@ export default async function ArtistsPage({ params }: Props) {
       depth: 1,
       locale,
     }),
-    payload.find({
-      collection: 'filters',
-      limit: 50,
-      depth: 0,
-      locale,
-    }),
+    payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
   ])
 
-  const filterData = filters.docs.map((f) => ({
-    id: String(f.id),
-    title: (f.title as string) || '',
-    slug: f.slug,
-    color: f.color,
-  }))
+  const settings = festivalSettings as Record<string, unknown> | null
+  const debugMode = (settings?.debugMode as boolean) ?? false
+  const debugTime = (settings?.debugTime as string) ?? null
 
-  const artistData = artists.docs.map((a) => ({
-    id: String(a.id),
-    name: a.name,
-    work: a.work ?? null,
-    image: a.image && typeof a.image === 'object' ? { url: a.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${a.image.filename}` : a.image.url ?? null } : null,
-    filters: Array.isArray(a.filters)
-      ? a.filters.map((f) =>
-          typeof f === 'object'
-            ? { id: String(f.id), title: (f.title as string) || '', slug: f.slug, color: f.color }
-            : f
-        )
-      : [],
-  }))
+  const artistData = artists.docs.map((a, index) => {
+    const hasCoords = Boolean(a.latitude && a.longitude)
+    return {
+      id: String(a.id),
+      name: a.name,
+      work: a.work ?? null,
+      image: a.image && typeof a.image === 'object' ? { url: a.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${a.image.filename}` : a.image.url ?? null } : null,
+      mapNumber: hasCoords ? index + 1 : null,
+      dates: Array.isArray(a.dates)
+        ? a.dates.map((d) => {
+            const dateObj = d as Record<string, unknown>
+            return {
+              start: (dateObj.start as string) ?? null,
+              end: (dateObj.end as string) ?? null,
+              display: (dateObj.display as boolean) ?? true,
+            }
+          })
+        : [],
+    }
+  })
 
   return (
     <div className="px-6 py-8 max-w-7xl mx-auto">
@@ -75,9 +74,11 @@ export default async function ArtistsPage({ params }: Props) {
         <p className="text-white/40">{t.noArtists}</p>
       ) : (
         <ArtistFilters
-          filters={filterData}
           artists={artistData}
           yearCity={`${year}/${city}`}
+          debugMode={debugMode}
+          debugTime={debugTime}
+          locale={locale}
         />
       )}
     </div>

@@ -4,11 +4,13 @@ import userEvent from '@testing-library/user-event'
 import '../mocks/next'
 import { ArtistFilters } from '@/components/ArtistFilters'
 
-const mockFilters = [
-  { id: '1', title: 'Light Art', slug: 'light-art', color: '#FF5555' },
-  { id: '2', title: 'Performance', slug: 'performance', color: '#55FF55' },
-  { id: '3', title: 'Music', slug: 'music', color: '#5555FF' },
-]
+vi.mock('@/lib/useFavorites', () => ({
+  useFavorites: () => ({
+    favorites: ['101'],
+    toggle: vi.fn(),
+    isFavorite: (id: string) => id === '101',
+  }),
+}))
 
 const mockArtists = [
   {
@@ -16,115 +18,104 @@ const mockArtists = [
     name: 'Artist One',
     work: 'Light Installation',
     image: { url: 'https://example.com/img1.jpg' },
-    filters: [{ id: '1', title: 'Light Art', slug: 'light-art', color: '#FF5555' }],
+    mapNumber: 1,
+    dates: [{ start: '2025-10-03T18:00:00.000Z', end: '2025-10-03T23:00:00.000Z' }],
   },
   {
     id: '102',
     name: 'Artist Two',
     work: 'Dance Show',
     image: { url: 'https://example.com/img2.jpg' },
-    filters: [{ id: '2', title: 'Performance', slug: 'performance', color: '#55FF55' }],
+    mapNumber: 2,
+    dates: [{ start: '2025-10-04T18:00:00.000Z', end: '2025-10-04T23:00:00.000Z' }],
   },
   {
     id: '103',
     name: 'Artist Three',
     work: 'Concert',
     image: null,
-    filters: [],
+    mapNumber: null,
+    dates: [],
   },
 ]
 
 describe('ArtistFilters', () => {
-  it('renders all artists initially', () => {
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
+  it('renders all artists on the "All" tab by default', () => {
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
 
     expect(screen.getByText('Artist One')).toBeInTheDocument()
     expect(screen.getByText('Artist Two')).toBeInTheDocument()
     expect(screen.getByText('Artist Three')).toBeInTheDocument()
   })
 
-  it('only shows filters that have matching artists', () => {
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
+  it('shows filter tabs: All, Today, Favorites', () => {
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
 
-    expect(screen.getByText('Light Art')).toBeInTheDocument()
-    expect(screen.getByText('Performance')).toBeInTheDocument()
-    expect(screen.queryByText('Music')).not.toBeInTheDocument()
+    expect(screen.getByText('Všetky')).toBeInTheDocument()
+    expect(screen.getByText('Dnes')).toBeInTheDocument()
+    expect(screen.getByText('Obľúbené')).toBeInTheDocument()
   })
 
-  it('filters artists when a filter button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
+  it('shows English labels when locale is en', () => {
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="en" />)
 
-    await user.click(screen.getByText('Light Art'))
+    expect(screen.getByText('All')).toBeInTheDocument()
+    expect(screen.getByText('Today')).toBeInTheDocument()
+    expect(screen.getByText('Favorites')).toBeInTheDocument()
+  })
+
+  it('filters to favorites when Favorites tab is clicked', async () => {
+    const user = userEvent.setup()
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
+
+    await user.click(screen.getByText('Obľúbené'))
 
     expect(screen.getByText('Artist One')).toBeInTheDocument()
     expect(screen.queryByText('Artist Two')).not.toBeInTheDocument()
     expect(screen.queryByText('Artist Three')).not.toBeInTheDocument()
   })
 
-  it('shows all artists after toggling filter off', async () => {
-    const user = userEvent.setup()
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
-
-    await user.click(screen.getByText('Light Art'))
-    await user.click(screen.getByText('Light Art'))
-
-    expect(screen.getByText('Artist One')).toBeInTheDocument()
-    expect(screen.getByText('Artist Two')).toBeInTheDocument()
-    expect(screen.getByText('Artist Three')).toBeInTheDocument()
-  })
-
-  it('shows clear filter button when filter is active', async () => {
-    const user = userEvent.setup()
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
-
-    expect(screen.queryByText('Zrušiť filter')).not.toBeInTheDocument()
-
-    await user.click(screen.getByText('Light Art'))
-
-    expect(screen.getByText('Zrušiť filter')).toBeInTheDocument()
-  })
-
-  it('clears all filters when clear button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
-
-    await user.click(screen.getByText('Light Art'))
-    await user.click(screen.getByText('Zrušiť filter'))
-
-    expect(screen.getByText('Artist One')).toBeInTheDocument()
-    expect(screen.getByText('Artist Two')).toBeInTheDocument()
-    expect(screen.getByText('Artist Three')).toBeInTheDocument()
-  })
-
   it('renders placeholder for artists without images', () => {
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
 
     expect(screen.getByText('A')).toBeInTheDocument()
   })
 
   it('generates correct links to artist detail pages', () => {
-    render(<ArtistFilters filters={mockFilters} artists={mockArtists} yearCity="y2025/ba" />)
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
 
     const link = screen.getByRole('link', { name: /Artist One/i })
     expect(link).toHaveAttribute('href', '/y2025/ba/umelci/101')
   })
 
-  it('shows no-results message when filter has no match', async () => {
+  it('shows map number badge for artists with coordinates', () => {
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
+
+    expect(screen.getByText('1')).toBeInTheDocument()
+    expect(screen.getByText('2')).toBeInTheDocument()
+  })
+
+  it('does not show map number for artists without coordinates', () => {
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
+
+    const mapLinks = screen.getAllByTitle(/mape/)
+    expect(mapLinks).toHaveLength(2)
+  })
+
+  it('shows empty state message for favorites when none selected', async () => {
+    vi.doMock('@/lib/useFavorites', () => ({
+      useFavorites: () => ({
+        favorites: [],
+        toggle: vi.fn(),
+        isFavorite: () => false,
+      }),
+    }))
+
     const user = userEvent.setup()
-    const artistsWithOneFilter = [
-      {
-        id: '101',
-        name: 'Artist One',
-        work: 'Installation',
-        image: null,
-        filters: [{ id: '1', title: 'Light Art', slug: 'light-art', color: '#FF5555' }],
-      },
-    ]
+    render(<ArtistFilters artists={mockArtists} yearCity="y2025/ba" debugMode={false} debugTime={null} locale="sk" />)
 
-    render(<ArtistFilters filters={mockFilters} artists={artistsWithOneFilter} yearCity="y2025/ba" />)
+    await user.click(screen.getByText('Obľúbené'))
 
-    // Light Art filter is the only one shown (Music/Performance have no artists)
-    expect(screen.queryByText('Performance')).not.toBeInTheDocument()
+    expect(screen.getByText(/obľúbené/i)).toBeInTheDocument()
   })
 })

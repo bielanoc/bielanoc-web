@@ -30,6 +30,10 @@ export const UI_STRINGS: Record<Locale, Record<string, string>> = {
     buyTickets: 'Kúpiť vstupenky',
     festival: 'Festival súčasného umenia',
     program: 'Program',
+    all: 'Všetky',
+    today: 'Dnes',
+    favorites: 'Obľúbené',
+    articles: 'Články',
   },
   en: {
     artists: 'Artists',
@@ -58,5 +62,9 @@ export const UI_STRINGS: Record<Locale, Record<string, string>> = {
     buyTickets: 'Buy tickets',
     festival: 'Contemporary art festival',
     program: 'Program',
+    all: 'All',
+    today: 'Today',
+    favorites: 'Favorites',
+    articles: 'Articles',
   },
 }

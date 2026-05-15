@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { FestivalMap } from './FestivalMap'
 import type { LatLngExpression } from 'leaflet'
 
@@ -23,7 +24,9 @@ type Props = {
 }
 
 export function MapPageClient({ markers, center, moreInfoLabel, navigateLabel }: Props) {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  const initialArtist = searchParams.get('artist')
+  const [selectedId, setSelectedId] = useState<string | null>(initialArtist)
 
   const handleSelect = (id: string) => {
     setSelectedId((prev) => (prev === id ? null : id))

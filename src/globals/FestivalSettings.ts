@@ -46,6 +46,12 @@ export const FestivalSettings: GlobalConfig = {
       type: 'text',
     },
     {
+      name: 'festivalActive',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: { description: 'When enabled, shows festival mode (artists/map/program). When off, shows off-festival landing page.' },
+    },
+    {
       name: 'debugMode',
       type: 'checkbox',
       defaultValue: false,

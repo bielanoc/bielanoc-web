@@ -3,7 +3,6 @@ import { revalidatePath } from 'next/cache'
 export function revalidateArtistPages(year?: string, city?: string) {
   if (year && city) {
     revalidatePath(`/y${year}/${city}/umelci`, 'page')
-    revalidatePath(`/y${year}/${city}/program`, 'page')
     revalidatePath(`/y${year}/${city}/mapa`, 'page')
   }
   revalidatePath('/', 'layout')
