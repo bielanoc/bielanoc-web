@@ -139,10 +139,14 @@ export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale 
               {artist.mapNumber != null && (
                 <Link
                   href={`/${yearCity}/mapa?artist=${artist.id}`}
-                  className="absolute top-2 left-2 w-7 h-7 rounded-full bg-[#8ebc35] text-black text-xs font-bold flex items-center justify-center hover:scale-110 transition-transform"
+                  className="absolute top-2 left-2 hover:scale-110 transition-transform"
                   title={locale === 'en' ? 'Show on map' : 'Zobraziť na mape'}
                 >
-                  {artist.mapNumber}
+                  <svg width="28" height="36" viewBox="0 0 28 36" fill="none" className="drop-shadow-lg">
+                    <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.268 21.732 0 14 0z" fill="#8ebc35" />
+                    <circle cx="14" cy="14" r="9" fill="#000" fillOpacity="0.3" />
+                    <text x="14" y="18" textAnchor="middle" fill="#000" fontSize="11" fontWeight="700">{artist.mapNumber}</text>
+                  </svg>
                 </Link>
               )}
 
