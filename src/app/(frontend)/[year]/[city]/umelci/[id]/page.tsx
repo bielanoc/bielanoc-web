@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RichText } from '@/components/RichText'
 import { AudioPlayer } from '@/components/AudioPlayer'
+import { FavoriteButton } from '@/components/FavoriteButton'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 type Props = {
@@ -73,7 +74,7 @@ export default async function ArtistDetailPage({ params }: Props) {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <div>
+        <div className="relative">
           {artist.image && typeof artist.image === 'object' && (artist.image.filename || artist.image.url) ? (
             <div className="relative w-full aspect-[4/3] border border-white/10 overflow-hidden">
               <Image
@@ -90,6 +91,7 @@ export default async function ArtistDetailPage({ params }: Props) {
               <span className="text-white/20 text-6xl">{artist.name.charAt(0)}</span>
             </div>
           )}
+          <FavoriteButton artistId={id} />
         </div>
 
         <div className="space-y-6">
