@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type Filter = {
   id: string
@@ -26,6 +28,7 @@ type Props = {
 
 export function ArtistFilters({ filters, artists, yearCity }: Props) {
   const [active, setActive] = useState<string[]>([])
+  const router = useRouter()
 
   const toggle = (slug: string) => {
     setActive((prev) =>
@@ -95,19 +98,21 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
       ) : (
         <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
           {filtered.map((artist) => (
-            <a
+            <Link
               key={artist.id}
               href={`/${yearCity}/umelci/${artist.id}`}
               className="block mb-4 break-inside-avoid group relative overflow-hidden border border-white/10 hover:border-[#8ebc35]/50 transition-colors"
+              onMouseEnter={() => router.prefetch(`/${yearCity}/umelci/${artist.id}`)}
             >
               {artist.image && artist.image.url ? (
-                <div className="relative w-full aspect-[3/4] overflow-hidden">
+                <div className="relative w-full aspect-[3/4] overflow-hidden bg-white/5 animate-pulse">
                   <Image
                     src={artist.image.url}
                     alt={artist.name}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    onLoad={(e) => (e.currentTarget.parentElement!.classList.remove('animate-pulse', 'bg-white/5'))}
                   />
                 </div>
               ) : (
@@ -138,7 +143,7 @@ export function ArtistFilters({ filters, artists, yearCity }: Props) {
                   })}
                 </div>
               )}
-            </a>
+            </Link>
           ))}
         </div>
       )}
