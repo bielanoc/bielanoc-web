@@ -10,6 +10,16 @@ type Props = {
   params: Promise<{ year: string; city: string; id: string }>
 }
 
+export async function generateStaticParams() {
+  const payload = await getPayloadClient()
+  const artists = await payload.find({ collection: 'artists', limit: 500, depth: 0 })
+  return artists.docs.map((a) => ({
+    year: `y${(a as unknown as { year: string }).year}`,
+    city: (a as unknown as { city: string }).city,
+    id: String(a.id),
+  }))
+}
+
 export async function generateMetadata({ params }: Props) {
   const { id } = await params
   const payload = await getPayloadClient()

@@ -8,6 +8,8 @@ import { getPayloadClient } from '@/lib/payload'
 import { getLocale } from '@/lib/locale'
 import '../globals.css'
 
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: {
     default: 'Biela Noc',

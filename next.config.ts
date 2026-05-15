@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     viewTransition: true,
   },
   images: {
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',
