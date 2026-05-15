@@ -54,7 +54,7 @@ function artistHasDateOn(artist: Artist, dateStr: string): boolean {
 export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale }: Props) {
   const [activeTab, setActiveTab] = useState<FilterTab>('all')
   const debug = useDebugSettings({ debugTime, festivalActive: true })
-  const currentTime = debugMode && debug.simulatedTime ? localToUTC(debug.simulatedTime) : debugMode && debugTime ? localToUTC(debugTime) : new Date()
+  const currentTime = debugMode && debug.simulatedTime ? localToUTC(debug.simulatedTime) : debugMode && debugTime ? new Date(debugTime) : new Date()
   const router = useRouter()
   const { toggle: toggleFavorite, isFavorite } = useFavorites()
 

@@ -175,35 +175,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
           {debugMode && (
             <>
               <div className="border-t border-yellow-500/30 my-4" />
-              <div className="bg-yellow-900/40 border border-yellow-500/30 rounded-lg p-4">
-                <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
-
-                <div className="flex items-center justify-between mt-3 mb-3">
-                  <span className="text-yellow-400/80 text-sm">Festival mode</span>
-                  <button
-                    onClick={() => debug.update({ festivalActive: !debug.festivalActive })}
-                    className={`relative w-10 h-5 rounded-full transition-colors ${debug.festivalActive ? 'bg-[#8ebc35]' : 'bg-white/20'}`}
-                  >
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${debug.festivalActive ? 'left-5' : 'left-0.5'}`} />
-                  </button>
-                </div>
-
-                <label className="block text-yellow-400/80 text-xs mb-1">Simulated time</label>
-                <input
-                  type="datetime-local"
-                  value={debug.simulatedTime || ''}
-                  onChange={(e) => debug.update({ simulatedTime: e.target.value || null })}
-                  className="w-full px-3 py-2 bg-black/50 border border-yellow-500/30 rounded text-sm text-white"
-                />
-                <div className="flex justify-end mt-2">
-                  <button
-                    onClick={() => debug.reset()}
-                    className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
+              <DebugPanel debug={debug} />
             </>
           )}
         </nav>
@@ -222,6 +194,101 @@ function MenuLink({ href, onClick, children }: { href: string; onClick: () => vo
       {children}
       <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[#8ebc35] transition-all duration-300 group-hover:w-full" />
     </Link>
+  )
+}
+
+function DebugPanel({ debug }: { debug: ReturnType<typeof useDebugSettings> }) {
+  const parsed = parseDebugTime(debug.simulatedTime)
+
+  function parseDebugTime(val: string | null) {
+    if (!val) {
+      const now = new Date()
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Bratislava',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hour12: false,
+      }).formatToParts(now)
+      const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '00'
+      return { day: get('day'), month: get('month'), year: get('year'), hour: get('hour'), minute: get('minute') }
+    }
+    const [datePart, timePart] = val.split('T')
+    const [y, m, d] = datePart.split('-')
+    const [h, min] = (timePart || '00:00').split(':')
+    return { day: d, month: m, year: y, hour: h, minute: min }
+  }
+
+  function commit(patch: Partial<typeof parsed>) {
+    const merged = { ...parsed, ...patch }
+    const iso = `${merged.year}-${merged.month.padStart(2, '0')}-${merged.day.padStart(2, '0')}T${merged.hour.padStart(2, '0')}:${merged.minute.padStart(2, '0')}`
+    debug.update({ simulatedTime: iso })
+  }
+
+  return (
+    <div className="bg-yellow-900/40 border border-yellow-500/30 rounded-lg p-4">
+      <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
+      <p className="text-yellow-400/50 text-[10px] mt-0.5 mb-3">Simulates time for &quot;Today&quot; filter</p>
+
+      <div className="flex items-center gap-1.5">
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={2}
+          value={parsed.day}
+          onChange={(e) => commit({ day: e.target.value.replace(/\D/g, '').slice(0, 2) })}
+          className="w-9 px-1.5 py-1.5 bg-black/60 border border-yellow-500/30 rounded text-sm text-white text-center"
+          placeholder="DD"
+        />
+        <span className="text-yellow-400/60 text-sm">.</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={2}
+          value={parsed.month}
+          onChange={(e) => commit({ month: e.target.value.replace(/\D/g, '').slice(0, 2) })}
+          className="w-9 px-1.5 py-1.5 bg-black/60 border border-yellow-500/30 rounded text-sm text-white text-center"
+          placeholder="MM"
+        />
+        <span className="text-yellow-400/60 text-sm">.</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={4}
+          value={parsed.year}
+          onChange={(e) => commit({ year: e.target.value.replace(/\D/g, '').slice(0, 4) })}
+          className="w-14 px-1.5 py-1.5 bg-black/60 border border-yellow-500/30 rounded text-sm text-white text-center"
+          placeholder="YYYY"
+        />
+        <span className="text-yellow-400/40 text-sm mx-1">|</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={2}
+          value={parsed.hour}
+          onChange={(e) => commit({ hour: e.target.value.replace(/\D/g, '').slice(0, 2) })}
+          className="w-9 px-1.5 py-1.5 bg-black/60 border border-yellow-500/30 rounded text-sm text-white text-center"
+          placeholder="HH"
+        />
+        <span className="text-yellow-400/60 text-sm">:</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={2}
+          value={parsed.minute}
+          onChange={(e) => commit({ minute: e.target.value.replace(/\D/g, '').slice(0, 2) })}
+          className="w-9 px-1.5 py-1.5 bg-black/60 border border-yellow-500/30 rounded text-sm text-white text-center"
+          placeholder="mm"
+        />
+      </div>
+
+      <div className="flex justify-end mt-3">
+        <button
+          onClick={() => debug.reset()}
+          className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
+        >
+          Reset to now
+        </button>
+      </div>
+    </div>
   )
 }
 
