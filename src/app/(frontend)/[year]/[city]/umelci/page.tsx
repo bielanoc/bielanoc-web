@@ -18,7 +18,6 @@ export default async function ArtistsPage({ params }: Props) {
   const locale = await getLocale()
   const t = UI_STRINGS[locale]
   const cityCode = city as CityCode
-  const cityName = CITIES[cityCode]?.label ?? city
   const yearNum = year.replace('y', '')
 
   const payload = await getPayloadClient()
@@ -65,11 +64,6 @@ export default async function ArtistsPage({ params }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">{t.artists}</h1>
-      <p className="text-white/50 mb-8">
-        {cityName} {yearNum}
-      </p>
-
       {artists.docs.length === 0 ? (
         <p className="text-white/40">{t.noArtists}</p>
       ) : (
