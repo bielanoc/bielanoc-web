@@ -10,6 +10,9 @@ type Props = {
   locale?: Locale
   availableYears?: string[]
   socialLinks?: { instagram: string | null; facebook: string | null }
+  debugMode?: boolean
+  debugTime?: string | null
+  festivalActive?: boolean
 }
 
 function parseRoute(pathname: string): { year: string | null; city: string | null } {
@@ -18,7 +21,7 @@ function parseRoute(pathname: string): { year: string | null; city: string | nul
   return { year: match[1], city: match[2] }
 }
 
-export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks }: Props) {
+export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const { year, city } = parseRoute(pathname)
@@ -45,6 +48,9 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
         locale={locale}
         availableYears={availableYears}
         socialLinks={socialLinks}
+        debugMode={debugMode}
+        debugTime={debugTime}
+        festivalActive={festivalActive}
       />
     </>
   )

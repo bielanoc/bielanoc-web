@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
 import { LanguageToggle } from './LanguageToggle'
+import { useDebugSettings } from '@/lib/useDebugSettings'
 
 type Props = {
   open: boolean
@@ -14,12 +15,16 @@ type Props = {
   locale?: Locale
   availableYears?: string[]
   socialLinks?: { instagram: string | null; facebook: string | null }
+  debugMode?: boolean
+  debugTime?: string | null
+  festivalActive?: boolean
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
+  const debug = useDebugSettings({ debugTime, festivalActive })
 
   const { year, city, section } = parseRoute(pathname)
   const t = UI_STRINGS[locale]
@@ -77,18 +82,18 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 px-8 text-lg overflow-y-auto flex-1">
-          <div className="flex items-center gap-3 mb-2">
+        <nav className="flex flex-col gap-4 px-8 text-lg overflow-y-auto flex-1 pb-8">
+          <div className="flex flex-wrap items-center gap-2 mb-2">
             <div className="flex border border-white/20 rounded overflow-hidden text-sm">
               <button
                 onClick={() => switchCity('ba')}
-                className={`px-3 py-1.5 transition-colors ${city === 'ba' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ba' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Bratislava
               </button>
               <button
                 onClick={() => switchCity('ke')}
-                className={`px-3 py-1.5 transition-colors ${city === 'ke' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ke' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Košice
               </button>
@@ -97,7 +102,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <select
               value={year || availableYears[0]}
               onChange={(e) => switchYear(e.target.value)}
-              className="bg-transparent border border-white/20 rounded text-sm text-white/70 px-2 py-1.5 cursor-pointer hover:border-white/40 transition-colors"
+              className="bg-transparent border border-white/20 rounded text-sm text-white/70 px-3 py-2 cursor-pointer hover:border-white/40 transition-colors"
             >
               {availableYears.map((y) => (
                 <option key={y} value={y} className="bg-black text-white">
@@ -162,6 +167,41 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
               </a>
             )}
           </div>
+
+          {debugMode && (
+            <>
+              <div className="border-t border-yellow-500/30 my-4" />
+              <div className="bg-yellow-900/40 border border-yellow-500/30 rounded-lg p-4">
+                <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
+
+                <div className="flex items-center justify-between mt-3 mb-3">
+                  <span className="text-yellow-400/80 text-sm">Festival mode</span>
+                  <button
+                    onClick={() => debug.update({ festivalActive: !debug.festivalActive })}
+                    className={`relative w-10 h-5 rounded-full transition-colors ${debug.festivalActive ? 'bg-[#8ebc35]' : 'bg-white/20'}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${debug.festivalActive ? 'left-5' : 'left-0.5'}`} />
+                  </button>
+                </div>
+
+                <label className="block text-yellow-400/80 text-xs mb-1">Simulated time</label>
+                <input
+                  type="datetime-local"
+                  value={debug.simulatedTime || ''}
+                  onChange={(e) => debug.update({ simulatedTime: e.target.value || null })}
+                  className="w-full px-3 py-2 bg-black/50 border border-yellow-500/30 rounded text-sm text-white"
+                />
+                <div className="flex justify-end mt-2">
+                  <button
+                    onClick={() => debug.reset()}
+                    className="text-yellow-400/60 text-xs hover:text-yellow-400 underline"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </nav>
       </div>
     </>

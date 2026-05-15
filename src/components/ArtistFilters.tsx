@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useFavorites } from '@/lib/useFavorites'
+import { useDebugSettings } from '@/lib/useDebugSettings'
 import { localToUTC, getLocalParts } from './DebugTimePicker'
 
 type ArtistDate = {
@@ -52,7 +53,8 @@ function artistHasDateOn(artist: Artist, dateStr: string): boolean {
 
 export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale }: Props) {
   const [activeTab, setActiveTab] = useState<FilterTab>('all')
-  const currentTime = debugMode && debugTime ? localToUTC(debugTime) : new Date()
+  const debug = useDebugSettings({ debugTime, festivalActive: true })
+  const currentTime = debugMode && debug.simulatedTime ? localToUTC(debug.simulatedTime) : debugMode && debugTime ? localToUTC(debugTime) : new Date()
   const router = useRouter()
   const { toggle: toggleFavorite, isFavorite } = useFavorites()
 

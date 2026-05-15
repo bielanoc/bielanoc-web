@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import { FloatingMenuButton } from '@/components/FloatingMenuButton'
-import { DebugTimePicker } from '@/components/DebugTimePicker'
 import { Footer } from '@/components/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
@@ -69,13 +68,12 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
-        <FloatingMenuButton ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} socialLinks={socialLinks} />
+        <FloatingMenuButton ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} socialLinks={socialLinks} debugMode={debugMode} debugTime={debugTime} festivalActive={festivalActive} />
         <main id="main-content" className="min-h-screen">
           {children}
         </main>
         <Footer />
         <ScrollToTop />
-        <DebugTimePicker debugMode={debugMode} debugTime={debugTime} festivalActive={festivalActive} />
         <Analytics />
       </body>
     </html>
