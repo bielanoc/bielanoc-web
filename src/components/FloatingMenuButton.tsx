@@ -7,14 +7,6 @@ import Image from 'next/image'
 import { SideMenu } from './SideMenu'
 import type { Locale } from '@/lib/i18n'
 
-export type MenuItem = {
-  label: string
-  url: string
-  useYearCity?: boolean
-  icon?: string
-  dividerAfter?: boolean
-}
-
 type Props = {
   ticketSaleEnabled?: boolean
   locale?: Locale
@@ -24,8 +16,6 @@ type Props = {
   debugTime?: string | null
   festivalActive?: boolean
   logoUrl?: string
-  menuGradientColor?: string
-  menuItems?: MenuItem[]
 }
 
 function parseRoute(pathname: string): { year: string | null; city: string | null } {
@@ -34,7 +24,7 @@ function parseRoute(pathname: string): { year: string | null; city: string | nul
   return { year: match[1], city: match[2] }
 }
 
-export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, logoUrl = '/logo-bn.svg', menuGradientColor = '#0500FF', menuItems = [] }: Props) {
+export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, logoUrl = '/logo-bn.svg' }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const { year, city } = parseRoute(pathname)
@@ -70,8 +60,6 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
         debugMode={debugMode}
         debugTime={debugTime}
         festivalActive={festivalActive}
-        menuGradientColor={menuGradientColor}
-        menuItems={menuItems}
       />
     </>
   )

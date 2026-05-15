@@ -70,7 +70,6 @@ export default async function FrontendLayout({
   const logoUrl = getMediaUrl(logoGroup?.image) || '/logo-bn.svg'
   const colorsGroup = branding?.colors as Record<string, unknown> | null
   const accentColor = (colorsGroup?.accent as string) || '#8ebc35'
-  const menuGradientColor = (colorsGroup?.menuGradient as string) || '#0500FF'
   const footerGroup = branding?.footer as Record<string, unknown> | null
   const footerText = (footerGroup?.text as string) || null
   const footerLinks = (footerGroup?.links as Array<{ label: string; url: string }>) || []
@@ -80,7 +79,6 @@ export default async function FrontendLayout({
     instagram: (navigation?.socialInstagram as string) || null,
     facebook: (navigation?.socialFacebook as string) || null,
   }
-  const menuItems = (navigation?.menuItems as Array<{ label: string; url: string; useYearCity?: boolean; icon?: string; dividerAfter?: boolean }>) || []
 
   return (
     <html lang={locale}>
@@ -107,8 +105,6 @@ export default async function FrontendLayout({
           debugTime={debugTime}
           festivalActive={festivalActive}
           logoUrl={logoUrl}
-          menuGradientColor={menuGradientColor}
-          menuItems={menuItems}
         />
         <main id="main-content" className="min-h-screen">
           {children}
