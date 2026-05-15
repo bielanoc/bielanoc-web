@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { MapPageClient } from '@/components/MapPageClient'
@@ -54,8 +55,18 @@ export default async function MapPage({ params }: Props) {
 
   const center = CITY_CENTERS[cityCode] ?? CITY_CENTERS.ba
 
+  const backLabel = locale === 'en' ? '← Back to artists' : '← Späť na umelcov'
+
   return (
     <>
+      <div className="px-6 pt-4">
+        <Link
+          href={`/${year}/${city}/umelci`}
+          className="text-sm text-white/50 hover:text-white transition-colors inline-block"
+        >
+          {backLabel}
+        </Link>
+      </div>
       {markers.length === 0 ? (
         <div className="px-6 py-8">
           <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded flex items-center justify-center">
