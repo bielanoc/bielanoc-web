@@ -45,7 +45,7 @@ export function DebugTimePicker({ debugMode, debugTime, festivalActive }: Props)
   if (!debugMode) return null
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50 bg-yellow-900/95 border border-yellow-500/50 rounded-lg p-3 backdrop-blur-sm">
+    <div className="fixed bottom-4 left-4 right-4 md:right-auto md:left-4 md:w-80 z-50 bg-yellow-900/95 border border-yellow-500/50 rounded-lg p-3 backdrop-blur-sm">
       <div className="flex items-center justify-between mb-2">
         <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
         <span className="text-yellow-400/50 text-[10px]">from Festival Settings</span>

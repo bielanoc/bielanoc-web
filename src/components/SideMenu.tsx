@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
+import { LanguageToggle } from './LanguageToggle'
 
 type Props = {
   open: boolean
@@ -68,15 +69,15 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
         role="dialog"
         aria-modal="true"
         aria-label="Navigácia"
-        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] bg-gradient-to-bl from-black via-black to-[#0a1628] border-l border-white/10 z-50 transform transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] bg-gradient-to-bl from-black via-black to-[#0a1628] border-l border-white/10 z-50 transform transition-transform duration-300 flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="flex justify-end p-6">
+        <div className="flex justify-end p-6 shrink-0">
           <button onClick={onClose} className="text-white/70 hover:text-white text-2xl" aria-label="Close menu">
             ✕
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 px-8 text-lg">
+        <nav className="flex flex-col gap-4 px-8 text-lg overflow-y-auto flex-1">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex border border-white/20 rounded overflow-hidden text-sm">
               <button
@@ -104,6 +105,8 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
                 </option>
               ))}
             </select>
+
+            <LanguageToggle current={locale} />
           </div>
 
           {ticketSaleEnabled && (
