@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import type { LatLngExpression } from 'leaflet'
@@ -64,7 +64,7 @@ function FitAllMarkers({ markers }: { markers: MarkerData[] }) {
   return null
 }
 
-function FlyToSelected({ selectedId, markers }: { selectedId: string | null; markers: MarkerData[] }) {
+function FlyToSelected({ selectedId, markers, markerRefs }: { selectedId: string | null; markers: MarkerData[]; markerRefs: React.MutableRefObject<Record<string, L.Marker | null>> }) {
   const map = useMap()
 
   useEffect(() => {
@@ -72,13 +72,22 @@ function FlyToSelected({ selectedId, markers }: { selectedId: string | null; mar
     const marker = markers.find((m) => m.id === selectedId)
     if (marker) {
       map.flyTo([marker.lat, marker.lng], 17, { duration: 0.8 })
+      setTimeout(() => {
+        markerRefs.current[selectedId]?.openPopup()
+      }, 850)
     }
-  }, [selectedId, markers, map])
+  }, [selectedId, markers, map, markerRefs])
 
   return null
 }
 
 export default function FestivalMapInner({ markers, center, selectedId, onMarkerSelect, moreInfoLabel, navigateLabel }: Props) {
+  const markerRefs = useRef<Record<string, L.Marker | null>>({})
+
+  const setMarkerRef = useCallback((id: string) => (ref: L.Marker | null) => {
+    markerRefs.current[id] = ref
+  }, [])
+
   useEffect(() => {
     const style = document.createElement('style')
     style.textContent = `
@@ -112,12 +121,13 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
         maxZoom={20}
       />
       <FitAllMarkers markers={markers} />
-      <FlyToSelected selectedId={selectedId ?? null} markers={markers} />
+      <FlyToSelected selectedId={selectedId ?? null} markers={markers} markerRefs={markerRefs} />
       {markers.map((m) => (
         <Marker
           key={m.id}
           position={[m.lat, m.lng]}
           icon={createNumberedIcon(m.number, selectedId === m.id)}
+          ref={setMarkerRef(m.id)}
           eventHandlers={{
             click: () => onMarkerSelect?.(m.id),
           }}
