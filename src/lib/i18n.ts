@@ -4,6 +4,7 @@ export const DEFAULT_LOCALE: Locale = 'sk'
 
 export const UI_STRINGS: Record<Locale, Record<string, string>> = {
   sk: {
+    home: 'Domov',
     artists: 'Umelci',
     map: 'Mapa',
     partners: 'Partneri',
@@ -36,6 +37,7 @@ export const UI_STRINGS: Record<Locale, Record<string, string>> = {
     articles: 'Články',
   },
   en: {
+    home: 'Home',
     artists: 'Artists',
     map: 'Map',
     partners: 'Partners',

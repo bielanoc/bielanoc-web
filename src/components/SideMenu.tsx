@@ -126,6 +126,8 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
 
           <div className="border-t border-white/10 my-2" />
 
+          <MenuLink href="/" onClick={onClose}>{t.home}</MenuLink>
+
           <MenuLink href="/search" onClick={onClose}>
             <span className="flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
