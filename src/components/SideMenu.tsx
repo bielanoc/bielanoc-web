@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
 import { LanguageToggle } from './LanguageToggle'
 import { useDebugSettings } from '@/lib/useDebugSettings'
+import type { MenuItem } from './FloatingMenuButton'
 
 type Props = {
   open: boolean
@@ -18,9 +19,28 @@ type Props = {
   debugMode?: boolean
   debugTime?: string | null
   festivalActive?: boolean
+  menuGradientColor?: string
+  menuItems?: MenuItem[]
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true }: Props) {
+const DEFAULT_MENU_ITEMS: MenuItem[] = [
+  { label: 'Domov', url: '/', icon: 'none', dividerAfter: false },
+  { label: 'Vyhľadávanie', url: '/search', icon: 'search', dividerAfter: true },
+  { label: 'Umelci', url: '/umelci', useYearCity: true },
+  { label: 'Mapa', url: '/mapa', useYearCity: true },
+  { label: 'Partneri', url: '/partneri', useYearCity: true },
+  { label: 'Info', url: '/info', useYearCity: true },
+  { label: 'Vstupenky', url: '/predaj', useYearCity: true },
+  { label: 'Dobrovoľníci', url: '/dobrovolnici', useYearCity: true, dividerAfter: true },
+  { label: 'O Bielej Noci', url: '/o-bielej-noci' },
+  { label: 'Kontakt', url: '/kontakt' },
+  { label: 'Podporte nás', url: '/podporte-nas' },
+  { label: 'Pre médiá', url: '/press' },
+  { label: 'Archív', url: '/archive' },
+  { label: 'Aplikácia', url: '/app' },
+]
+
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, menuGradientColor = '#0500FF', menuItems = [] }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
@@ -28,6 +48,8 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
 
   const { year, city, section } = parseRoute(pathname)
   const t = UI_STRINGS[locale]
+
+  const items = menuItems.length > 0 ? menuItems : DEFAULT_MENU_ITEMS
 
   useEffect(() => {
     if (open) {
@@ -64,6 +86,11 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
     onClose()
   }
 
+  function resolveUrl(item: MenuItem): string {
+    if (item.useYearCity) return `${base}${item.url}`
+    return item.url
+  }
+
   return (
     <>
       {open && (
@@ -74,7 +101,8 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
         role="dialog"
         aria-modal="true"
         aria-label="Navigácia"
-        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] bg-gradient-to-t from-black to-[#0500FF] border-l border-white/10 z-50 transform transition-transform duration-300 flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] border-l border-white/10 z-50 transform transition-transform duration-300 flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        style={{ background: `linear-gradient(0deg, #000000 0%, ${menuGradientColor} 100%)` }}
       >
         <div className="flex justify-end p-6 shrink-0">
           <button onClick={onClose} className="text-white/70 hover:text-white text-2xl" aria-label="Close menu">
@@ -87,13 +115,13 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <div className="flex border border-white/20 rounded overflow-hidden text-sm">
               <button
                 onClick={() => switchCity('ba')}
-                className={`px-3 py-2 transition-colors ${city === 'ba' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ba' ? 'bg-[var(--accent-color)] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Bratislava
               </button>
               <button
                 onClick={() => switchCity('ke')}
-                className={`px-3 py-2 transition-colors ${city === 'ke' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ke' ? 'bg-[var(--accent-color)] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Košice
               </button>
@@ -118,7 +146,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <Link
               href={`${base}/predaj`}
               onClick={onClose}
-              className="block text-center px-4 py-2.5 bg-[#8ebc35] text-black font-medium text-sm uppercase tracking-wide hover:bg-[#7aa82d] transition-colors rounded"
+              className="block text-center px-4 py-2.5 bg-[var(--accent-color)] text-black font-medium text-sm uppercase tracking-wide hover:opacity-90 transition-opacity rounded"
             >
               {t.ticketSale}
             </Link>
@@ -126,34 +154,23 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
 
           <div className="border-t border-white/10 my-2" />
 
-          <MenuLink href="/" onClick={onClose}>{t.home}</MenuLink>
-
-          <MenuLink href="/search" onClick={onClose}>
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {locale === 'en' ? 'Search' : 'Vyhľadávanie'}
-            </span>
-          </MenuLink>
-
-          <div className="border-t border-white/10 my-2" />
-
-          <MenuLink href={`${base}/umelci`} onClick={onClose}>{t.artists}</MenuLink>
-          <MenuLink href={`${base}/mapa`} onClick={onClose}>{t.map}</MenuLink>
-          <MenuLink href={`${base}/partneri`} onClick={onClose}>{t.partners}</MenuLink>
-          <MenuLink href={`${base}/info`} onClick={onClose}>{t.info}</MenuLink>
-          <MenuLink href={`${base}/predaj`} onClick={onClose}>{t.tickets}</MenuLink>
-          <MenuLink href={`${base}/dobrovolnici`} onClick={onClose}>{t.volunteers}</MenuLink>
-
-          <div className="border-t border-white/10 my-4" />
-
-          <MenuLink href="/o-bielej-noci" onClick={onClose}>{t.about}</MenuLink>
-          <MenuLink href="/kontakt" onClick={onClose}>{t.contact}</MenuLink>
-          <MenuLink href="/podporte-nas" onClick={onClose}>{t.support}</MenuLink>
-          <MenuLink href="/press" onClick={onClose}>{t.press}</MenuLink>
-          <MenuLink href="/archive" onClick={onClose}>{t.archive}</MenuLink>
-          <MenuLink href="/app" onClick={onClose}>{t.app}</MenuLink>
+          {items.map((item, i) => (
+            <div key={i}>
+              <MenuLink href={resolveUrl(item)} onClick={onClose}>
+                {item.icon === 'search' ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    {item.label}
+                  </span>
+                ) : (
+                  item.label
+                )}
+              </MenuLink>
+              {item.dividerAfter && <div className="border-t border-white/10 my-4" />}
+            </div>
+          ))}
 
           <div className="border-t border-white/10 my-4" />
 
@@ -180,7 +197,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
                   <span className="text-yellow-400/80 text-sm">Festival mode</span>
                   <button
                     onClick={() => debug.update({ festivalActive: !debug.festivalActive })}
-                    className={`relative w-10 h-5 rounded-full transition-colors ${debug.festivalActive ? 'bg-[#8ebc35]' : 'bg-white/20'}`}
+                    className={`relative w-10 h-5 rounded-full transition-colors ${debug.festivalActive ? 'bg-[var(--accent-color)]' : 'bg-white/20'}`}
                   >
                     <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${debug.festivalActive ? 'left-5' : 'left-0.5'}`} />
                   </button>
@@ -218,7 +235,7 @@ function MenuLink({ href, onClick, children }: { href: string; onClick: () => vo
       className="relative text-white/80 hover:text-white transition-colors uppercase tracking-wide group"
     >
       {children}
-      <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[#8ebc35] transition-all duration-300 group-hover:w-full" />
+      <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[var(--accent-color)] transition-all duration-300 group-hover:w-full" />
     </Link>
   )
 }

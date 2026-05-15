@@ -38,14 +38,6 @@ export const FestivalSettings: GlobalConfig = {
       admin: { description: 'e.g. "10. – 12. október 2025 Košice"' },
     },
     {
-      name: 'socialInstagram',
-      type: 'text',
-    },
-    {
-      name: 'socialFacebook',
-      type: 'text',
-    },
-    {
       name: 'festivalActive',
       type: 'checkbox',
       defaultValue: true,

@@ -24,6 +24,8 @@ import { SupportUs } from './globals/SupportUs'
 import { PressKit } from './globals/PressKit'
 import { AboutPage } from './globals/AboutPage'
 import { FestivalSettings } from './globals/FestivalSettings'
+import { BrandingSettings } from './globals/BrandingSettings'
+import { NavigationSettings } from './globals/NavigationSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -70,6 +72,8 @@ export default buildConfig({
     SupportUs,
     PressKit,
     AboutPage,
+    BrandingSettings,
+    NavigationSettings,
   ],
 
   localization: {

@@ -36,7 +36,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid #8ebc35;
+    outline: 2px solid var(--accent-color, #8ebc35);
     outline-offset: 2px;
   }
 }

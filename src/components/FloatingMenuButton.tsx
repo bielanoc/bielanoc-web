@@ -7,6 +7,14 @@ import Image from 'next/image'
 import { SideMenu } from './SideMenu'
 import type { Locale } from '@/lib/i18n'
 
+export type MenuItem = {
+  label: string
+  url: string
+  useYearCity?: boolean
+  icon?: string
+  dividerAfter?: boolean
+}
+
 type Props = {
   ticketSaleEnabled?: boolean
   locale?: Locale
@@ -15,6 +23,9 @@ type Props = {
   debugMode?: boolean
   debugTime?: string | null
   festivalActive?: boolean
+  logoUrl?: string
+  menuGradientColor?: string
+  menuItems?: MenuItem[]
 }
 
 function parseRoute(pathname: string): { year: string | null; city: string | null } {
@@ -23,7 +34,7 @@ function parseRoute(pathname: string): { year: string | null; city: string | nul
   return { year: match[1], city: match[2] }
 }
 
-export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true }: Props) {
+export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, logoUrl = '/logo-bn.svg', menuGradientColor = '#0500FF', menuItems = [] }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const { year, city } = parseRoute(pathname)
@@ -32,7 +43,7 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
     <>
       <div className="fixed top-4 left-4 z-50">
         <Link href="/" aria-label="Biela Noc">
-          <Image src="/logo-bn.svg" alt="Biela Noc" width={60} height={48} priority />
+          <Image src={logoUrl} alt="Biela Noc" width={60} height={48} priority />
         </Link>
       </div>
 
@@ -59,6 +70,8 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
         debugMode={debugMode}
         debugTime={debugTime}
         festivalActive={festivalActive}
+        menuGradientColor={menuGradientColor}
+        menuItems={menuItems}
       />
     </>
   )
