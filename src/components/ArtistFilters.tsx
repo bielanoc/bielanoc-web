@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useFavorites } from '@/lib/useFavorites'
-import { DebugTimePicker, localToUTC, getLocalParts } from './DebugTimePicker'
+import { localToUTC, getLocalParts } from './DebugTimePicker'
 
 type ArtistDate = {
   start: string | null
@@ -52,16 +52,9 @@ function artistHasDateOn(artist: Artist, dateStr: string): boolean {
 
 export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale }: Props) {
   const [activeTab, setActiveTab] = useState<FilterTab>('all')
-  const [currentTime, setCurrentTime] = useState<Date>(() => {
-    if (debugMode && debugTime) return localToUTC(debugTime)
-    return new Date()
-  })
+  const currentTime = debugMode && debugTime ? localToUTC(debugTime) : new Date()
   const router = useRouter()
   const { toggle: toggleFavorite, isFavorite } = useFavorites()
-
-  const handleTimeChange = useCallback((time: Date) => {
-    setCurrentTime(time)
-  }, [])
 
   const todayStr = getDateString(currentTime)
 
@@ -172,11 +165,6 @@ export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale 
         </div>
       )}
 
-      <DebugTimePicker
-        debugMode={debugMode}
-        debugTime={debugTime}
-        onTimeChange={handleTimeChange}
-      />
     </>
   )
 }

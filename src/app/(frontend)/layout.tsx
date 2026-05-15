@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import { FloatingMenuButton } from '@/components/FloatingMenuButton'
+import { DebugTimePicker } from '@/components/DebugTimePicker'
 import { Footer } from '@/components/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
@@ -50,6 +51,9 @@ export default async function FrontendLayout({
     instagram: (settings?.socialInstagram as string) || null,
     facebook: (settings?.socialFacebook as string) || null,
   }
+  const debugMode = (settings?.debugMode as boolean) ?? false
+  const debugTime = (settings?.debugTime as string) ?? null
+  const festivalActive = (settings?.festivalActive as boolean) ?? true
   const availableYears = artistYears as string[]
 
   return (
@@ -71,6 +75,7 @@ export default async function FrontendLayout({
         </main>
         <Footer />
         <ScrollToTop />
+        <DebugTimePicker debugMode={debugMode} debugTime={debugTime} festivalActive={festivalActive} />
         <Analytics />
       </body>
     </html>

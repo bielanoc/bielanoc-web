@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const TZ = 'Europe/Bratislava'
 
@@ -33,17 +33,14 @@ function toInputValue(date: Date): string {
 type Props = {
   debugMode: boolean
   debugTime: string | null
-  onTimeChange: (time: Date) => void
+  festivalActive: boolean
 }
 
-export function DebugTimePicker({ debugMode, debugTime, onTimeChange }: Props) {
+export function DebugTimePicker({ debugMode, debugTime, festivalActive }: Props) {
   const debugDate = debugMode && debugTime ? localToUTC(debugTime) : null
   const initialInput = debugDate ? toInputValue(debugDate) : toInputValue(new Date())
   const [simulatedInput, setSimulatedInput] = useState(initialInput)
-
-  useEffect(() => {
-    onTimeChange(localToUTC(simulatedInput))
-  }, [simulatedInput, onTimeChange])
+  const [festivalOn, setFestivalOn] = useState(festivalActive)
 
   if (!debugMode) return null
 
@@ -53,6 +50,17 @@ export function DebugTimePicker({ debugMode, debugTime, onTimeChange }: Props) {
         <span className="text-yellow-400 text-xs font-bold uppercase tracking-wide">Debug Mode</span>
         <span className="text-yellow-400/50 text-[10px]">from Festival Settings</span>
       </div>
+
+      <div className="flex items-center justify-between mb-3 py-1.5 border-b border-yellow-500/20">
+        <span className="text-yellow-400/80 text-xs">Festival mode</span>
+        <button
+          onClick={() => setFestivalOn((v) => !v)}
+          className={`relative w-10 h-5 rounded-full transition-colors ${festivalOn ? 'bg-[#8ebc35]' : 'bg-white/20'}`}
+        >
+          <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${festivalOn ? 'left-5' : 'left-0.5'}`} />
+        </button>
+      </div>
+
       <input
         type="datetime-local"
         value={simulatedInput}
