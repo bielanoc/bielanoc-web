@@ -30,25 +30,37 @@ export const BrandingSettings: GlobalConfig = {
           name: 'accent',
           type: 'text',
           defaultValue: '#8ebc35',
-          admin: { description: 'Primary accent color (hex). Used for CTAs, highlights, active states.' },
+          admin: {
+            description: 'Primary accent color (hex). Used for CTAs, highlights, active states.',
+            components: { Field: '@/components/admin/ColorPicker#ColorPicker' },
+          },
         },
         {
           name: 'bratislavaBackground',
           type: 'text',
           defaultValue: '#8094F7',
-          admin: { description: 'Bratislava section background color (homepage).' },
+          admin: {
+            description: 'Bratislava section background color (homepage).',
+            components: { Field: '@/components/admin/ColorPicker#ColorPicker' },
+          },
         },
         {
           name: 'kosiceBackground',
           type: 'text',
           defaultValue: '#B2BCAC',
-          admin: { description: 'Košice section background color (homepage).' },
+          admin: {
+            description: 'Košice section background color (homepage).',
+            components: { Field: '@/components/admin/ColorPicker#ColorPicker' },
+          },
         },
         {
           name: 'menuGradient',
           type: 'text',
           defaultValue: '#0500FF',
-          admin: { description: 'Side menu gradient top color. Bottom is always black.' },
+          admin: {
+            description: 'Side menu gradient top color. Bottom is always black.',
+            components: { Field: '@/components/admin/ColorPicker#ColorPicker' },
+          },
         },
       ],
     },
@@ -101,7 +113,10 @@ export const BrandingSettings: GlobalConfig = {
               name: 'color',
               type: 'text',
               required: true,
-              admin: { description: 'Hex color (e.g. #F5E455)' },
+              admin: {
+                description: 'Hex color (e.g. #F5E455)',
+                components: { Field: '@/components/admin/ColorPicker#ColorPicker' },
+              },
             },
           ],
           defaultValue: [
