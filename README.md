@@ -47,9 +47,20 @@ All free tier — $0/month:
 - Pull requests get preview deployments
 - Environment variables configured in Vercel dashboard
 
+### Caching & Performance
+
+Pages are statically generated at build time and served from Vercel's edge CDN:
+
+- **Static generation** — all year/city combos and 415+ artist detail pages pre-rendered
+- **On-demand revalidation** — Payload `afterChange` hooks call `revalidatePath()` when content is saved, so changes appear in ~5 seconds
+- **Fallback revalidation** — `revalidate = 3600` as safety net (hourly background refresh if hooks miss)
+- **Image caching** — `minimumCacheTTL = 31536000` on `next/image` (1 year, since filenames contain content hashes)
+
+Flow: Admin saves → hook fires → page regenerates → next visitor sees update.
+
 ## Stack
 
-- **Next.js 15** — React framework with App Router, SSR
+- **Next.js 15** — React framework with App Router, ISR (static + on-demand revalidation)
 - **Payload CMS 3.84** — Headless CMS (embedded in Next.js, single deploy)
 - **PostgreSQL 17** — Database (Neon serverless)
 - **Tailwind CSS 4** — Styling

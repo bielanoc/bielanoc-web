@@ -257,6 +257,25 @@ There is no bulk copy. Create new entries manually for the new year. Partners ca
 
 ---
 
+## When Do Changes Appear?
+
+**~5 seconds** after you save. The website uses caching for speed, but every save in the admin panel triggers an automatic cache refresh. Just save, wait a few seconds, and refresh the public page.
+
+If for some reason a change doesn't appear after 30 seconds, it will appear within 1 hour at most (automatic background refresh).
+
+---
+
+## Admin Tools
+
+Available at `/admin/tools/` in the sidebar:
+
+| Tool | Purpose |
+|------|---------|
+| **Date Review** | Find artists missing date entries, highlights time info found in descriptions |
+| **Image Review** | Find artists missing images, suggests matches from media library, one-click linking |
+
+---
+
 ## URL Structure (Public Website)
 
 | URL | Page |
