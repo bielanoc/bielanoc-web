@@ -45,7 +45,7 @@ export function MapPageClient({ markers, center, moreInfoLabel, navigateLabel }:
         />
       </div>
 
-      <div className="w-full lg:w-80 xl:w-96 lg:order-1 overflow-y-auto border-t lg:border-t-0 lg:border-r border-white/10 scrollbar-hide">
+      <div className="w-full lg:w-80 xl:w-96 lg:order-1 overflow-y-auto border-t lg:border-t-0 lg:border-r border-white/10 scrollbar-hide pt-16 lg:pt-16">
         <ul className="divide-y divide-white/5">
           {markers.map((m) => (
             <li key={m.id}>

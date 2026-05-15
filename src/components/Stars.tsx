@@ -22,6 +22,10 @@ export function Stars({ enabled = true, colors = DEFAULT_COLORS }: Props) {
       color,
       x: seededRandom(i * 7 + 1) * 100,
       y: seededRandom(i * 13 + 3) * 100,
+      duration: 4 + seededRandom(i * 3 + 5) * 6,
+      delay: seededRandom(i * 11 + 7) * -10,
+      dx: (seededRandom(i * 17 + 2) - 0.5) * 30,
+      dy: (seededRandom(i * 19 + 4) - 0.5) * 30,
     }))
   }, [colors])
 
@@ -37,9 +41,16 @@ export function Stars({ enabled = true, colors = DEFAULT_COLORS }: Props) {
             backgroundColor: dot.color,
             left: `${dot.x}vw`,
             top: `${dot.y}vh`,
+            animation: `star-float-${i} ${dot.duration}s ease-in-out ${dot.delay}s infinite`,
           }}
         />
       ))}
+      <style>{dots.map((dot, i) => `
+        @keyframes star-float-${i} {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(${dot.dx}px, ${dot.dy}px); }
+        }
+      `).join('')}</style>
     </div>
   )
 }

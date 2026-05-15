@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { OffFestivalHome } from '@/components/OffFestivalHome'
+import { Stars } from '@/components/Stars'
 import { getPayloadClient } from '@/lib/payload'
 import { getLocale } from '@/lib/locale'
 
@@ -42,6 +43,12 @@ export default async function HomePage() {
     return <OffFestivalHome articles={articles} locale={locale} />
   }
 
+  // Stars
+  const starsGroup = branding?.stars as Record<string, unknown> | null
+  const starsEnabled = (starsGroup?.enabled as boolean) ?? true
+  const starsColorsRaw = starsGroup?.colors as Array<{ color: string }> | null
+  const starsColors = starsColorsRaw?.map((c) => c.color) || ['#F5E455', '#FF5555', '#FF2AC4', '#5555FF']
+
   // Branding colors
   const colorsGroup = branding?.colors as Record<string, unknown> | null
   const baColor = (colorsGroup?.bratislavaBackground as string) || '#8094F7'
@@ -55,6 +62,8 @@ export default async function HomePage() {
   const keHoverImage = getMediaUrl(homepageGroup?.imageKEHover) || '/homepage/2025/ke_hover.png'
 
   return (
+    <>
+    <Stars enabled={starsEnabled} colors={starsColors} />
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full overflow-hidden">
       <Link
         href={`/y${currentYear}/ba/umelci`}
@@ -98,5 +107,6 @@ export default async function HomePage() {
         </div>
       </Link>
     </div>
+    </>
   )
 }

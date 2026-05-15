@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import { FloatingMenuButton } from '@/components/FloatingMenuButton'
-import { Stars } from '@/components/Stars'
-import { Footer } from '@/components/Footer'
+import { ConditionalFooter } from '@/components/ConditionalFooter'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
 import { getPayloadClient } from '@/lib/payload'
@@ -72,10 +71,6 @@ export default async function FrontendLayout({
   const colorsGroup = branding?.colors as Record<string, unknown> | null
   const accentColor = (colorsGroup?.accent as string) || '#8ebc35'
   const menuGradientColor = (colorsGroup?.menuGradient as string) || '#0500FF'
-  const starsGroup = branding?.stars as Record<string, unknown> | null
-  const starsEnabled = (starsGroup?.enabled as boolean) ?? true
-  const starsColorsRaw = starsGroup?.colors as Array<{ color: string }> | null
-  const starsColors = starsColorsRaw?.map((c) => c.color) || ['#F5E455', '#FF5555', '#FF2AC4', '#5555FF']
   const footerGroup = branding?.footer as Record<string, unknown> | null
   const footerText = (footerGroup?.text as string) || null
   const footerLinks = (footerGroup?.links as Array<{ label: string; url: string }>) || []
@@ -103,7 +98,6 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
-        <Stars enabled={starsEnabled} colors={starsColors} />
         <FloatingMenuButton
           ticketSaleEnabled={ticketSaleEnabled}
           locale={locale}
@@ -119,7 +113,7 @@ export default async function FrontendLayout({
         <main id="main-content" className="min-h-screen">
           {children}
         </main>
-        <Footer text={footerText} links={footerLinks} />
+        <ConditionalFooter text={footerText} links={footerLinks} />
         <ScrollToTop />
         <Analytics />
       </body>
