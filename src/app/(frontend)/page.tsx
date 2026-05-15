@@ -1,20 +1,14 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import { AuroraBackground } from '@/components/AuroraBackground'
 import { OffFestivalHome } from '@/components/OffFestivalHome'
 import { getPayloadClient } from '@/lib/payload'
-import { getLocale, UI_STRINGS } from '@/lib/locale'
+import { getLocale } from '@/lib/locale'
 
 export default async function HomePage() {
   const locale = await getLocale()
-  const t = UI_STRINGS[locale]
   const payload = await getPayloadClient()
   const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null) as Record<string, unknown> | null
   const festivalActive = (settings?.festivalActive as boolean) ?? true
   const currentYear = (settings?.currentYear as string) ?? '2025'
-  const dateBA = settings?.dateInfoBA as string | undefined
-  const dateKE = settings?.dateInfoKE as string | undefined
-  const dateDisplay = dateBA || dateKE || null
 
   if (!festivalActive) {
     const articlesResult = await payload.find({
@@ -35,50 +29,46 @@ export default async function HomePage() {
   }
 
   return (
-    <>
-      <AuroraBackground />
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-6 relative">
-        <div className="text-center space-y-6">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white/90">
-            BIELA NOC
-          </h1>
-          <p className="text-lg md:text-xl text-white/50 max-w-md mx-auto">
-            {t.festival}
-          </p>
-          {dateDisplay && (
-            <p className="text-sm text-white/30">
-              {dateDisplay}
-            </p>
-          )}
+    <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full">
+      <Link
+        href={`/y${currentYear}/ba/umelci`}
+        className="relative flex items-start p-10 sm:p-10 bg-[#8094F7] group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
+      >
+        <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/homepage/2025/ba.png"
+            alt="Bratislava"
+            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/homepage/2025/ba_hover.png"
+            alt="Bratislava"
+            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+          />
         </div>
+      </Link>
 
-        <div className="flex flex-col sm:flex-row gap-4 mt-16">
-          <CityLink href={`/y${currentYear}/ba/umelci`} city="Bratislava" />
-          <CityLink href={`/y${currentYear}/ke/umelci`} city="Košice" />
+      <Link
+        href={`/y${currentYear}/ke/umelci`}
+        className="relative flex items-start p-10 sm:p-10 bg-[#B2BCAC] group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
+      >
+        <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/homepage/2025/ke.png"
+            alt="Košice"
+            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/homepage/2025/ke_hover.png"
+            alt="Košice"
+            className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+          />
         </div>
-
-        <Image
-          src="/cityline.png"
-          alt=""
-          width={1400}
-          height={200}
-          className="absolute bottom-8 left-0 w-full h-auto opacity-60 pointer-events-none"
-          priority
-        />
-      </div>
-    </>
-  )
-}
-
-function CityLink({ href, city }: { href: string; city: string }) {
-  return (
-    <Link
-      href={href}
-      className="group relative px-10 py-5 border border-white/10 backdrop-blur-sm hover:border-white/40 transition-all duration-500 text-center min-w-[200px]"
-    >
-      <span className="text-lg uppercase tracking-widest text-white/70 group-hover:text-white transition-colors duration-500">
-        {city}
-      </span>
-    </Link>
+      </Link>
+    </div>
   )
 }

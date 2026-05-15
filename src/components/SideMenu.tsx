@@ -74,7 +74,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
         role="dialog"
         aria-modal="true"
         aria-label="Navigácia"
-        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] bg-gradient-to-bl from-black via-black to-[#0a1628] border-l border-white/10 z-50 transform transition-transform duration-300 flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-[500px] max-w-[90vw] bg-gradient-to-t from-black to-[#0500FF] border-l border-white/10 z-50 transform transition-transform duration-300 flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex justify-end p-6 shrink-0">
           <button onClick={onClose} className="text-white/70 hover:text-white text-2xl" aria-label="Close menu">

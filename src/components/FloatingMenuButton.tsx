@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
 import { SideMenu } from './SideMenu'
 import type { Locale } from '@/lib/i18n'
 
@@ -28,6 +30,12 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
 
   return (
     <>
+      <div className="fixed top-4 left-4 z-50">
+        <Link href="/" aria-label="Biela Noc">
+          <Image src="/logo-bn.svg" alt="Biela Noc" width={60} height={48} priority />
+        </Link>
+      </div>
+
       <div className="fixed top-4 right-4 z-50">
         <button
           onClick={() => setMenuOpen(true)}

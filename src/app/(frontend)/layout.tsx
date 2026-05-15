@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import { FloatingMenuButton } from '@/components/FloatingMenuButton'
+import { Stars } from '@/components/Stars'
 import { Footer } from '@/components/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
@@ -68,6 +69,7 @@ export default async function FrontendLayout({
         >
           {locale === 'en' ? 'Skip to content' : 'Preskočiť na obsah'}
         </a>
+        <Stars />
         <FloatingMenuButton ticketSaleEnabled={ticketSaleEnabled} locale={locale} availableYears={availableYears} socialLinks={socialLinks} debugMode={debugMode} debugTime={debugTime} festivalActive={festivalActive} />
         <main id="main-content" className="min-h-screen">
           {children}
