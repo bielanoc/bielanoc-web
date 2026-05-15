@@ -16,6 +16,7 @@ type Props = {
   debugTime?: string | null
   festivalActive?: boolean
   logoUrl?: string
+  menuGradientColor?: string
 }
 
 function parseRoute(pathname: string): { year: string | null; city: string | null } {
@@ -24,7 +25,7 @@ function parseRoute(pathname: string): { year: string | null; city: string | nul
   return { year: match[1], city: match[2] }
 }
 
-export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, logoUrl = '/logo-bn.svg' }: Props) {
+export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, logoUrl = '/logo-bn.svg', menuGradientColor = '#0a1628' }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const { year, city } = parseRoute(pathname)
@@ -60,6 +61,7 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
         debugMode={debugMode}
         debugTime={debugTime}
         festivalActive={festivalActive}
+        menuGradientColor={menuGradientColor}
       />
     </>
   )
