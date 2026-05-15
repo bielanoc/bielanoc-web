@@ -28,7 +28,7 @@ export function Stars({ enabled = true, colors = DEFAULT_COLORS }: Props) {
   if (!enabled) return null
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+    <div className="fixed inset-0 pointer-events-none z-[1]" aria-hidden="true">
       {dots.map((dot, i) => (
         <div
           key={i}

@@ -55,7 +55,7 @@ export default async function HomePage() {
   const keHoverImage = getMediaUrl(homepageGroup?.imageKEHover) || '/homepage/2025/ke_hover.png'
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full overflow-hidden">
       <Link
         href={`/y${currentYear}/ba/umelci`}
         className="relative flex items-start p-10 group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
