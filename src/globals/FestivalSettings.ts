@@ -58,5 +58,15 @@ export const FestivalSettings: GlobalConfig = {
         condition: (data) => data?.debugMode === true,
       },
     },
+    {
+      name: 'socialInstagram',
+      type: 'text',
+      admin: { hidden: true },
+    },
+    {
+      name: 'socialFacebook',
+      type: 'text',
+      admin: { hidden: true },
+    },
   ],
 }
