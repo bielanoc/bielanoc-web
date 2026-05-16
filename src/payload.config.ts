@@ -3,7 +3,28 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  lexicalEditor,
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  StrikethroughFeature,
+  HeadingFeature,
+  ParagraphFeature,
+  AlignFeature,
+  IndentFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+  ChecklistFeature,
+  LinkFeature,
+  BlockquoteFeature,
+  HorizontalRuleFeature,
+  InlineCodeFeature,
+  UploadFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  EXPERIMENTAL_TableFeature,
+} from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 
 import { Users } from './collections/Users'
@@ -85,7 +106,29 @@ export default buildConfig({
     fallback: true,
   },
 
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: [
+      ParagraphFeature(),
+      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+      BoldFeature(),
+      ItalicFeature(),
+      UnderlineFeature(),
+      StrikethroughFeature(),
+      InlineCodeFeature(),
+      AlignFeature(),
+      IndentFeature(),
+      UnorderedListFeature(),
+      OrderedListFeature(),
+      ChecklistFeature(),
+      LinkFeature(),
+      BlockquoteFeature(),
+      HorizontalRuleFeature(),
+      UploadFeature(),
+      EXPERIMENTAL_TableFeature(),
+      FixedToolbarFeature(),
+      InlineToolbarFeature(),
+    ],
+  }),
 
   secret: process.env.PAYLOAD_SECRET || 'CHANGE-ME-IN-PRODUCTION',
 
