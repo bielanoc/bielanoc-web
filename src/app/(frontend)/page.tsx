@@ -82,18 +82,18 @@ export default async function HomePage() {
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full overflow-hidden">
       <Link
         href={`/y${currentYear}/ba/umelci`}
-        className="relative flex items-start p-10 group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
+        className="relative group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: baColor }}
       >
         {baImage && (
-          <div className="relative w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)]">
+          <>
             <Image
               src={baImage}
               alt="Bratislava"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
-              className="object-contain object-top-left transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+              className="object-contain object-top-left p-6 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
             />
             {baHoverImage && (
               <Image
@@ -102,27 +102,27 @@ export default async function HomePage() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 loading="lazy"
-                className="object-contain object-top-left transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+                className="object-contain object-top-left p-6 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
               />
             )}
-          </div>
+          </>
         )}
       </Link>
 
       <Link
         href={`/y${currentYear}/ke/umelci`}
-        className="relative flex items-start p-10 group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
+        className="relative group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: keColor }}
       >
         {keImage && (
-          <div className="relative w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)]">
+          <>
             <Image
               src={keImage}
               alt="Košice"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
-              className="object-contain object-top-left transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+              className="object-contain object-top-left p-6 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
             />
             {keHoverImage && (
               <Image
@@ -131,10 +131,10 @@ export default async function HomePage() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 loading="lazy"
-                className="object-contain object-top-left transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+                className="object-contain object-top-left p-6 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
               />
             )}
-          </div>
+          </>
         )}
       </Link>
     </div>
