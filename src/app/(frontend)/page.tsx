@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { OffFestivalHome } from '@/components/OffFestivalHome'
 import { Stars } from '@/components/Stars'
 import { getPayloadClient } from '@/lib/payload'
@@ -71,19 +72,23 @@ export default async function HomePage() {
         style={{ backgroundColor: baColor }}
       >
         {baImage && (
-          <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)]">
+            <Image
               src={baImage}
               alt="Bratislava"
-              className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              className="object-contain object-top-left transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
             />
             {baHoverImage && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={baHoverImage}
                 alt="Bratislava"
-                className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                loading="lazy"
+                className="object-contain object-top-left transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
               />
             )}
           </div>
@@ -96,19 +101,23 @@ export default async function HomePage() {
         style={{ backgroundColor: keColor }}
       >
         {keImage && (
-          <div className="w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)] grid">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative w-full h-[min(35vh,30vw)] lg:h-[min(35vh,30vw)]">
+            <Image
               src={keImage}
               alt="Košice"
-              className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              className="object-contain object-top-left transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
             />
             {keHoverImage && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={keHoverImage}
                 alt="Košice"
-                className="w-full h-full object-contain object-top-left col-start-1 row-start-1 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                loading="lazy"
+                className="object-contain object-top-left transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
               />
             )}
           </div>
