@@ -134,6 +134,31 @@ export const BrandingSettings: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'offSeason',
+      label: 'Off-Season Homepage',
+      fields: [
+        {
+          name: 'banner',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Hero banner image shown on the off-season homepage.' },
+        },
+        {
+          name: 'heading',
+          type: 'text',
+          localized: true,
+          admin: { description: 'Main heading. Falls back to "BIELA NOC" if empty.' },
+        },
+        {
+          name: 'text',
+          type: 'richText',
+          localized: true,
+          admin: { description: 'Announcement or description text below the heading.' },
+        },
+      ],
+    },
+    {
+      type: 'group',
       name: 'footer',
       fields: [
         {

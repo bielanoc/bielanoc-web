@@ -16,6 +16,12 @@ export const Articles: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Cover image shown in article cards and carousel.' },
+    },
+    {
       name: 'content',
       type: 'richText',
       localized: true,

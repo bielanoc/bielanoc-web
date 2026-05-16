@@ -31,17 +31,31 @@ export default async function HomePage() {
       collection: 'articles',
       limit: 20,
       sort: '-createdAt',
+      depth: 1,
       locale,
     }).catch(() => null)
 
-    const articles = (articlesResult?.docs ?? []).map((a) => ({
-      id: String(a.id),
-      title: (a.title as string) || '',
-      excerpt: '',
-      createdAt: (a as unknown as { createdAt: string }).createdAt,
-    }))
+    const articles = (articlesResult?.docs ?? []).map((a) => {
+      const doc = a as unknown as Record<string, unknown>
+      const img = doc.coverImage
+      const cover = img && typeof img === 'object'
+        ? ((img as Record<string, unknown>).filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${(img as Record<string, unknown>).filename}` : ((img as Record<string, unknown>).url as string | null))
+        : null
+      return {
+        id: String(a.id),
+        title: (a.title as string) || '',
+        excerpt: '',
+        coverImage: cover,
+        createdAt: (doc.createdAt as string) || '',
+      }
+    })
 
-    return <OffFestivalHome articles={articles} locale={locale} />
+    const offSeasonGroup = branding?.offSeason as Record<string, unknown> | null
+    const bannerUrl = getMediaUrl(offSeasonGroup?.banner)
+    const heading = (offSeasonGroup?.heading as string) || null
+    const text = (offSeasonGroup?.text as unknown) || null
+
+    return <OffFestivalHome articles={articles} locale={locale} bannerUrl={bannerUrl} heading={heading} richText={text} />
   }
 
   // Stars
