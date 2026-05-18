@@ -148,11 +148,12 @@ Push notifications sent to the mobile app.
 
 ### Articles (Content)
 
-General articles/news (with drafts support).
+General articles/news (with drafts support). Shown in the off-season homepage carousel.
 
 | Field | Description |
 |-------|-------------|
 | **title** | Article title (localized) |
+| **coverImage** | Cover image (upload) — shown on the carousel card |
 | **content** | Rich text body (localized) |
 
 ### Media
@@ -172,10 +173,9 @@ Images are automatically optimized by the frontend (WebP conversion, responsive 
 | Field | Description |
 |-------|-------------|
 | **currentYear** | The active festival year — used as default on the homepage |
+| **festivalActive** | Toggle — when ON, homepage shows city selection (festival mode); when OFF, shows off-season page |
 | **dateInfoBA** | Date banner text for Bratislava (localized, e.g. "3. – 5. október 2025 Bratislava") |
 | **dateInfoKE** | Date banner text for Košice (localized) |
-| **socialInstagram** | Instagram URL |
-| **socialFacebook** | Facebook URL |
 | **debugMode** | Enable time simulation on the Program page (for testing live events) |
 | **debugTime** | Simulated "now" time — only used when debugMode is on |
 
@@ -217,6 +217,47 @@ Rich text content for the "Podporte nás" page (localized).
 
 Content for the media/press page.
 
+### Branding Settings
+
+Controls the site's visual identity — logo, colors, homepage images, and footer.
+
+| Group | Field | Description |
+|-------|-------|-------------|
+| Logo | **image** | Site logo (SVG or PNG upload) — appears in top-left corner |
+| Colors | **accent** | Primary accent color hex (default `#8ebc35`) — used for CTAs, highlights, active states |
+| Colors | **menuGradient** | Side menu gradient top color hex (default `#0a1628`) |
+| Homepage | **homepageImageBA** | Bratislava panel image (festival mode) |
+| Homepage | **homepageImageBAHover** | Bratislava hover image |
+| Homepage | **homepageImageKE** | Košice panel image (festival mode) |
+| Homepage | **homepageImageKEHover** | Košice hover image |
+| Off-season | **banner** | Full-screen background image for off-season homepage |
+| Off-season | **heading** | Heading text (localized) |
+| Off-season | **richText** | Body text below heading (localized rich text) |
+| Footer | **text** | Copyright/footer text (localized) |
+| Footer | **links** | Array of footer links (label + URL, localized labels) |
+
+If fields are left empty, the site falls back to built-in defaults.
+
+### Navigation Settings
+
+Controls the side menu links and social media URLs.
+
+| Group | Field | Description |
+|-------|-------|-------------|
+| Menu | **menuItems** | Ordered list of menu links (drag to reorder) |
+| Menu item | **.label** | Display text (localized SK/EN) |
+| Menu item | **.url** | Relative path (e.g. `/umelci`, `/kontakt`) |
+| Menu item | **.useYearCity** | If checked, prepends current `/y{year}/{city}` to the URL |
+| Menu item | **.icon** | Optional icon (`search` or `none`) |
+| Menu item | **.dividerAfter** | Renders a separator line after this item |
+| Social | **socialInstagram** | Instagram URL (shown in menu footer) |
+| Social | **socialFacebook** | Facebook URL (shown in menu footer) |
+
+**Tips:**
+- Items with `useYearCity` checked automatically adapt to the visitor's current year/city context
+- Use `dividerAfter` to visually group related menu items
+- The menu respects the order you set — drag items to reorder
+
 ---
 
 ## Localization (SK / EN)
@@ -237,11 +278,25 @@ If EN is left empty, the frontend falls back to SK content.
 
 ## Common Tasks
 
+### Switch between festival and off-season mode
+Festival Settings > toggle `festivalActive` ON (festival) or OFF (off-season homepage with banner + articles)
+
+### Change site accent color or logo
+Branding Settings > Colors > `accent` (hex value); Logo > upload new image
+
+### Edit menu links
+Navigation Settings > Menu Items > add/remove/reorder items. Changes appear immediately.
+
 ### Enable/disable ticket sales
-Festival Settings > Ticket Settings > toggle `saleEnabled`
+Ticket Settings > toggle `saleEnabled`
 
 ### Change festival dates in the header banner
 Festival Settings > `dateInfoBA` / `dateInfoKE`
+
+### Set up off-season homepage
+1. Festival Settings > turn OFF `festivalActive`
+2. Branding Settings > Off-season > upload a banner image, add heading/text
+3. Create Articles with cover images — they appear in the carousel at the bottom
 
 ### Reorder artists on the page
 Edit artist > set `hierarchy` field (lower number = appears first)

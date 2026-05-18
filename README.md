@@ -80,8 +80,8 @@ src/
 │   ├── (payload)/           ← Admin panel (auto-generated)
 │   │   └── admin/
 │   └── api/health/          ← Health check endpoint
-├── collections/             ← Payload content types (10 collections)
-├── globals/                 ← Payload single-instance content (7 globals)
+├── collections/             ← Payload content types (11 collections)
+├── globals/                 ← Payload single-instance content (9 globals)
 ├── components/              ← Shared React components
 ├── lib/                     ← Utilities (payload client, firebase, constants)
 └── payload.config.ts        ← Main CMS configuration
@@ -149,9 +149,12 @@ On every commit:
 
 ### CI (GitHub Actions)
 
-Every push/PR runs:
+Every push to `main` runs:
+1. Type check → Lint → Unit tests (Vitest)
+
+On pull requests and manual trigger (`workflow_dispatch`):
 1. Type check → Lint → Unit tests
-2. E2E tests (Playwright with Chromium)
+2. E2E tests (Playwright with Chromium, production build)
 
 ### Lighthouse CI
 
