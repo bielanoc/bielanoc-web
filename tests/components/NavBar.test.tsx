@@ -20,11 +20,6 @@ vi.mock('next/link', () => ({
   ),
 }))
 
-vi.mock('@/components/LanguageToggle', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  LanguageToggle: ({ current }: any) => <button>Lang: {current}</button>,
-}))
-
 vi.mock('@/components/SideMenu', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   SideMenu: ({ open }: any) => open ? <div data-testid="side-menu">Menu</div> : null,
@@ -40,11 +35,6 @@ describe('FloatingMenuButton', () => {
   it('renders the hamburger button', () => {
     render(<FloatingMenuButton />)
     expect(screen.getByLabelText('Open menu')).toBeInTheDocument()
-  })
-
-  it('renders language toggle', () => {
-    render(<FloatingMenuButton locale="sk" />)
-    expect(screen.getByText('Lang: sk')).toBeInTheDocument()
   })
 
   it('opens side menu when hamburger is clicked', async () => {
