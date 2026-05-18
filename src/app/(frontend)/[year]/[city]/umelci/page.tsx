@@ -3,6 +3,7 @@ import { getMediaSrc } from '@/lib/media'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { ArtistFilters } from '@/components/ArtistFilters'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
+import type { Artist } from '@/payload-types'
 
 type Props = {
   params: Promise<{ year: string; city: string }>
@@ -41,7 +42,7 @@ export default async function ArtistsPage({ params }: Props) {
   const debugMode = festivalSettings?.debugMode ?? false
   const debugTime = festivalSettings?.debugTime ?? null
 
-  const artistData = artists.docs.map((a, index) => {
+  const artistData = artists.docs.map((a: Artist, index: number) => {
     const hasCoords = Boolean(a.latitude && a.longitude)
     const image = a.image && typeof a.image === 'object' ? a.image : null
     return {
