@@ -80,6 +80,7 @@ export default async function FrontendLayout({
     instagram: (navigation?.socialInstagram as string) || null,
     facebook: (navigation?.socialFacebook as string) || null,
   }
+  const menuItems = (navigation?.menuItems as Array<{ label: string; url: string; useYearCity?: boolean; icon?: string; dividerAfter?: boolean }>) || []
 
   return (
     <html lang={locale}>
@@ -103,6 +104,7 @@ export default async function FrontendLayout({
             locale={locale}
             availableYears={availableYears}
             socialLinks={socialLinks}
+            menuItems={menuItems}
             debugMode={debugMode}
             debugTime={debugTime}
             festivalActive={festivalActive}

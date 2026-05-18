@@ -31,7 +31,7 @@ export default async function ArchivePage() {
                 <Link
                   key={city}
                   href={`/${edition.year}/${city}/umelci`}
-                  className="px-4 py-2 border border-white/20 hover:border-[#8ebc35] text-sm uppercase tracking-wide transition-colors"
+                  className="px-4 py-2 border border-white/20 hover:border-accent text-sm uppercase tracking-wide transition-colors"
                 >
                   {city.toUpperCase()}
                 </Link>

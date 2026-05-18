@@ -86,7 +86,7 @@ export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale 
             onClick={() => setActiveTab(tab.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === tab.key
-                ? 'bg-[#8ebc35] text-black'
+                ? 'bg-accent text-black'
                 : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
             }`}
           >
@@ -109,7 +109,7 @@ export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale 
             <div key={artist.id} className="mb-4 break-inside-avoid relative group">
               <Link
                 href={`/${yearCity}/umelci/${artist.id}`}
-                className="block relative overflow-hidden border border-white/10 hover:border-[#8ebc35]/50 transition-colors"
+                className="block relative overflow-hidden border border-white/10 hover:border-accent/50 transition-colors"
                 onMouseEnter={() => router.prefetch(`/${yearCity}/umelci/${artist.id}`)}
               >
                 {artist.image && artist.image.url ? (
@@ -145,7 +145,7 @@ export function ArtistFilters({ artists, yearCity, debugMode, debugTime, locale 
                   title={locale === 'en' ? 'Show on map' : 'Zobraziť na mape'}
                 >
                   <svg width="28" height="36" viewBox="0 0 28 36" fill="none" className="drop-shadow-lg">
-                    <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.268 21.732 0 14 0z" fill="#8ebc35" />
+                    <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.268 21.732 0 14 0z" className="fill-accent" />
                     <circle cx="14" cy="14" r="9" fill="#000" fillOpacity="0.3" />
                     <text x="14" y="18" textAnchor="middle" fill="#000" fontSize="11" fontWeight="700">{artist.mapNumber}</text>
                   </svg>

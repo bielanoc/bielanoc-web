@@ -55,7 +55,7 @@ export function DebugTimePicker({ debugMode, debugTime, festivalActive }: Props)
         <span className="text-yellow-400/80 text-xs">Festival mode</span>
         <button
           onClick={() => setFestivalOn((v) => !v)}
-          className={`relative w-10 h-5 rounded-full transition-colors ${festivalOn ? 'bg-[#8ebc35]' : 'bg-white/20'}`}
+          className={`relative w-10 h-5 rounded-full transition-colors ${festivalOn ? 'bg-accent' : 'bg-white/20'}`}
         >
           <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${festivalOn ? 'left-5' : 'left-0.5'}`} />
         </button>

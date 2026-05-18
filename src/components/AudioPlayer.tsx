@@ -69,7 +69,7 @@ export function AudioPlayer({ src, title }: Props) {
 
       <button
         onClick={togglePlay}
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-[#8ebc35] text-black hover:bg-[#7aa82d] transition-colors shrink-0"
+        className="w-8 h-8 flex items-center justify-center rounded-full bg-accent text-black hover:bg-accent-hover transition-colors shrink-0"
         aria-label={playing ? 'Pause' : 'Play'}
       >
         {playing ? (
@@ -93,7 +93,7 @@ export function AudioPlayer({ src, title }: Props) {
           onClick={seek}
         >
           <div
-            className="h-full bg-[#8ebc35] rounded-full transition-[width] duration-100"
+            className="h-full bg-accent rounded-full transition-[width] duration-100"
             style={{ width: `${progress}%` }}
           />
         </div>

@@ -36,14 +36,14 @@ export function RichText({ content }: Props) {
   if (containsHtml(content)) {
     return (
       <div
-        className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white/70 prose-a:text-[#8ebc35] prose-strong:text-white [&_a]:text-[#8ebc35] [&_a]:underline"
+        className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white/70 prose-a:text-accent prose-strong:text-white [&_a]:text-accent [&_a]:underline"
         dangerouslySetInnerHTML={{ __html: lexicalToHtml(content) }}
       />
     )
   }
 
   return (
-    <div className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white/70 prose-a:text-[#8ebc35] prose-strong:text-white">
+    <div className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white/70 prose-a:text-accent prose-strong:text-white">
       <PayloadRichText data={content} />
     </div>
   )

@@ -28,7 +28,7 @@ export default async function PressPage() {
           <a
             href={archive?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${archive.filename}` : archive.url!}
             download
-            className="inline-block px-8 py-3 bg-[#8ebc35] text-black font-medium hover:bg-[#7aa82d] transition-colors"
+            className="inline-block px-8 py-3 bg-accent text-black font-medium hover:bg-accent-hover transition-colors"
           >
             {locale === 'en' ? 'Download press kit (ZIP)' : 'Stiahnuť press kit (ZIP)'}
           </a>

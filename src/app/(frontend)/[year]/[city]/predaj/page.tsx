@@ -41,7 +41,7 @@ export default async function TicketsPage({ params }: Props) {
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-3 bg-[#8ebc35] text-black font-medium hover:bg-[#7aa82d] transition-colors"
+              className="inline-block px-8 py-3 bg-accent text-black font-medium hover:bg-accent-hover transition-colors"
             >
               {t.buyTickets} — {CITIES[cityCode].label}
             </a>

@@ -98,7 +98,7 @@ export default async function ArtistDetailPage({ params }: Props) {
           <div>
             <h1 className="text-3xl font-bold">{artist.name}</h1>
             {artist.work && (
-              <p className="text-[#8ebc35] mt-1">{artist.work}</p>
+              <p className="text-accent mt-1">{artist.work}</p>
             )}
           </div>
 

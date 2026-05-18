@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+@theme {
+  --color-accent: var(--accent-color, #8ebc35);
+  --color-accent-hover: color-mix(in srgb, var(--accent-color, #8ebc35) 85%, black);
+}
+
 @font-face {
   font-family: 'HW Clin';
   src: url('/fonts/HW Clin Light.otf') format('opentype');

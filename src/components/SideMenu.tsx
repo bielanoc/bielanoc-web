@@ -1,11 +1,20 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { UI_STRINGS, type Locale } from '@/lib/i18n'
 import { LanguageToggle } from './LanguageToggle'
 import { useDebugSettings } from '@/lib/useDebugSettings'
+
+type MenuItem = {
+  label: string
+  url: string
+  useYearCity?: boolean
+  icon?: string
+  dividerAfter?: boolean
+}
 
 type Props = {
   open: boolean
@@ -15,13 +24,14 @@ type Props = {
   locale?: Locale
   availableYears?: string[]
   socialLinks?: { instagram: string | null; facebook: string | null }
+  menuItems?: MenuItem[]
   debugMode?: boolean
   debugTime?: string | null
   festivalActive?: boolean
   menuGradientColor?: string
 }
 
-export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, debugMode = false, debugTime = null, festivalActive = true, menuGradientColor = '#0a1628' }: Props) {
+export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, locale = 'sk', availableYears = ['2025'], socialLinks, menuItems, debugMode = false, debugTime = null, festivalActive = true, menuGradientColor = '#0a1628' }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const router = useRouter()
@@ -89,13 +99,13 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <div className="flex border border-white/20 rounded overflow-hidden text-sm">
               <button
                 onClick={() => switchCity('ba')}
-                className={`px-3 py-2 transition-colors ${city === 'ba' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ba' ? 'bg-accent text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Bratislava
               </button>
               <button
                 onClick={() => switchCity('ke')}
-                className={`px-3 py-2 transition-colors ${city === 'ke' ? 'bg-[#8ebc35] text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-2 transition-colors ${city === 'ke' ? 'bg-accent text-black font-medium' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
               >
                 Košice
               </button>
@@ -120,7 +130,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <Link
               href={`${base}/predaj`}
               onClick={onClose}
-              className="block text-center px-4 py-2.5 bg-[#8ebc35] text-black font-medium text-sm uppercase tracking-wide hover:bg-[#7aa82d] transition-colors rounded"
+              className="block text-center px-4 py-2.5 bg-accent text-black font-medium text-sm uppercase tracking-wide hover:bg-accent-hover transition-colors rounded"
             >
               {t.ticketSale}
             </Link>
@@ -128,34 +138,49 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
 
           <div className="border-t border-white/10 my-2" />
 
-          <MenuLink href="/" onClick={onClose}>{t.home}</MenuLink>
-
-          <MenuLink href="/search" onClick={onClose}>
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {locale === 'en' ? 'Search' : 'Vyhľadávanie'}
-            </span>
-          </MenuLink>
-
-          <div className="border-t border-white/10 my-2" />
-
-          <MenuLink href={`${base}/umelci`} onClick={onClose}>{t.artists}</MenuLink>
-          <MenuLink href={`${base}/mapa`} onClick={onClose}>{t.map}</MenuLink>
-          <MenuLink href={`${base}/partneri`} onClick={onClose}>{t.partners}</MenuLink>
-          <MenuLink href={`${base}/info`} onClick={onClose}>{t.info}</MenuLink>
-          <MenuLink href={`${base}/predaj`} onClick={onClose}>{t.tickets}</MenuLink>
-          <MenuLink href={`${base}/dobrovolnici`} onClick={onClose}>{t.volunteers}</MenuLink>
-
-          <div className="border-t border-white/10 my-4" />
-
-          <MenuLink href="/o-bielej-noci" onClick={onClose}>{t.about}</MenuLink>
-          <MenuLink href="/kontakt" onClick={onClose}>{t.contact}</MenuLink>
-          <MenuLink href="/podporte-nas" onClick={onClose}>{t.support}</MenuLink>
-          <MenuLink href="/press" onClick={onClose}>{t.press}</MenuLink>
-          <MenuLink href="/archive" onClick={onClose}>{t.archive}</MenuLink>
-          <MenuLink href="/app" onClick={onClose}>{t.app}</MenuLink>
+          {menuItems && menuItems.length > 0 ? (
+            menuItems.map((item, i) => (
+              <React.Fragment key={i}>
+                <MenuLink href={item.useYearCity ? `${base}${item.url}` : item.url} onClick={onClose}>
+                  {item.icon === 'search' ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      {item.label}
+                    </span>
+                  ) : item.label}
+                </MenuLink>
+                {item.dividerAfter && <div className="border-t border-white/10 my-2" />}
+              </React.Fragment>
+            ))
+          ) : (
+            <>
+              <MenuLink href="/" onClick={onClose}>{t.home}</MenuLink>
+              <MenuLink href="/search" onClick={onClose}>
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  {locale === 'en' ? 'Search' : 'Vyhľadávanie'}
+                </span>
+              </MenuLink>
+              <div className="border-t border-white/10 my-2" />
+              <MenuLink href={`${base}/umelci`} onClick={onClose}>{t.artists}</MenuLink>
+              <MenuLink href={`${base}/mapa`} onClick={onClose}>{t.map}</MenuLink>
+              <MenuLink href={`${base}/partneri`} onClick={onClose}>{t.partners}</MenuLink>
+              <MenuLink href={`${base}/info`} onClick={onClose}>{t.info}</MenuLink>
+              <MenuLink href={`${base}/predaj`} onClick={onClose}>{t.tickets}</MenuLink>
+              <MenuLink href={`${base}/dobrovolnici`} onClick={onClose}>{t.volunteers}</MenuLink>
+              <div className="border-t border-white/10 my-4" />
+              <MenuLink href="/o-bielej-noci" onClick={onClose}>{t.about}</MenuLink>
+              <MenuLink href="/kontakt" onClick={onClose}>{t.contact}</MenuLink>
+              <MenuLink href="/podporte-nas" onClick={onClose}>{t.support}</MenuLink>
+              <MenuLink href="/press" onClick={onClose}>{t.press}</MenuLink>
+              <MenuLink href="/archive" onClick={onClose}>{t.archive}</MenuLink>
+              <MenuLink href="/app" onClick={onClose}>{t.app}</MenuLink>
+            </>
+          )}
 
           <div className="border-t border-white/10 my-4" />
 
@@ -192,7 +217,7 @@ function MenuLink({ href, onClick, children }: { href: string; onClick: () => vo
       className="relative text-white/80 hover:text-white transition-colors uppercase tracking-wide group"
     >
       {children}
-      <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[#8ebc35] transition-all duration-300 group-hover:w-full" />
+      <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-full" />
     </Link>
   )
 }

@@ -52,7 +52,7 @@ export function SearchClient({ artists, locale }: Props) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder={locale === 'en' ? 'Artist name, artwork, or place...' : 'Meno umelca, dielo alebo miesto...'}
           autoFocus
-          className="w-full px-5 py-4 text-lg bg-white/5 border border-white/20 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-[#8ebc35] transition-colors"
+          className="w-full px-5 py-4 text-lg bg-white/5 border border-white/20 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-accent transition-colors"
         />
         {query && (
           <button
@@ -86,7 +86,7 @@ export function SearchClient({ artists, locale }: Props) {
             <Link
               key={`${a.id}-${a.year}-${a.city}`}
               href={`/${a.year}/${a.city}/umelci/${a.id}`}
-              className="block px-4 py-3 border border-white/10 rounded-lg hover:border-[#8ebc35]/50 hover:bg-white/5 transition-colors"
+              className="block px-4 py-3 border border-white/10 rounded-lg hover:border-accent/50 hover:bg-white/5 transition-colors"
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="min-w-0">

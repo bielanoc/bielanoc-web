@@ -47,7 +47,7 @@ export default async function ContactPage() {
                 <p className="font-medium">{contact.name}</p>
                 {contact.role && <p className="text-sm text-white/50">{contact.role}</p>}
                 {contact.email && (
-                  <a href={`mailto:${contact.email}`} className="text-sm text-[#8ebc35] hover:underline">
+                  <a href={`mailto:${contact.email}`} className="text-sm text-accent hover:underline">
                     {contact.email}
                   </a>
                 )}

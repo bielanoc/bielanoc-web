@@ -52,14 +52,14 @@ export function MapPageClient({ markers, center, moreInfoLabel, navigateLabel }:
               <button
                 onClick={() => handleSelect(m.id)}
                 className={`w-full text-left px-4 py-3 transition-colors hover:bg-white/5 ${
-                  selectedId === m.id ? 'bg-[#8ebc35]/10 border-l-2 border-l-[#8ebc35]' : 'border-l-2 border-l-transparent'
+                  selectedId === m.id ? 'bg-accent/10 border-l-2 border-l-accent' : 'border-l-2 border-l-transparent'
                 }`}
               >
                 <span className="inline-flex items-center gap-2">
                   <span
                     className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold shrink-0 ${
                       selectedId === m.id
-                        ? 'bg-[#8ebc35] text-black'
+                        ? 'bg-accent text-black'
                         : 'bg-white/10 text-white/60'
                     }`}
                   >
