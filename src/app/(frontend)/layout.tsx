@@ -4,7 +4,8 @@ import { FloatingMenuButton } from '@/components/FloatingMenuButton'
 import { ConditionalFooter } from '@/components/ConditionalFooter'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
-import { getPayloadClient } from '@/lib/payload'
+import { getPayloadClient, getTicketSettings, getFestivalSettings, getBrandingSettings, getNavigationSettings } from '@/lib/payload'
+import { getMediaUrl } from '@/lib/media'
 import { getLocale } from '@/lib/locale'
 import '../globals.css'
 
@@ -29,14 +30,6 @@ export const metadata: Metadata = {
   },
 }
 
-function getMediaUrl(media: unknown): string | null {
-  if (!media || typeof media !== 'object') return null
-  const m = media as Record<string, unknown>
-  if (m.filename) return `${process.env.NEXT_PUBLIC_S3_URL}/${m.filename}`
-  if (m.url) return m.url as string
-  return null
-}
-
 export default async function FrontendLayout({
   children,
 }: {
@@ -44,43 +37,33 @@ export default async function FrontendLayout({
 }) {
   const locale = await getLocale()
   const payload = await getPayloadClient()
-  const [ticketSettings, festivalSettings, brandingSettings, navigationSettings, artistYears] = await Promise.all([
-    payload.findGlobal({ slug: 'ticket-settings' }).catch(() => null),
-    payload.findGlobal({ slug: 'festival-settings', locale }).catch(() => null),
-    payload.findGlobal({ slug: 'branding-settings' as 'festival-settings', locale, depth: 1 }).catch(() => null),
-    payload.findGlobal({ slug: 'navigation-settings' as 'festival-settings', locale }).catch(() => null),
+  const [ticketSettings, festivalSettings, branding, navigation, artistYears] = await Promise.all([
+    getTicketSettings(),
+    getFestivalSettings(locale),
+    getBrandingSettings(locale),
+    getNavigationSettings(locale),
     payload.find({ collection: 'artists', limit: 0, depth: 0 }).then((res) => {
-      const years = [...new Set(res.docs.map((a) => (a as unknown as { year?: string }).year as string).filter(Boolean))]
+      const years = [...new Set(res.docs.map((a) => a.year).filter(Boolean))]
       return years.sort((a, b) => Number(b) - Number(a))
     }).catch(() => ['2025']),
   ])
 
   const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
-  const settings = festivalSettings as Record<string, unknown> | null
-  const branding = brandingSettings as Record<string, unknown> | null
-  const navigation = navigationSettings as Record<string, unknown> | null
+  const debugMode = festivalSettings?.debugMode ?? false
+  const debugTime = festivalSettings?.debugTime ?? null
+  const festivalActive = festivalSettings?.festivalActive ?? true
 
-  const debugMode = (settings?.debugMode as boolean) ?? false
-  const debugTime = (settings?.debugTime as string) ?? null
-  const festivalActive = (settings?.festivalActive as boolean) ?? true
-  const availableYears = artistYears as string[]
+  const logoUrl = getMediaUrl(branding?.logo?.image) || '/logo-bn.svg'
+  const accentColor = branding?.colors?.accent || '#8ebc35'
+  const menuGradientColor = branding?.colors?.menuGradient || '#0a1628'
+  const footerText = branding?.footer?.text || null
+  const footerLinks = branding?.footer?.links || []
 
-  // Branding
-  const logoGroup = branding?.logo as Record<string, unknown> | null
-  const logoUrl = getMediaUrl(logoGroup?.image) || '/logo-bn.svg'
-  const colorsGroup = branding?.colors as Record<string, unknown> | null
-  const accentColor = (colorsGroup?.accent as string) || '#8ebc35'
-  const menuGradientColor = (colorsGroup?.menuGradient as string) || '#0a1628'
-  const footerGroup = branding?.footer as Record<string, unknown> | null
-  const footerText = (footerGroup?.text as string) || null
-  const footerLinks = (footerGroup?.links as Array<{ label: string; url: string }>) || []
-
-  // Navigation
   const socialLinks = {
-    instagram: (navigation?.socialInstagram as string) || null,
-    facebook: (navigation?.socialFacebook as string) || null,
+    instagram: navigation?.socialInstagram || null,
+    facebook: navigation?.socialFacebook || null,
   }
-  const menuItems = (navigation?.menuItems as Array<{ label: string; url: string; useYearCity?: boolean; icon?: string; dividerAfter?: boolean }>) || []
+  const menuItems = navigation?.menuItems || []
 
   return (
     <html lang={locale}>
@@ -102,7 +85,7 @@ export default async function FrontendLayout({
           <FloatingMenuButton
             ticketSaleEnabled={ticketSaleEnabled}
             locale={locale}
-            availableYears={availableYears}
+            availableYears={artistYears}
             socialLinks={socialLinks}
             menuItems={menuItems}
             debugMode={debugMode}

@@ -10,9 +10,9 @@ import type { Locale } from '@/lib/i18n'
 type MenuItem = {
   label: string
   url: string
-  useYearCity?: boolean
-  icon?: string
-  dividerAfter?: boolean
+  useYearCity?: boolean | null
+  icon?: string | null
+  dividerAfter?: boolean | null
 }
 
 type Props = {

@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient()
   const artists = await payload.find({ collection: 'artists', limit: 0, depth: 0 })
   const combos = new Set(
-    artists.docs.map((a) => `${(a as unknown as { year: string }).year}|${(a as unknown as { city: string }).city}`)
+    artists.docs.map((a) => `${a.year}|${a.city}`)
   )
   return [...combos].map((c) => {
     const [year, city] = c.split('|')

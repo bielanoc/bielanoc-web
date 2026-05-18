@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getPayloadClient } from '@/lib/payload'
+import { getPayloadClient, getFestivalSettings } from '@/lib/payload'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,8 +8,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bielanoc.sk'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayloadClient()
 
-  const settings = await payload.findGlobal({ slug: 'festival-settings' })
-  const currentYear = settings.currentYear || '2025'
+  const settings = await getFestivalSettings()
+  const currentYear = settings?.currentYear || '2025'
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL, changeFrequency: 'weekly', priority: 1 },

@@ -1,18 +1,15 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AuroraBackground } from '@/components/AuroraBackground'
-import { getPayloadClient } from '@/lib/payload'
+import { getFestivalSettings } from '@/lib/payload'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 export default async function AuroraPage() {
   const locale = await getLocale()
   const t = UI_STRINGS[locale]
-  const payload = await getPayloadClient()
-  const settings = await payload.findGlobal({ slug: 'festival-settings' }).catch(() => null) as Record<string, unknown> | null
-  const currentYear = (settings?.currentYear as string) ?? '2025'
-  const dateBA = settings?.dateInfoBA as string | undefined
-  const dateKE = settings?.dateInfoKE as string | undefined
-  const dateDisplay = dateBA || dateKE || null
+  const settings = await getFestivalSettings(locale)
+  const currentYear = settings?.currentYear ?? '2025'
+  const dateDisplay = settings?.dateInfoBA || settings?.dateInfoKE || null
 
   return (
     <>

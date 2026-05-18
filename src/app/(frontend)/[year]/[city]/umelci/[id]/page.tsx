@@ -1,4 +1,5 @@
 import { getPayloadClient } from '@/lib/payload'
+import { getMediaSrc } from '@/lib/media'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,8 +16,8 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient()
   const artists = await payload.find({ collection: 'artists', limit: 500, depth: 0 })
   return artists.docs.map((a) => ({
-    year: `y${(a as unknown as { year: string }).year}`,
-    city: (a as unknown as { city: string }).city,
+    year: `y${a.year}`,
+    city: a.city,
     id: String(a.id),
   }))
 }
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: Props) {
   if (!artist) return { title: 'Umelec' }
 
   const image = artist.image && typeof artist.image === 'object' ? artist.image : null
-  const imageUrl = image?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${image.filename}` : image?.url
+  const imageUrl = getMediaSrc(image)
 
   return {
     title: artist.name,
@@ -64,6 +65,8 @@ export default async function ArtistDetailPage({ params }: Props) {
     ? artist.records.filter((r): r is Exclude<typeof r, number> => typeof r !== 'number')
     : []
 
+  const image = artist.image && typeof artist.image === 'object' ? artist.image : null
+
   return (
     <div className="px-6 py-8 max-w-4xl mx-auto">
       <Link
@@ -75,10 +78,10 @@ export default async function ArtistDetailPage({ params }: Props) {
 
       <div className="grid md:grid-cols-2 gap-8">
         <div className="relative">
-          {artist.image && typeof artist.image === 'object' && (artist.image.filename || artist.image.url) ? (
+          {image && getMediaSrc(image) ? (
             <div className="relative w-full aspect-[4/3] border border-white/10 overflow-hidden">
               <Image
-                src={artist.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${artist.image.filename}` : artist.image.url!}
+                src={getMediaSrc(image)!}
                 alt={artist.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -142,7 +145,7 @@ export default async function ArtistDetailPage({ params }: Props) {
               <div className="space-y-2">
                 {records.map((r) => {
                   const file = r.file && typeof r.file === 'object' ? r.file : null
-                  const src = file?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${file.filename}` : file?.url
+                  const src = getMediaSrc(file)
                   if (!src) return null
                   return (
                     <AudioPlayer key={r.id} src={src} title={r.title} />

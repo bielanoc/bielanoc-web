@@ -2,31 +2,22 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { OffFestivalHome } from '@/components/OffFestivalHome'
 import { Stars } from '@/components/Stars'
-import { getPayloadClient } from '@/lib/payload'
+import { getPayloadClient, getFestivalSettings, getBrandingSettings } from '@/lib/payload'
+import { getMediaUrl } from '@/lib/media'
 import { getLocale } from '@/lib/locale'
-
-function getMediaUrl(media: unknown): string | null {
-  if (!media || typeof media !== 'object') return null
-  const m = media as Record<string, unknown>
-  if (m.filename) return `${process.env.NEXT_PUBLIC_S3_URL}/${m.filename}`
-  if (m.url) return m.url as string
-  return null
-}
 
 export default async function HomePage() {
   const locale = await getLocale()
-  const payload = await getPayloadClient()
-  const [festivalSettingsRaw, brandingSettingsRaw] = await Promise.all([
-    payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
-    payload.findGlobal({ slug: 'branding-settings' as 'festival-settings', depth: 1 }).catch(() => null),
+  const [festivalSettings, branding] = await Promise.all([
+    getFestivalSettings(),
+    getBrandingSettings(locale),
   ])
 
-  const settings = festivalSettingsRaw as Record<string, unknown> | null
-  const branding = brandingSettingsRaw as Record<string, unknown> | null
-  const festivalActive = (settings?.festivalActive as boolean) ?? true
-  const currentYear = (settings?.currentYear as string) ?? '2025'
+  const festivalActive = festivalSettings?.festivalActive ?? true
+  const currentYear = festivalSettings?.currentYear ?? '2025'
 
   if (!festivalActive) {
+    const payload = await getPayloadClient()
     const articlesResult = await payload.find({
       collection: 'articles',
       limit: 20,
@@ -36,45 +27,33 @@ export default async function HomePage() {
     }).catch(() => null)
 
     const articles = (articlesResult?.docs ?? []).map((a) => {
-      const doc = a as unknown as Record<string, unknown>
-      const img = doc.coverImage
-      const cover = img && typeof img === 'object'
-        ? ((img as Record<string, unknown>).filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${(img as Record<string, unknown>).filename}` : ((img as Record<string, unknown>).url as string | null))
-        : null
+      const cover = getMediaUrl((a as unknown as { coverImage?: unknown }).coverImage)
       return {
         id: String(a.id),
-        title: (a.title as string) || '',
+        title: a.title || '',
         excerpt: '',
         coverImage: cover,
-        createdAt: (doc.createdAt as string) || '',
+        createdAt: a.createdAt || '',
       }
     })
 
-    const offSeasonGroup = branding?.offSeason as Record<string, unknown> | null
-    const bannerUrl = getMediaUrl(offSeasonGroup?.banner)
-    const heading = (offSeasonGroup?.heading as string) || null
-    const text = (offSeasonGroup?.text as unknown) || null
+    const bannerUrl = getMediaUrl(branding?.offSeason?.banner)
+    const heading = branding?.offSeason?.heading || null
+    const text = branding?.offSeason?.text || null
 
     return <OffFestivalHome articles={articles} locale={locale} bannerUrl={bannerUrl} heading={heading} richText={text} />
   }
 
-  // Stars
-  const starsGroup = branding?.stars as Record<string, unknown> | null
-  const starsEnabled = (starsGroup?.enabled as boolean) ?? true
-  const starsColorsRaw = starsGroup?.colors as Array<{ color: string }> | null
-  const starsColors = starsColorsRaw?.map((c) => c.color) || ['#F5E455', '#FF5555', '#FF2AC4', '#5555FF']
+  const starsEnabled = branding?.stars?.enabled ?? true
+  const starsColors = branding?.stars?.colors?.map((c) => c.color) || ['#F5E455', '#FF5555', '#FF2AC4', '#5555FF']
 
-  // Branding colors
-  const colorsGroup = branding?.colors as Record<string, unknown> | null
-  const baColor = (colorsGroup?.bratislavaBackground as string) || '#8094F7'
-  const keColor = (colorsGroup?.kosiceBackground as string) || '#B2BCAC'
+  const baColor = branding?.colors?.bratislavaBackground || '#8094F7'
+  const keColor = branding?.colors?.kosiceBackground || '#B2BCAC'
 
-  // Homepage images
-  const homepageGroup = branding?.homepage as Record<string, unknown> | null
-  const baImage = getMediaUrl(homepageGroup?.imageBA)
-  const baHoverImage = getMediaUrl(homepageGroup?.imageBAHover)
-  const keImage = getMediaUrl(homepageGroup?.imageKE)
-  const keHoverImage = getMediaUrl(homepageGroup?.imageKEHover)
+  const baImage = getMediaUrl(branding?.homepage?.imageBA)
+  const baHoverImage = getMediaUrl(branding?.homepage?.imageBAHover)
+  const keImage = getMediaUrl(branding?.homepage?.imageKE)
+  const keHoverImage = getMediaUrl(branding?.homepage?.imageKEHover)
 
   return (
     <>

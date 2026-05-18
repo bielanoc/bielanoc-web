@@ -1,4 +1,5 @@
-import { getPayloadClient } from '@/lib/payload'
+import { getPayloadClient, getFestivalSettings } from '@/lib/payload'
+import { getMediaSrc } from '@/lib/media'
 import { CITIES, type CityCode } from '@/lib/constants'
 import { ArtistFilters } from '@/components/ArtistFilters'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
@@ -34,30 +35,27 @@ export default async function ArtistsPage({ params }: Props) {
       depth: 1,
       locale,
     }),
-    payload.findGlobal({ slug: 'festival-settings' }).catch(() => null),
+    getFestivalSettings(),
   ])
 
-  const settings = festivalSettings as Record<string, unknown> | null
-  const debugMode = (settings?.debugMode as boolean) ?? false
-  const debugTime = (settings?.debugTime as string) ?? null
+  const debugMode = festivalSettings?.debugMode ?? false
+  const debugTime = festivalSettings?.debugTime ?? null
 
   const artistData = artists.docs.map((a, index) => {
     const hasCoords = Boolean(a.latitude && a.longitude)
+    const image = a.image && typeof a.image === 'object' ? a.image : null
     return {
       id: String(a.id),
       name: a.name,
       work: a.work ?? null,
-      image: a.image && typeof a.image === 'object' ? { url: a.image.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${a.image.filename}` : a.image.url ?? null } : null,
+      image: image ? { url: getMediaSrc(image) } : null,
       mapNumber: hasCoords ? index + 1 : null,
       dates: Array.isArray(a.dates)
-        ? a.dates.map((d) => {
-            const dateObj = d as Record<string, unknown>
-            return {
-              start: (dateObj.start as string) ?? null,
-              end: (dateObj.end as string) ?? null,
-              display: (dateObj.display as boolean) ?? true,
-            }
-          })
+        ? a.dates.filter((d): d is Exclude<typeof d, number> => typeof d !== 'number').map((d) => ({
+            start: d.start ?? null,
+            end: d.end ?? null,
+            display: d.display ?? true,
+          }))
         : [],
     }
   })

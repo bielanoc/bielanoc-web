@@ -1,4 +1,5 @@
 import { getPayloadClient } from '@/lib/payload'
+import { getMediaSrc } from '@/lib/media'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 
 export async function generateMetadata() {
@@ -24,9 +25,9 @@ export default async function PressPage() {
             ? 'Download the complete press kit with logos, photos and other materials.'
             : 'Stiahnite si kompletný press kit s logami, fotkami a ďalšími materiálmi.'}
         </p>
-        {(archive?.filename || archive?.url) ? (
+        {getMediaSrc(archive) ? (
           <a
-            href={archive?.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${archive.filename}` : archive.url!}
+            href={getMediaSrc(archive)!}
             download
             className="inline-block px-8 py-3 bg-accent text-black font-medium hover:bg-accent-hover transition-colors"
           >

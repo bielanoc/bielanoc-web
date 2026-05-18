@@ -1,4 +1,5 @@
 import { getPayloadClient } from '@/lib/payload'
+import { getMediaSrc } from '@/lib/media'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 import Image from 'next/image'
 
@@ -29,9 +30,9 @@ export default async function ContactPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {contacts.docs.map((contact) => (
             <div key={contact.id} className="border border-white/10 rounded p-4 space-y-3">
-              {contact.photo && typeof contact.photo === 'object' && (contact.photo.filename || contact.photo.url) ? (
+              {contact.photo && typeof contact.photo === 'object' && getMediaSrc(contact.photo) ? (
                 <Image
-                  src={contact.photo.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${contact.photo.filename}` : contact.photo.url!}
+                  src={getMediaSrc(contact.photo)!}
                   alt={contact.name}
                   width={80}
                   height={80}

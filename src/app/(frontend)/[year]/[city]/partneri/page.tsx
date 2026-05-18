@@ -1,4 +1,5 @@
 import { getPayloadClient } from '@/lib/payload'
+import { getMediaSrc } from '@/lib/media'
 import { CITIES, PARTNER_CATEGORIES, type CityCode } from '@/lib/constants'
 import { getLocale, UI_STRINGS } from '@/lib/locale'
 import Image from 'next/image'
@@ -55,11 +56,12 @@ export default async function PartnersPage({ params }: Props) {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center">
                 {group.partners.map((partner) => {
                   const logo = typeof partner.logo === 'object' ? partner.logo : null
+                  const logoSrc = getMediaSrc(logo)
                   const content = (
                     <div className="relative flex items-center justify-center p-4 bg-white/5 border border-white/10 rounded hover:border-white/30 transition-colors aspect-[3/2]">
-                      {(logo?.filename || logo?.url) ? (
+                      {logoSrc ? (
                         <Image
-                          src={logo.filename ? `${process.env.NEXT_PUBLIC_S3_URL}/${logo.filename}` : logo.url!}
+                          src={logoSrc}
                           alt={partner.name}
                           width={160}
                           height={64}
