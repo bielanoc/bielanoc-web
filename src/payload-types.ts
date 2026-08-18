@@ -1023,21 +1023,29 @@ export interface BrandingSetting {
   };
   homepage?: {
     /**
-     * Main homepage image for Bratislava section.
+     * Main homepage image for Bratislava section. Also used as the poster/fallback when a video is set.
      */
     imageBA?: (number | null) | Media;
     /**
-     * Image shown on hover for Bratislava section.
+     * Image shown on hover for Bratislava section (ignored when a video is set).
      */
     imageBAHover?: (number | null) | Media;
     /**
-     * Main homepage image for Košice section.
+     * Optional looping background video (MP4/WebM). Takes precedence over the image. Should be muted; audio is not played.
+     */
+    videoBA?: (number | null) | Media;
+    /**
+     * Main homepage image for Košice section. Also used as the poster/fallback when a video is set.
      */
     imageKE?: (number | null) | Media;
     /**
-     * Image shown on hover for Košice section.
+     * Image shown on hover for Košice section (ignored when a video is set).
      */
     imageKEHover?: (number | null) | Media;
+    /**
+     * Optional looping background video (MP4/WebM). Takes precedence over the image. Should be muted; audio is not played.
+     */
+    videoKE?: (number | null) | Media;
   };
   stars?: {
     /**
@@ -1275,8 +1283,10 @@ export interface BrandingSettingsSelect<T extends boolean = true> {
     | {
         imageBA?: T;
         imageBAHover?: T;
+        videoBA?: T;
         imageKE?: T;
         imageKEHover?: T;
+        videoKE?: T;
       };
   stars?:
     | T
