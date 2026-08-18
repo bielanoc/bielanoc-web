@@ -1,0 +1,39 @@
+src/globals/NavigationSettings.ts
+  s_6f9f68f628ef69::t_42a980598b8689 64-78
+src/app/(frontend)/layout.tsx
+  s_6f9f68f628ef69::t_fde475643317ac 57
+src/globals/BrandingSettings.ts
+  s_6f9f68f628ef69::t_e0d0956c8567ae 32
+src/components/FestivalMapInner.tsx
+  s_6f9f68f628ef69::t_a01406ab7f0128 38-39,45,137,146
+src/payload-types.ts
+  s_6f9f68f628ef69::t_8fa71da626ce6c 1143-1154,1332-1334
+src/components/admin/LocationPicker.tsx
+  s_6f9f68f628ef69::t_a01406ab7f0128 193
+docs/reply-monika-2026.md
+  s_6f9f68f628ef69::t_9138268e0fa85e 1-38
+src/app/globals.css
+  s_6f9f68f628ef69::t_b68261a02bc463 5-6
+  s_6f9f68f628ef69::t_99c42ce8f70ded 53
+  s_6f9f68f628ef69::t_212ff2044cbfb9 37-45
+.gitignore
+  s_6f9f68f628ef69::t_cea39d0ed83305 33-36
+docs/redesign-2026-handoff.md
+  s_6f9f68f628ef69::t_28a9a800bc2d79 1-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "43e3a7aea9bc0ae5bb7711c83ce2eaf312666fbd",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
