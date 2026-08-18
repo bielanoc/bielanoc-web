@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SideMenu } from './SideMenu'
+import { CITIES, type CityCode } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 
 type MenuItem = {
@@ -39,12 +40,21 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
   const pathname = usePathname()
   const { year, city } = parseRoute(pathname)
 
+  // Dynamic "which edition am I on" label, e.g. "Bratislava 2025". Only shown
+  // on city routes (hidden on the homepage and non-city pages).
+  const cityLabel = year && city ? `${CITIES[city as CityCode]?.label ?? city} ${year}` : null
+
   return (
     <>
-      <div className="absolute top-3 left-3 z-50 sm:top-4 sm:left-4">
+      <div className="absolute top-3 left-3 z-50 flex items-center gap-2 sm:top-4 sm:left-4 sm:gap-3">
         <Link href="/" aria-label="Biela Noc" className="block bg-black/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 border border-white/10">
           <Image src={logoUrl} alt="Biela Noc" width={60} height={48} priority className="w-[36px] h-[29px] sm:w-[60px] sm:h-[48px]" />
         </Link>
+        {cityLabel && (
+          <span className="bg-black/60 backdrop-blur-sm rounded-lg border border-white/10 px-2.5 py-1.5 text-sm font-medium text-white whitespace-nowrap sm:px-3 sm:py-2 sm:text-base">
+            {cityLabel}
+          </span>
+        )}
       </div>
 
       <div className="absolute top-4 right-4 z-50">
