@@ -1,0 +1,26 @@
+e2e/artists.spec.ts
+  s_6f9f68f628ef69::t_33a51fc07e47cb 4,6-7,9-11,13-14,21,32
+  s_6f9f68f628ef69::t_6796f5c8dd7357 24-26,34,36-37
+.github/workflows/ci.yml
+  s_6f9f68f628ef69::t_5fca30f23eeecd 40-43
+e2e/navigation.spec.ts
+  s_6f9f68f628ef69::t_2103ce411bb2a6 23-24,38,41-42,45-46,49-50,56-58,64-65
+  s_6f9f68f628ef69::t_481d48eee2c425 1-18,35,43,47,51,59,66
+  s_6f9f68f628ef69::t_b6086b44ab9759 25-29,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "223ec07701da81f37fc1c631cf6ba6be0c3cf60e",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
