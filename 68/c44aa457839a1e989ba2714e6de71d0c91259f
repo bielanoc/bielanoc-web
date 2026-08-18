@@ -1,0 +1,20 @@
+src/components/FloatingMenuButton.tsx
+  s_6f9f68f628ef69::t_87bd220c69dd03 43-46,49,53-57
+  s_6f9f68f628ef69::t_abb22c246f4dbd 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "68c44aa457839a1e989ba2714e6de71d0c91259f",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
