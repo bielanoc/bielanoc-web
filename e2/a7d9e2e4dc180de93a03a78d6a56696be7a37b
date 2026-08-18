@@ -1,0 +1,28 @@
+src/app/(frontend)/page.tsx
+  s_6f9f68f628ef69::t_e05fa69a84395e 55,58
+  s_6f9f68f628ef69::t_9b6454cd092eb3 69,77
+  s_6f9f68f628ef69::t_e71f908f84598d 100-102,109,113-124
+  s_6f9f68f628ef69::t_45500f8996bab0 83-99,103-108,110-112,125-152
+src/payload-types.ts
+  s_6f9f68f628ef69::t_2c37e1aec0d40e 1026,1030,1034-1038,1042,1045-1048,1286,1289
+src/globals/BrandingSettings.ts
+  s_6f9f68f628ef69::t_459752e0bd215c 76,83-90,97,104-111
+src/collections/Media.ts
+  s_6f9f68f628ef69::t_3c77cdbbada97b 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e2a7d9e2e4dc180de93a03a78d6a56696be7a37b",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
