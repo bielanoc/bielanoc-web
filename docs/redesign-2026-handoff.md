@@ -100,4 +100,13 @@ Monika Grančičová (managing director). Update as work progresses.
 ## Changelog
 
 - **2026-08-18** — Branch `redesign-2026` created. Phase 1.1 (coral color), 1.2 (Barlow font
-  registered), 2.2 (social fields) done. Types regenerated, typecheck clean.
+  registered), 2.2 (social fields) done. Types regenerated, typecheck clean. PR #1 opened.
+- **2026-08-18** — CI fixes surfaced by first PR run:
+  - e2e was timing out (120s covered `pnpm build && pnpm start`); split build into its own
+    CI step so Playwright's `webServer` only starts the prebuilt server (timeout 180s).
+  - Fixed pre-existing a11y violations the newly-running e2e exposed (unrelated to the color
+    change): year `<select>` in SideMenu missing accessible name (added `aria-label` +
+    `selectYear` i18n string); low-contrast greys in Footer (`white/40`→`white/60`) and
+    MapPageClient (`white/30`,`white/40`→`white/60`) to meet WCAG AA 4.5:1.
+  - **Note:** Vercel check fails on all PRs — private org repo on Vercel Hobby plan (billing,
+    not code). Needs plan upgrade or integration change, out of band.

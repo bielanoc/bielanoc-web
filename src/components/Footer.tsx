@@ -7,7 +7,7 @@ export function Footer({ text, links = [] }: Props) {
   const displayText = text || `© ${new Date().getFullYear()} Biela Noc`
 
   return (
-    <footer className="border-t border-white/10 py-8 px-6 text-center text-sm text-white/40">
+    <footer className="border-t border-white/10 py-8 px-6 text-center text-sm text-white/60">
       <p>{displayText}</p>
       {links.length > 0 && (
         <div className="flex justify-center gap-4 mt-3">

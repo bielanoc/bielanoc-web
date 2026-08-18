@@ -70,10 +70,10 @@ export function MapPageClient({ markers, center, moreInfoLabel, navigateLabel }:
                   </span>
                 </span>
                 {m.work && (
-                  <p className="text-xs text-white/40 mt-0.5 ml-8">{m.work}</p>
+                  <p className="text-xs text-white/60 mt-0.5 ml-8">{m.work}</p>
                 )}
                 {m.place && (
-                  <p className="text-xs text-white/30 ml-8">{m.place}</p>
+                  <p className="text-xs text-white/60 ml-8">{m.place}</p>
                 )}
               </button>
             </li>

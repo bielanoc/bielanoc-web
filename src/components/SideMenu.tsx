@@ -114,6 +114,7 @@ export function SideMenu({ open, onClose, yearCity, ticketSaleEnabled = false, l
             <select
               value={year || availableYears[0]}
               onChange={(e) => switchYear(e.target.value)}
+              aria-label={t.selectYear}
               className="bg-transparent border border-white/20 rounded text-sm text-white/70 px-3 py-2 cursor-pointer hover:border-white/40 transition-colors"
             >
               {availableYears.map((y) => (
