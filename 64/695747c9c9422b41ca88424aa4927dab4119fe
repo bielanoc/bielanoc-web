@@ -1,0 +1,24 @@
+docs/redesign-2026-handoff.md
+  s_6f9f68f628ef69::t_e254a9dc9d3e95 131-133
+  s_6f9f68f628ef69::t_329d9b0552b126 92-109
+.github/workflows/ci.yml
+  s_6f9f68f628ef69::t_e22e9979753b2b 40-43
+e2e/map.spec.ts
+  s_6f9f68f628ef69::t_7e0371a342b230 21,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "64695747c9c9422b41ca88424aa4927dab4119fe",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
