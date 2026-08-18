@@ -1,0 +1,38 @@
+src/components/SideMenu.tsx
+  s_6f9f68f628ef69::t_1253677a693366 333-348
+  s_6f9f68f628ef69::t_dc2fe938a1237e 188,190-197,201-208
+src/app/(frontend)/[year]/[city]/predaj/page.tsx
+  s_6f9f68f628ef69::t_a5106b87e6685d 29
+src/app/(frontend)/[year]/[city]/partneri/page.tsx
+  s_6f9f68f628ef69::t_1b5650544ccf0e 44
+src/app/(frontend)/page.tsx
+  s_6f9f68f628ef69::t_4e13f8c36365d7 12
+  s_6f9f68f628ef69::t_d34ce358b93a71 73
+  s_6f9f68f628ef69::t_7207e670683510 82
+  s_6f9f68f628ef69::t_d5e58f7d668083 89-113
+  s_6f9f68f628ef69::t_d2f433fd6deb80 60-62
+src/app/(frontend)/[year]/[city]/dobrovolnici/page.tsx
+  s_6f9f68f628ef69::t_45191b49060838 30
+src/app/(frontend)/[year]/[city]/umelci/[id]/page.tsx
+  s_6f9f68f628ef69::t_0df7d3ce35d957 71
+src/app/(frontend)/[year]/[city]/umelci/page.tsx
+  s_6f9f68f628ef69::t_c367b409a20162 65
+src/app/(frontend)/[year]/[city]/info/page.tsx
+  s_6f9f68f628ef69::t_8ab22952e56062 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "77647caf5bcd42ee978cde00d86a68447ea8a429",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
