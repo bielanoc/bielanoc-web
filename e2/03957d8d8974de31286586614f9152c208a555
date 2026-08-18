@@ -1,0 +1,21 @@
+playwright.config.ts
+  s_6f9f68f628ef69::t_77f75edbb3709a 23-26,29
+.github/workflows/ci.yml
+  s_6f9f68f628ef69::t_6eef226161e7bc 57-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e203957d8d8974de31286586614f9152c208a555",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
