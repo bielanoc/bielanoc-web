@@ -9,7 +9,7 @@ import { getLocale } from '@/lib/locale'
 export default async function HomePage() {
   const locale = await getLocale()
   const [festivalSettings, branding] = await Promise.all([
-    getFestivalSettings(),
+    getFestivalSettings(locale),
     getBrandingSettings(locale),
   ])
 
@@ -57,6 +57,9 @@ export default async function HomePage() {
   const keHoverImage = getMediaUrl(branding?.homepage?.imageKEHover)
   const keVideo = getMediaUrl(branding?.homepage?.videoKE)
 
+  const baDates = festivalSettings?.dateInfoBA || null
+  const keDates = festivalSettings?.dateInfoKE || null
+
   return (
     <>
     <Stars enabled={starsEnabled} colors={starsColors} />
@@ -67,6 +70,7 @@ export default async function HomePage() {
         style={{ backgroundColor: baColor }}
       >
         <CityMedia alt="Bratislava" image={baImage} hoverImage={baHoverImage} video={baVideo} />
+        <CityOverlay name="Bratislava" dates={baDates} />
       </Link>
 
       <Link
@@ -75,9 +79,35 @@ export default async function HomePage() {
         style={{ backgroundColor: keColor }}
       >
         <CityMedia alt="Košice" image={keImage} hoverImage={keHoverImage} video={keVideo} />
+        <CityOverlay name="Košice" dates={keDates} />
       </Link>
     </div>
     </>
+  )
+}
+
+// City name (centered) + festival dates (bottom) rendered over the panel media,
+// matching the 2026 homepage design. Non-interactive so clicks fall through to
+// the wrapping Link.
+function CityOverlay({ name, dates }: { name: string; dates: string | null }) {
+  // The stored date string may already end with the city name
+  // (e.g. "2. – 4. október 2026 Bratislava"); strip it so it isn't repeated
+  // under the large city heading.
+  const dateLine = dates?.replace(new RegExp(`\\s*${name}\\s*$`, 'i'), '').trim() || null
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-6">
+      <span className="text-center font-bold uppercase tracking-wide text-white text-4xl sm:text-6xl lg:text-7xl [text-shadow:0_2px_24px_rgba(0,0,0,0.55)]">
+        {name}
+      </span>
+      {dateLine && (
+        <>
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+          <span className="absolute bottom-5 left-5 right-5 sm:bottom-8 sm:left-8 sm:right-8 font-bold uppercase text-white text-lg sm:text-2xl lg:text-3xl [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
+            {dateLine}
+          </span>
+        </>
+      )}
+    </div>
   )
 }
 
