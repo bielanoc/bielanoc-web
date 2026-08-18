@@ -52,8 +52,10 @@ export default async function HomePage() {
 
   const baImage = getMediaUrl(branding?.homepage?.imageBA)
   const baHoverImage = getMediaUrl(branding?.homepage?.imageBAHover)
+  const baVideo = getMediaUrl(branding?.homepage?.videoBA)
   const keImage = getMediaUrl(branding?.homepage?.imageKE)
   const keHoverImage = getMediaUrl(branding?.homepage?.imageKEHover)
+  const keVideo = getMediaUrl(branding?.homepage?.videoKE)
 
   return (
     <>
@@ -64,28 +66,7 @@ export default async function HomePage() {
         className="relative group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: baColor }}
       >
-        {baImage && (
-          <>
-            <Image
-              src={baImage}
-              alt="Bratislava"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
-              className="object-contain object-top-left p-6 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
-            />
-            {baHoverImage && (
-              <Image
-                src={baHoverImage}
-                alt="Bratislava"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                loading="lazy"
-                className="object-contain object-top-left p-6 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-              />
-            )}
-          </>
-        )}
+        <CityMedia alt="Bratislava" image={baImage} hoverImage={baHoverImage} video={baVideo} />
       </Link>
 
       <Link
@@ -93,30 +74,79 @@ export default async function HomePage() {
         className="relative group focus-visible:shadow-[inset_0_0_0_5px_#ffffff] focus-visible:outline-none"
         style={{ backgroundColor: keColor }}
       >
-        {keImage && (
-          <>
-            <Image
-              src={keImage}
-              alt="Košice"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
-              className="object-contain object-top-left p-6 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
-            />
-            {keHoverImage && (
-              <Image
-                src={keHoverImage}
-                alt="Košice"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                loading="lazy"
-                className="object-contain object-top-left p-6 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-              />
-            )}
-          </>
-        )}
+        <CityMedia alt="Košice" image={keImage} hoverImage={keHoverImage} video={keVideo} />
       </Link>
     </div>
+    </>
+  )
+}
+
+function CityMedia({
+  alt,
+  image,
+  hoverImage,
+  video,
+}: {
+  alt: string
+  image: string | null
+  hoverImage: string | null
+  video: string | null
+}) {
+  // A looping background video takes precedence. The still image doubles as the
+  // poster (shown until the video is ready) and as the fallback for browsers or
+  // users (prefers-reduced-motion) that don't autoplay video.
+  if (video) {
+    return (
+      <>
+        {/* Base layer: still image. Shown for reduced-motion users (video hidden
+            below) and as a fallback if the video fails to load. */}
+        {image && (
+          <Image
+            src={image}
+            alt={alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
+            className="object-cover"
+          />
+        )}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={image ?? undefined}
+          aria-label={alt}
+          className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+        >
+          <source src={video} />
+        </video>
+      </>
+    )
+  }
+
+  if (!image) return null
+
+  return (
+    <>
+      <Image
+        src={image}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        priority
+        className="object-contain object-top-left p-6 transition-opacity duration-300 ease group-hover:opacity-0 group-focus:opacity-0"
+      />
+      {hoverImage && (
+        <Image
+          src={hoverImage}
+          alt={alt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          loading="lazy"
+          className="object-contain object-top-left p-6 transition-opacity duration-300 ease opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+        />
+      )}
     </>
   )
 }
