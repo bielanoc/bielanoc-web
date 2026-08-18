@@ -7,6 +7,7 @@ export async function generateMetadata() {
 }
 
 const editions = [
+  { year: 'y2025', cities: ['ba', 'ke'] },
   { year: 'y2024', cities: ['ba', 'ke'] },
   { year: 'y2023', cities: ['ba', 'ke'] },
   { year: 'y2022', cities: ['ba', 'ke'] },
@@ -19,7 +20,7 @@ export default async function ArchivePage() {
   const t = UI_STRINGS[locale]
 
   return (
-    <div className="px-6 py-8 max-w-3xl mx-auto">
+    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">{t.archive}</h1>
 
       <div className="space-y-4">

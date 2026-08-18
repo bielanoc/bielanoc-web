@@ -48,6 +48,15 @@ export default async function FrontendLayout({
     }).catch(() => ['2025']),
   ])
 
+  // The year switcher options come from years that have seeded artists, but the
+  // current festival edition (from FestivalSettings) may not have any artists
+  // yet — include it so the menu offers the current year and the homepage links
+  // to /y<currentYear>/… resolve to a valid, selectable option.
+  const currentYear = festivalSettings?.currentYear
+  const availableYears = [...new Set([currentYear, ...artistYears].filter(Boolean) as string[])].sort(
+    (a, b) => Number(b) - Number(a),
+  )
+
   const ticketSaleEnabled = ticketSettings?.saleEnabled ?? false
   const debugMode = festivalSettings?.debugMode ?? false
   const debugTime = festivalSettings?.debugTime ?? null
@@ -85,7 +94,7 @@ export default async function FrontendLayout({
           <FloatingMenuButton
             ticketSaleEnabled={ticketSaleEnabled}
             locale={locale}
-            availableYears={artistYears}
+            availableYears={availableYears}
             socialLinks={socialLinks}
             menuItems={menuItems}
             debugMode={debugMode}
