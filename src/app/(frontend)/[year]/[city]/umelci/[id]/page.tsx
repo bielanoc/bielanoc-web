@@ -68,7 +68,7 @@ export default async function ArtistDetailPage({ params }: Props) {
   const image = artist.image && typeof artist.image === 'object' ? artist.image : null
 
   return (
-    <div className="px-6 py-8 max-w-4xl mx-auto">
+    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-4xl mx-auto">
       <Link
         href={`/${year}/${city}/umelci`}
         className="text-sm text-white/50 hover:text-white transition-colors mb-6 inline-block"
