@@ -34,6 +34,7 @@ export const UI_STRINGS: Record<Locale, Record<string, string>> = {
     today: 'Dnes',
     favorites: 'Obľúbené',
     articles: 'Články',
+    selectYear: 'Vybrať ročník',
   },
   en: {
     home: 'Home',
@@ -66,5 +67,6 @@ export const UI_STRINGS: Record<Locale, Record<string, string>> = {
     today: 'Today',
     favorites: 'Favorites',
     articles: 'Articles',
+    selectYear: 'Select year',
   },
 }

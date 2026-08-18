@@ -35,14 +35,14 @@ function createNumberedIcon(num: number, selected: boolean) {
       width: ${size}px;
       height: ${size}px;
       border-radius: 50%;
-      background: ${selected ? '#fff' : 'var(--accent-color, #8ebc35)'};
-      color: ${selected ? 'var(--accent-color, #8ebc35)' : '#000'};
+      background: ${selected ? '#fff' : 'var(--accent-color, #ff6b4a)'};
+      color: ${selected ? 'var(--accent-color, #ff6b4a)' : '#000'};
       font-size: ${fontSize}px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid ${selected ? 'var(--accent-color, #8ebc35)' : '#fff'};
+      border: 2px solid ${selected ? 'var(--accent-color, #ff6b4a)' : '#fff'};
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       transition: all 0.2s;
     ">${num}</div>`,
@@ -134,7 +134,7 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
         >
           <Popup>
             <div>
-              <strong style={{ color: 'var(--accent-color, #8ebc35)' }}>{m.number}. {m.name}</strong>
+              <strong style={{ color: 'var(--accent-color, #ff6b4a)' }}>{m.number}. {m.name}</strong>
               {m.work && <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0' }}>{m.work}</p>}
               {m.place && <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', margin: '2px 0 0' }}>{m.place}</p>}
               <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
@@ -143,7 +143,7 @@ export default function FestivalMapInner({ markers, center, selectedId, onMarker
                   style={{
                     display: 'inline-block',
                     padding: '4px 10px',
-                    background: 'var(--accent-color, #8ebc35)',
+                    background: 'var(--accent-color, #ff6b4a)',
                     color: '#000',
                     borderRadius: '4px',
                     fontSize: '11px',

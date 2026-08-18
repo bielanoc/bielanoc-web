@@ -61,5 +61,20 @@ export const NavigationSettings: GlobalConfig = {
       type: 'text',
       admin: { description: 'Facebook page URL' },
     },
+    {
+      name: 'socialTiktok',
+      type: 'text',
+      admin: { description: 'TikTok profile URL' },
+    },
+    {
+      name: 'socialYoutube',
+      type: 'text',
+      admin: { description: 'YouTube channel URL' },
+    },
+    {
+      name: 'socialVimeo',
+      type: 'text',
+      admin: { description: 'Vimeo profile URL' },
+    },
   ],
 }

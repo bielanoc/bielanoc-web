@@ -54,7 +54,7 @@ export default async function FrontendLayout({
   const festivalActive = festivalSettings?.festivalActive ?? true
 
   const logoUrl = getMediaUrl(branding?.logo?.image) || '/logo-bn.svg'
-  const accentColor = branding?.colors?.accent || '#8ebc35'
+  const accentColor = branding?.colors?.accent || '#ff6b4a'
   const menuGradientColor = branding?.colors?.menuGradient || '#0a1628'
   const footerText = branding?.footer?.text || null
   const footerLinks = branding?.footer?.links || []

@@ -20,9 +20,12 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: isCI ? 'pnpm build && pnpm start' : 'pnpm dev',
+    // In CI the build runs as a separate step beforehand, so here we only
+    // start the prebuilt server — the timeout then only needs to cover boot
+    // (Payload init against the remote DB), not the ~70s Next.js build.
+    command: isCI ? 'pnpm start' : 'pnpm dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !isCI,
-    timeout: 120000,
+    timeout: 180000,
   },
 })

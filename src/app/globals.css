@@ -2,8 +2,8 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-  --color-accent: var(--accent-color, #8ebc35);
-  --color-accent-hover: color-mix(in srgb, var(--accent-color, #8ebc35) 85%, black);
+  --color-accent: var(--accent-color, #ff6b4a);
+  --color-accent-hover: color-mix(in srgb, var(--accent-color, #ff6b4a) 85%, black);
 }
 
 @font-face {
@@ -34,6 +34,15 @@
   font-display: swap;
 }
 
+/* Barlow Semi Condensed — nav / body face from the 2026 redesign (OFL, self-hosted).
+   Registered here; applied per-component during the redesign. */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  src: url('/fonts/BarlowSemiCondensed-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
 @layer base {
   body {
     font-family: 'HW Clin', sans-serif;
@@ -41,7 +50,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent-color, #8ebc35);
+    outline: 2px solid var(--accent-color, #ff6b4a);
     outline-offset: 2px;
   }
 }

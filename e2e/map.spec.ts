@@ -18,7 +18,7 @@ test.describe('Map page', () => {
     const firstButton = page.locator('ul >> li >> button').first()
     await firstButton.click()
 
-    await expect(firstButton).toHaveClass(/bg-\[#8ebc35\]/)
+    await expect(firstButton).toHaveClass(/border-l-accent/)
   })
 
   test('clicking same list item deselects it', async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe('Map page', () => {
     await firstButton.click()
     await firstButton.click()
 
-    await expect(firstButton).not.toHaveClass(/bg-\[#8ebc35\]/)
+    await expect(firstButton).not.toHaveClass(/border-l-accent/)
   })
 
   test('map markers are visible', async ({ page }) => {
