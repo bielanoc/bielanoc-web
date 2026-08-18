@@ -190,7 +190,7 @@ export function LocationPicker() {
           disabled={searching}
           style={{
             padding: '0.5rem 1rem',
-            background: '#8ebc35',
+            background: '#ff6b4a',
             color: '#000',
             border: 'none',
             borderRadius: '4px',

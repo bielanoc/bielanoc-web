@@ -29,7 +29,7 @@ export const BrandingSettings: GlobalConfig = {
         {
           name: 'accent',
           type: 'text',
-          defaultValue: '#8ebc35',
+          defaultValue: '#ff6b4a',
           admin: {
             description: 'Primary accent color (hex). Used for CTAs, highlights, active states.',
             components: { Field: '@/components/admin/ColorPicker#ColorPicker' },

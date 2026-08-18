@@ -30,6 +30,10 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+._*
+
+# Design source assets (heavy binaries — not tracked)
+graphic_new/
 
 # Payload
 media/

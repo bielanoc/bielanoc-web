@@ -1140,6 +1140,18 @@ export interface NavigationSetting {
    * Facebook page URL
    */
   socialFacebook?: string | null;
+  /**
+   * TikTok profile URL
+   */
+  socialTiktok?: string | null;
+  /**
+   * YouTube channel URL
+   */
+  socialYoutube?: string | null;
+  /**
+   * Vimeo profile URL
+   */
+  socialVimeo?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1317,6 +1329,9 @@ export interface NavigationSettingsSelect<T extends boolean = true> {
       };
   socialInstagram?: T;
   socialFacebook?: T;
+  socialTiktok?: T;
+  socialYoutube?: T;
+  socialVimeo?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
