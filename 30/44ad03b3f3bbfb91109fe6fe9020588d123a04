@@ -1,0 +1,28 @@
+src/lib/i18n.ts
+  s_6f9f68f628ef69::t_d6927e8b145724 70
+  s_6f9f68f628ef69::t_c2ecc35a2828ff 37
+src/components/MapPageClient.tsx
+  s_6f9f68f628ef69::t_e089579861c0fa 73,76
+src/components/Footer.tsx
+  s_6f9f68f628ef69::t_71e97958b17238 10
+docs/redesign-2026-handoff.md
+  s_6f9f68f628ef69::t_e86cdd095f784c 103-112
+src/components/SideMenu.tsx
+  s_6f9f68f628ef69::t_b7f5d31ef65c92 117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "3044ad03b3f3bbfb91109fe6fe9020588d123a04",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
