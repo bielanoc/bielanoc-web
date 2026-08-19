@@ -25,7 +25,7 @@ export function LanguageToggle({ current }: Props) {
     <button
       onClick={toggle}
       disabled={isPending}
-      className="text-sm border border-white/20 rounded px-3 py-2 text-white/60 hover:text-white hover:border-white/40 transition-colors disabled:opacity-50"
+      className="text-sm font-medium bg-black/70 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2.5 text-white/80 hover:text-white hover:bg-black/90 transition-colors disabled:opacity-50"
       aria-label={current === 'sk' ? 'Switch to English' : 'Prepnúť na slovenčinu'}
     >
       {current === 'sk' ? 'EN' : 'SK'}
