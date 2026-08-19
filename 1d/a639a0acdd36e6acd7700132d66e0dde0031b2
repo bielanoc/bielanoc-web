@@ -1,0 +1,22 @@
+src/components/FloatingMenuButton.tsx
+  s_6f9f68f628ef69::t_e3707acda6c544 61-62
+  s_6f9f68f628ef69::t_f42439260d47d3 8
+src/components/LanguageToggle.tsx
+  s_6f9f68f628ef69::t_4c2503d71d6e22 28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1da639a0acdd36e6acd7700132d66e0dde0031b2",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
