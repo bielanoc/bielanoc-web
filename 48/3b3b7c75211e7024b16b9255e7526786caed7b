@@ -1,0 +1,20 @@
+src/app/(frontend)/ochrana-osobnych-udajov/page.tsx
+  s_6f9f68f628ef69::t_504cfe9d7def60 120
+  s_6f9f68f628ef69::t_3675479c07c6cd 1,9-14,21-22,30-32,34-36,38-52,54-82,84-94,96-106,111-119,121-129,144,151,158,189,195-207,212-217,219-239,243,249-261,266-271,273-293
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "483b3b7c75211e7024b16b9255e7526786caed7b",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
