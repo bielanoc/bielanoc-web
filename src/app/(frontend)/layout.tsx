@@ -4,6 +4,7 @@ import { FloatingMenuButton } from '@/components/FloatingMenuButton'
 import { ConditionalFooter } from '@/components/ConditionalFooter'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { Analytics } from '@/components/Analytics'
+import { ConsentBanner } from '@/components/ConsentBanner'
 import { getPayloadClient, getTicketSettings, getFestivalSettings, getBrandingSettings, getNavigationSettings } from '@/lib/payload'
 import { getMediaUrl } from '@/lib/media'
 import { getLocale } from '@/lib/locale'
@@ -105,8 +106,9 @@ export default async function FrontendLayout({
           />
           {children}
         </main>
-        <ConditionalFooter text={footerText} links={footerLinks} />
+        <ConditionalFooter text={footerText} links={footerLinks} locale={locale} />
         <ScrollToTop />
+        <ConsentBanner locale={locale} />
         <Analytics />
       </body>
     </html>

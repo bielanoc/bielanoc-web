@@ -1,12 +1,20 @@
-import Script from 'next/script'
+'use client'
 
+import Script from 'next/script'
+import { useConsent } from '@/lib/useConsent'
+
+// Third-party trackers load ONLY after the visitor opts in via the consent
+// banner: Google Analytics behind `analytics` consent, Meta Pixel behind
+// `marketing` consent. With no consent (or with the env vars unset) nothing is
+// injected — safe by default and independent of the hosting platform.
 export function Analytics() {
+  const { consent } = useConsent()
   const gaId = process.env.NEXT_PUBLIC_GA_ID
   const fbPixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID
 
   return (
     <>
-      {gaId && (
+      {gaId && consent?.analytics && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
@@ -22,7 +30,7 @@ export function Analytics() {
           </Script>
         </>
       )}
-      {fbPixelId && (
+      {fbPixelId && consent?.marketing && (
         <Script id="fb-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
