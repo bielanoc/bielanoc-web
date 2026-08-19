@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SideMenu } from './SideMenu'
+import { LanguageToggle } from './LanguageToggle'
 import { CITIES, type CityCode } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 
@@ -57,7 +58,8 @@ export function FloatingMenuButton({ ticketSaleEnabled = false, locale = 'sk', a
         )}
       </div>
 
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50 flex items-center gap-2">
+        <LanguageToggle current={locale} />
         <button
           onClick={() => setMenuOpen(true)}
           className="flex flex-col gap-1.5 p-2.5 bg-black/70 backdrop-blur-sm border border-white/10 rounded-lg hover:bg-black/90 transition-colors"

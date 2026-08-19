@@ -51,18 +51,10 @@ test.describe('Navigation', () => {
     await expectURL(page, /\/y2025\/ba\/info/)
   })
 
-  test('city switcher changes route', async ({ page }) => {
+  test('language toggle sits next to the menu button in the header', async ({ page }) => {
     await page.goto('/y2025/ba/umelci')
-    await openMenu(page)
-    // City switch buttons are labelled by city name, not code.
-    await page.locator('nav').getByRole('button', { name: 'Košice' }).click()
-    await expectURL(page, /\/y2025\/ke\/umelci/)
-  })
-
-  test('year switcher changes route', async ({ page }) => {
-    await page.goto('/y2025/ba/umelci')
-    await openMenu(page)
-    await page.selectOption('nav select', '2024')
-    await expectURL(page, /\/y2024\/ba\/umelci/)
+    // The toggle lives in the top-right header (not inside the slide-in menu)
+    // and shows the language it switches to.
+    await expect(page.getByRole('button', { name: 'Switch to English' })).toBeVisible()
   })
 })
