@@ -1,0 +1,41 @@
+src/lib/useConsent.ts
+  s_6f9f68f628ef69::t_2f79e919f3401c 1-69
+src/lib/i18n.ts
+  s_6f9f68f628ef69::t_c1e5ab558b1ef1 38-52
+  s_6f9f68f628ef69::t_237f40ebb896a3 86-100
+src/components/ConsentBanner.tsx
+  s_6f9f68f628ef69::t_a8b1684db2827e 1-156
+src/components/Footer.tsx
+  s_6f9f68f628ef69::t_99a9cf9ebb7d8d 1-3,7,10,16-23
+src/app/(frontend)/ochrana-osobnych-udajov/page.tsx
+  s_6f9f68f628ef69::t_e2b1b41c289225 1-156
+docs/gdpr-consent-plan.md
+  s_6f9f68f628ef69::t_49622279e3c98d 30-35
+  s_6f9f68f628ef69::t_618c0a45ee1438 77-82
+  s_6f9f68f628ef69::t_723537111be2e4 1-29,36-76,83-93
+src/components/CookieSettingsButton.tsx
+  s_6f9f68f628ef69::t_68ed6109f00725 1-15
+src/components/ConditionalFooter.tsx
+  s_6f9f68f628ef69::t_0107b8fe8f9494 5,10,13,16
+src/app/(frontend)/layout.tsx
+  s_6f9f68f628ef69::t_726bb4c2214310 7
+  s_6f9f68f628ef69::t_e6b1891a6337e5 109,111
+src/components/Analytics.tsx
+  s_6f9f68f628ef69::t_9e8db3bc2563b4 1-2,4,6-9,11,17,33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d4cadda3d3cac7e29bb1f071d029c6287cfa5c06",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
