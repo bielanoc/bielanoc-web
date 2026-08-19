@@ -66,9 +66,10 @@ export default async function ArtistDetailPage({ params }: Props) {
     : []
 
   const image = artist.image && typeof artist.image === 'object' ? artist.image : null
+  const imageSrc = getMediaSrc(image)
 
   return (
-    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-4xl mx-auto">
+    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-3xl mx-auto">
       <Link
         href={`/${year}/${city}/umelci`}
         className="text-sm text-white/50 hover:text-white transition-colors mb-6 inline-block"
@@ -76,85 +77,72 @@ export default async function ArtistDetailPage({ params }: Props) {
         ← {t.backToList}
       </Link>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="relative">
-          {image && getMediaSrc(image) ? (
-            <div className="relative w-full aspect-[4/3] border border-white/10 overflow-hidden">
-              <Image
-                src={getMediaSrc(image)!}
-                alt={artist.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-          ) : (
-            <div className="w-full aspect-[4/3] bg-white/5 border border-white/10 flex items-center justify-center">
-              <span className="text-white/20 text-6xl">{artist.name.charAt(0)}</span>
-            </div>
-          )}
-          <FavoriteButton artistId={id} />
-        </div>
+      {/* Header: title, work, genre and place sit above the artwork */}
+      <header>
+        <h1 className="text-3xl font-bold leading-tight">{artist.name}</h1>
+        {artist.work && <p className="text-accent text-xl mt-1">{artist.work}</p>}
+        {artist.genre && (
+          <p className="text-sm text-white/50 uppercase tracking-wide mt-3">{artist.genre}</p>
+        )}
+        {artist.place && <p className="text-white/70 mt-2 leading-relaxed">{artist.place}</p>}
+      </header>
 
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">{artist.name}</h1>
-            {artist.work && (
-              <p className="text-accent mt-1">{artist.work}</p>
-            )}
+      {/* Large, full-width artwork shown at its natural aspect ratio */}
+      <div className="relative mt-6">
+        {image && imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt={artist.name}
+            width={image.width ?? 1600}
+            height={image.height ?? 1000}
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="w-full h-auto border border-white/10"
+            priority
+          />
+        ) : (
+          <div className="w-full aspect-[4/3] bg-white/5 border border-white/10 flex items-center justify-center">
+            <span className="text-white/20 text-6xl">{artist.name.charAt(0)}</span>
           </div>
+        )}
+        <FavoriteButton artistId={id} />
+      </div>
 
-          {artist.genre && (
-            <p className="text-sm text-white/50 uppercase tracking-wide">{artist.genre}</p>
-          )}
+      {/* Description and remaining details below the artwork */}
+      <div className="mt-8 space-y-6">
+        {artist.description && (
+          <div>
+            <RichText content={artist.description} />
+          </div>
+        )}
 
-          {artist.description && (
-            <div>
-              <RichText content={artist.description} />
+        {dates.length > 0 && (
+          <div>
+            <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.dates}</h3>
+            <ul className="space-y-1">
+              {dates.map((d) => (
+                <li key={d.id} className="text-sm">
+                  {formatDateRange(d.start, d.end)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {artist.paid && <p className="text-sm text-yellow-400">{t.paidEntry}</p>}
+
+        {records.length > 0 && (
+          <div>
+            <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.audio}</h3>
+            <div className="space-y-2">
+              {records.map((r) => {
+                const file = r.file && typeof r.file === 'object' ? r.file : null
+                const src = getMediaSrc(file)
+                if (!src) return null
+                return <AudioPlayer key={r.id} src={src} title={r.title} />
+              })}
             </div>
-          )}
-
-          {artist.place && (
-            <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-1">{t.place}</h3>
-              <p>{artist.place}</p>
-            </div>
-          )}
-
-          {dates.length > 0 && (
-            <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.dates}</h3>
-              <ul className="space-y-1">
-                {dates.map((d) => (
-                  <li key={d.id} className="text-sm">
-                    {formatDateRange(d.start, d.end)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {artist.paid && (
-            <p className="text-sm text-yellow-400">{t.paidEntry}</p>
-          )}
-
-          {records.length > 0 && (
-            <div>
-              <h3 className="text-sm text-white/50 uppercase tracking-wide mb-2">{t.audio}</h3>
-              <div className="space-y-2">
-                {records.map((r) => {
-                  const file = r.file && typeof r.file === 'object' ? r.file : null
-                  const src = getMediaSrc(file)
-                  if (!src) return null
-                  return (
-                    <AudioPlayer key={r.id} src={src} title={r.title} />
-                  )
-                })}
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )
