@@ -42,6 +42,7 @@ media/
 playwright-report/
 test-results/
 .lhci/
+.playwright-mcp/
 
 # misc
 *.tsbuildinfo
