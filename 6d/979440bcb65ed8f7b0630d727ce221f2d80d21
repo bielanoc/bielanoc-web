@@ -1,0 +1,19 @@
+src/app/(frontend)/[year]/[city]/mapa/page.tsx
+  s_6f9f68f628ef69::t_742486e6855a3b 62-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "6d979440bcb65ed8f7b0630d727ce221f2d80d21",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
