@@ -1,0 +1,19 @@
+src/app/(frontend)/[year]/[city]/umelci/[id]/page.tsx
+  s_6f9f68f628ef69::t_a40110e5b7535c 69,72,80-108,110-112,114,116,118-129,131,133-142,144-145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "074adb4c51be8f41a745c78c2d9ca1ec730caa3c",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
