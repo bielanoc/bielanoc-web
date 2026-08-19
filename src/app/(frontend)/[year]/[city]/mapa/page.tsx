@@ -59,7 +59,9 @@ export default async function MapPage({ params }: Props) {
 
   return (
     <>
-      <div className="pl-14 sm:pl-20 pr-6 pt-14 sm:pt-4">
+      {/* Sits below the floating logo + edition label (top-left overlay), whose
+          width varies with the city/year, so we clear it vertically. */}
+      <div className="px-6 pt-16 sm:pt-24">
         <Link
           href={`/${year}/${city}/umelci`}
           className="text-sm text-white/50 hover:text-white transition-colors inline-block"
