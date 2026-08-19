@@ -41,37 +41,35 @@ export default async function PartnersPage({ params }: Props) {
   })).filter((g) => g.partners.length > 0)
 
   return (
-    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">{t.partners}</h1>
+    <div className="px-6 pt-16 sm:pt-24 pb-8 max-w-5xl mx-auto text-center">
+      <h1 className="text-3xl font-bold mb-12">{t.partners}</h1>
 
       {grouped.length === 0 ? (
         <p className="text-white/40">Žiadni partneri pre tento ročník.</p>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-14">
           {grouped.map((group) => (
             <section key={group.value}>
-              <h2 className="text-sm text-white/50 uppercase tracking-wide mb-4">
+              <h2 className="text-sm text-accent uppercase tracking-wide font-semibold mb-6">
                 {group.label}
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center">
+              <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-8">
                 {group.partners.map((partner) => {
                   const logo = typeof partner.logo === 'object' ? partner.logo : null
                   const logoSrc = getMediaSrc(logo)
-                  const content = (
-                    <div className="relative flex items-center justify-center p-4 bg-white/5 border border-white/10 rounded hover:border-white/30 transition-colors aspect-[3/2]">
-                      {logoSrc ? (
-                        <Image
-                          src={logoSrc}
-                          alt={partner.name}
-                          width={160}
-                          height={64}
-                          sizes="160px"
-                          className="max-h-16 w-auto object-contain"
-                        />
-                      ) : (
-                        <span className="text-xs text-white/40 text-center">{partner.name}</span>
-                      )}
+                  const content = logoSrc ? (
+                    <div className="flex items-center justify-center h-20 w-40 sm:w-44">
+                      <Image
+                        src={logoSrc}
+                        alt={partner.name}
+                        width={200}
+                        height={80}
+                        sizes="200px"
+                        className="max-h-16 max-w-full w-auto h-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                      />
                     </div>
+                  ) : (
+                    <span className="text-sm text-white/50 px-4">{partner.name}</span>
                   )
                   if (partner.link) {
                     return (
