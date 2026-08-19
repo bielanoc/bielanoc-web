@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { OffFestivalHome } from '@/components/OffFestivalHome'
-import { Stars } from '@/components/Stars'
 import { getPayloadClient, getFestivalSettings, getBrandingSettings } from '@/lib/payload'
 import { getMediaUrl } from '@/lib/media'
 import { getLocale } from '@/lib/locale'
@@ -44,9 +43,6 @@ export default async function HomePage() {
     return <OffFestivalHome articles={articles} locale={locale} bannerUrl={bannerUrl} heading={heading} richText={text} />
   }
 
-  const starsEnabled = branding?.stars?.enabled ?? true
-  const starsColors = branding?.stars?.colors?.map((c) => c.color) || ['#F5E455', '#FF5555', '#FF2AC4', '#5555FF']
-
   const baColor = branding?.colors?.bratislavaBackground || '#8094F7'
   const keColor = branding?.colors?.kosiceBackground || '#B2BCAC'
 
@@ -61,8 +57,6 @@ export default async function HomePage() {
   const keDates = festivalSettings?.dateInfoKE || null
 
   return (
-    <>
-    <Stars enabled={starsEnabled} colors={starsColors} />
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full overflow-hidden">
       <Link
         href={`/y${currentYear}/ba/umelci`}
@@ -82,7 +76,6 @@ export default async function HomePage() {
         <CityOverlay name="Košice" dates={keDates} />
       </Link>
     </div>
-    </>
   )
 }
 
