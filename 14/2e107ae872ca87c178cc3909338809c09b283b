@@ -1,0 +1,19 @@
+src/app/(frontend)/[year]/[city]/partneri/page.tsx
+  s_6f9f68f628ef69::t_8e36da5df1630d 44-45,50,53,56,60-69,71-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "142e107ae872ca87c178cc3909338809c09b283b",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
