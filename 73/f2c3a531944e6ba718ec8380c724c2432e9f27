@@ -1,0 +1,21 @@
+next.config.ts
+  s_6f9f68f628ef69::t_fb6c30026bf63f 13-19
+.env.example
+  s_6f9f68f628ef69::t_cdc981225b57d4 14-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "73f2c3a531944e6ba718ec8380c724c2432e9f27",
+  "prompts": {},
+  "sessions": {
+    "s_6f9f68f628ef69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af394bef-1a07-4198-adab-3c96682869d5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Michal Kovacik <michal.kovacik@outlook.com>"
+    }
+  }
+}
